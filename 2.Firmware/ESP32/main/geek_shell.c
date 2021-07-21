@@ -206,7 +206,9 @@ void shellInit(Shell *shell, char *buffer, unsigned short size)
         #error not supported compiler, please use command table mode
     #endif
 #else
+    // 采用命令列表的方式调用函数命令
     shell->commandList.base = (ShellCommand *)shellCommandList;
+    // 获取命令个数
     shell->commandList.count = shellCommandCount;
 #endif
 
@@ -1724,6 +1726,7 @@ void shellHandler(Shell *shell, char data)
 
     /* 遍历ShellCommand列表，尝试进行按键键值匹配 */
     ShellCommand *base = (ShellCommand *)shell->commandList.base;
+
     for (short i = 0; i < shell->commandList.count; i++)
     {
         /* 判断是否是按键定义并验证权限 */
@@ -1737,6 +1740,7 @@ void shellHandler(Shell *shell, char data)
             {
                 shell->parser.keyValue |= data << keyByteOffset;
                 data = 0x00;
+                
                 if (keyByteOffset == 0 
                     || (base[i].data.key.value & (0xFF << (keyByteOffset - 8)))
                         == 0x00000000)

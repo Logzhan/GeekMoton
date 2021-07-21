@@ -28,6 +28,7 @@ extern void shellCmds(void);
 extern void shellVars(void);
 extern void shellKeys(void);
 extern void shellClear(void);
+extern void configWifiSSID(char* name);
 #if SHELL_EXEC_UNDEF_FUNC == 1
 extern int shellExecute(int argc, char *argv[]);
 #endif
@@ -36,7 +37,8 @@ SHELL_AGENCY_FUNC(shellRun, shellGetCurrent(), (const char *)p1);
 
 
 /**
- * @brief shell命令表
+ * @brief shell命令表, 这个表的本质其实就是记录了各个函数的指针,以及一些其他附
+ *        加信息, 然后通过该函数表调用函数
  * 
  */
 const ShellCommand shellCommandList[] = 
@@ -60,6 +62,7 @@ const ShellCommand shellCommandList[] =
                    0x7F000000, shellDelete, delete),
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
                    0x1B5B337E, shellDelete, delete),
+
 #if SHELL_ENTER_LF == 1
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
                    0x0A000000, shellEnter, enter),
@@ -72,6 +75,7 @@ const ShellCommand shellCommandList[] =
     SHELL_KEY_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_ENABLE_UNCHECKED,
                    0x0D0A0000, shellEnter, enter),
 #endif
+
     SHELL_CMD_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_MAIN)|SHELL_CMD_DISABLE_RETURN,
                    help, shellHelp, show command info\r\nhelp [cmd]),
     SHELL_CMD_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
@@ -86,6 +90,9 @@ const ShellCommand shellCommandList[] =
                    clear, shellClear, clear console),
     SHELL_CMD_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
                    sh, SHELL_AGENCY_FUNC_NAME(shellRun), run command directly),
+    SHELL_CMD_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN|SHELL_CMD_PARAM_NUM(1),
+                   config_wifi_ssid, configWifiSSID, config the wifi ssid you want to connect),
+
 #if SHELL_EXEC_UNDEF_FUNC == 1
     SHELL_CMD_ITEM(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_MAIN)|SHELL_CMD_DISABLE_RETURN,
                    exec, shellExecute, execute function undefined),

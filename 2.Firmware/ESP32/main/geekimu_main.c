@@ -33,6 +33,7 @@
 // ESP 串口配置相关
 #include "freertos/queue.h"
 #include "driver/uart.h"
+#include "geek_shell.h"
 
 // WIFI账号和密码配置
 #define CFG_WIFI_SSID      "logzhan"          // 配置默认连接的WIFI的SSID
@@ -71,9 +72,15 @@ static EventGroupHandle_t s_wifi_event_group;
 
 #define EX_UART_NUM UART_NUM_0
 #define PATTERN_CHR_NUM    (3)         /*!< Set the number of consecutive and identical characters received by receiver which defines a UART pattern*/
-
 #define BUF_SIZE (1024)
 #define RD_BUF_SIZE (BUF_SIZE)
+
+// 串口命令行相关
+Shell shell;
+char shellBuffer[512];
+#define SHELL_UART         UART_NUM_0
+
+
 static QueueHandle_t uart0_queue;
 
 
@@ -257,11 +264,14 @@ void test_storage(){
             .format_if_mount_failed = true,
             .allocation_unit_size = CONFIG_WL_SECTOR_SIZE
     };
-    esp_err_t err = esp_vfs_fat_spiflash_mount(base_path, "storage", &mount_config, &s_wl_handle);
+    // 挂载spi flash为FAT文件系统
+    esp_err_t err = esp_vfs_fat_spiflash_mount(base_path, "storage", 
+                                               &mount_config, &s_wl_handle);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to mount FATFS (%s)", esp_err_to_name(err));
         return;
     }
+    
     ESP_LOGI(TAG, "Opening file");
     FILE *f = fopen("/spiflash/hello.txt", "wb");
     if (f == NULL) {
@@ -294,113 +304,50 @@ void test_storage(){
     ESP_ERROR_CHECK( esp_vfs_fat_spiflash_unmount(base_path, s_wl_handle));
 }
 
-static void uart_event_task(void *pvParameters)
+/**
+ * @brief 用户shell写
+ * 
+ * @param data 数据
+ */
+signed short userShellWrite(char* data, unsigned short len)
 {
-    uart_event_t event;
-    size_t buffered_size;
-    uint8_t* dtmp = (uint8_t*) malloc(RD_BUF_SIZE);
-    for(;;) {
-        //Waiting for UART event.
-        if(xQueueReceive(uart0_queue, (void * )&event, (portTickType)portMAX_DELAY)) {
-            bzero(dtmp, RD_BUF_SIZE);
-            ESP_LOGI(TAG, "uart[%d] event:", EX_UART_NUM);
-            switch(event.type) {
-                //Event of UART receving data
-                /*We'd better handler data event fast, there would be much more data events than
-                other types of events. If we take too much time on data event, the queue might
-                be full.*/
-                case UART_DATA:
-                    ESP_LOGI(TAG, "[UART DATA]: %d", event.size);
-                    uart_read_bytes(EX_UART_NUM, dtmp, event.size, portMAX_DELAY);
-                    ESP_LOGI(TAG, "[DATA EVT]:");
-                    uart_write_bytes(EX_UART_NUM, (const char*) dtmp, event.size);
-                    break;
-                //Event of HW FIFO overflow detected
-                case UART_FIFO_OVF:
-                    ESP_LOGI(TAG, "hw fifo overflow");
-                    // If fifo overflow happened, you should consider adding flow control for your application.
-                    // The ISR has already reset the rx FIFO,
-                    // As an example, we directly flush the rx buffer here in order to read more data.
-                    uart_flush_input(EX_UART_NUM);
-                    xQueueReset(uart0_queue);
-                    break;
-                //Event of UART ring buffer full
-                case UART_BUFFER_FULL:
-                    ESP_LOGI(TAG, "ring buffer full");
-                    // If buffer full happened, you should consider encreasing your buffer size
-                    // As an example, we directly flush the rx buffer here in order to read more data.
-                    uart_flush_input(EX_UART_NUM);
-                    xQueueReset(uart0_queue);
-                    break;
-                //Event of UART RX break detected
-                case UART_BREAK:
-                    ESP_LOGI(TAG, "uart rx break");
-                    break;
-                //Event of UART parity check error
-                case UART_PARITY_ERR:
-                    ESP_LOGI(TAG, "uart parity error");
-                    break;
-                //Event of UART frame error
-                case UART_FRAME_ERR:
-                    ESP_LOGI(TAG, "uart frame error");
-                    break;
-                //UART_PATTERN_DET
-                case UART_PATTERN_DET:
-                    uart_get_buffered_data_len(EX_UART_NUM, &buffered_size);
-                    int pos = uart_pattern_pop_pos(EX_UART_NUM);
-                    ESP_LOGI(TAG, "[UART PATTERN DETECTED] pos: %d, buffered size: %d", pos, buffered_size);
-                    if (pos == -1) {
-                        // There used to be a UART_PATTERN_DET event, but the pattern position queue is full so that it can not
-                        // record the position. We should set a larger queue size.
-                        // As an example, we directly flush the rx buffer here.
-                        uart_flush_input(EX_UART_NUM);
-                    } else {
-                        uart_read_bytes(EX_UART_NUM, dtmp, pos, 100 / portTICK_PERIOD_MS);
-                        uint8_t pat[PATTERN_CHR_NUM + 1];
-                        memset(pat, 0, sizeof(pat));
-                        uart_read_bytes(EX_UART_NUM, pat, PATTERN_CHR_NUM, 100 / portTICK_PERIOD_MS);
-                        ESP_LOGI(TAG, "read data: %s", dtmp);
-                        ESP_LOGI(TAG, "read pat : %s", pat);
-                    }
-                    break;
-                //Others
-                default:
-                    ESP_LOGI(TAG, "uart event type: %d", event.type);
-                    break;
-            }
-        }
-    }
-    free(dtmp);
-    dtmp = NULL;
-    vTaskDelete(NULL);
+    uart_write_bytes(SHELL_UART, (const char *)data, len);
+    return 0;
+}
+/**
+ * @brief 用户shell读
+ * 
+ * @param data 数据
+ * @return char 状态
+ */
+signed short userShellRead(char *data, unsigned short len){
+    return (uart_read_bytes(SHELL_UART, (uint8_t *)data, len, portMAX_DELAY) == 1)
+        ? 1 : -1;
 }
 
-void cfg_uart(){
-	
-	uart_config_t uart_config = {
+/**
+ * @brief 用户shell初始化
+ * 
+ */
+void userShellInit(void)
+{
+    uart_config_t uartConfig = {
         .baud_rate = 115200,
         .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
+        .parity    = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-        .source_clk = UART_SCLK_APB,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
-    //Install UART driver, and get the queue.
-    uart_driver_install(EX_UART_NUM, BUF_SIZE * 2, BUF_SIZE * 2, 20, &uart0_queue, 0);
-    uart_param_config(EX_UART_NUM, &uart_config);
+    uart_param_config(SHELL_UART, &uartConfig);
+    uart_driver_install(SHELL_UART, 256 * 2, 0, 0, NULL, 0);
+    shell.write = userShellWrite;
+    shell.read = userShellRead;
+    shellInit(&shell, shellBuffer, 512);
+}
 
-    //Set UART log level
-    esp_log_level_set(TAG, ESP_LOG_INFO);
-    //Set UART pins (using UART0 default pins ie no changes.)
-    uart_set_pin(EX_UART_NUM, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-
-    //Set uart pattern detect function.
-    uart_enable_pattern_det_baud_intr(EX_UART_NUM, '+', PATTERN_CHR_NUM, 9, 0, 0);
-    //Reset the pattern queue length to record at most 20 pattern positions.
-    uart_pattern_queue_reset(EX_UART_NUM, 20);
-
-    //Create a task to handler UART event from ISR
-    xTaskCreate(uart_event_task, "uart_event_task", 2048, NULL, 12, NULL);
+void configWifiSSID(char* name){
+    if(name == NULL)return;
+    printf("try config wifi ssid = %s\n", name);
 }
 
 /**----------------------------------------------------------------------
@@ -433,8 +380,8 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 	
-	// 配置串口通信
-	cfg_uart();
+	// 配置串口命令行
+	userShellInit();
 	// 配置信息存储
 	test_storage();
 	// 初始化LED显示
@@ -449,6 +396,8 @@ void app_main(void)
 	// 创建udp任务
     ESP_LOGI(TAG, "Create udp task.\n");
 	xTaskCreate(create_multicast_ipv4_socket, "udp_client", 4096, NULL, 5, NULL);
+
+    xTaskCreate(shellTask, "shell", 2048, &shell, 12, NULL);
 	// MPU9250串口循环发送
     while(1){
         //GetMPU9250Data_Euler(&yaw,&roll,&pitch);
