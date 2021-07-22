@@ -14,6 +14,7 @@
 // ESP存储相关
 #include "esp_system.h"
 #include "esp_vfs.h"
+#include "ff.h"
 #include "esp_vfs_fat.h"
 #include "esp_spi_flash.h"
 // ESP网络相关
@@ -36,7 +37,8 @@
 #include "geek_shell.h"
 
 // WIFI账号和密码配置
-#define CFG_WIFI_SSID      "logzhan"          // 配置默认连接的WIFI的SSID
+#define CFG_DEV_INDEX       1
+#define CFG_WIFI_SSID      "log_zhan"          // 配置默认连接的WIFI的SSID
 #define CFG_WIFI_PASS      "19931203"         // 配置默认连接的WIFI的密码
 #define CFG_MAXIMUM_RETRY   1000              // 配置最大重新连接次数
 
@@ -79,10 +81,6 @@ static EventGroupHandle_t s_wifi_event_group;
 Shell shell;
 char shellBuffer[512];
 #define SHELL_UART         UART_NUM_0
-
-
-static QueueHandle_t uart0_queue;
-
 
 static const char *TAG        = "GEEKIMU";
 static int        s_retry_num = 0;
@@ -255,55 +253,6 @@ static void create_multicast_ipv4_socket(void *pvParameters)
    // return 0;
 }
 
-void test_storage(){
-	 ESP_LOGI(TAG, "Mounting FAT filesystem");
-    // To mount device we need name of device partition, define base_path
-    // and allow format partition in case if it is new one and was not formated before
-    const esp_vfs_fat_mount_config_t mount_config = {
-            .max_files = 4,
-            .format_if_mount_failed = true,
-            .allocation_unit_size = CONFIG_WL_SECTOR_SIZE
-    };
-    // 挂载spi flash为FAT文件系统
-    esp_err_t err = esp_vfs_fat_spiflash_mount(base_path, "storage", 
-                                               &mount_config, &s_wl_handle);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "Failed to mount FATFS (%s)", esp_err_to_name(err));
-        return;
-    }
-    
-    ESP_LOGI(TAG, "Opening file");
-    FILE *f = fopen("/spiflash/hello.txt", "wb");
-    if (f == NULL) {
-        ESP_LOGE(TAG, "Failed to open file for writing");
-        return;
-    }
-    fprintf(f, "written using ESP-IDF %s\n", esp_get_idf_version());
-    fclose(f);
-    ESP_LOGI(TAG, "File written");
-
-    // Open file for reading
-    ESP_LOGI(TAG, "Reading file");
-    f = fopen("/spiflash/hello.txt", "rb");
-    if (f == NULL) {
-        ESP_LOGE(TAG, "Failed to open file for reading");
-        return;
-    }
-    char line[128];
-    fgets(line, sizeof(line), f);
-    fclose(f);
-    // strip newline
-    char *pos = strchr(line, '\n');
-    if (pos) {
-        *pos = '\0';
-    }
-    ESP_LOGI(TAG, "Read from file: '%s'", line);
-
-    // Unmount FATFS
-    ESP_LOGI(TAG, "Unmounting FAT filesystem");
-    ESP_ERROR_CHECK( esp_vfs_fat_spiflash_unmount(base_path, s_wl_handle));
-}
-
 /**
  * @brief 用户shell写
  * 
@@ -345,10 +294,133 @@ void userShellInit(void)
     shellInit(&shell, shellBuffer, 512);
 }
 
-void configWifiSSID(char* name){
-    if(name == NULL)return;
-    printf("try config wifi ssid = %s\n", name);
+
+void init_fatfs(){
+	 ESP_LOGI(TAG, "Mounting FAT filesystem");
+    // To mount device we need name of device partition, define base_path
+    // and allow format partition in case if it is new one and was not formated before
+    const esp_vfs_fat_mount_config_t mount_config = {
+            .max_files = 4,
+            .format_if_mount_failed = true,
+            .allocation_unit_size = CONFIG_WL_SECTOR_SIZE
+    };
+    // 挂载spi flash为FAT文件系统
+    esp_err_t err = esp_vfs_fat_spiflash_mount(base_path, "storage", 
+                                               &mount_config, &s_wl_handle);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to mount FATFS (%s)", esp_err_to_name(err));
+        return;
+    }
+
+    // Unmount FATFS
+    // ESP_LOGI(TAG, "Unmounting FAT filesystem");
+    // ESP_ERROR_CHECK( esp_vfs_fat_spiflash_unmount(base_path, s_wl_handle));
 }
+
+void init_default_cfg(){
+    if(fopen("/spiflash/config.bin", "r") != NULL){
+        ESP_LOGI(TAG, "already has config file");
+        return;
+    }
+
+    ESP_LOGI(TAG, "config file no exsit, load default config");
+
+    FILE *f = fopen("/spiflash/config.bin", "wb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for writing");
+        return;
+    }
+    fprintf(f, "CFG_DEV_INDEX:%d\n", CFG_DEV_INDEX);
+    ESP_LOGI(TAG, "CFG_DEV_INDEX:%d\n", CFG_DEV_INDEX);
+    fprintf(f, "CFG_WIFI_SSID:%s\n", CFG_WIFI_SSID);
+    ESP_LOGI(TAG, "CFG_WIFI_SSID:%s\n", CFG_WIFI_SSID);
+    fprintf(f, "CFG_WIFI_PASS:%s\n", CFG_WIFI_PASS);
+    ESP_LOGI(TAG, "CFG_WIFI_PASS:%s\n", CFG_WIFI_PASS);
+    fclose(f);
+}
+
+
+void read_esp_cfg(){
+    FILE* f = fopen("/spiflash/config.bin", "rb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for reading");
+        return;
+    }
+    char line[128];
+    while (fgets(line, sizeof(line), f)){
+        ESP_LOGI(TAG, "Read from file: %s", line);
+    }
+    fclose(f);
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), read_esp_cfg, read_esp_cfg, read esp cfg);
+
+
+void write_esp_cfg(int idx, char* ssid, char* psw){
+    FILE *f = fopen("/spiflash/config.bin", "wb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for writing");
+        return;
+    }
+    fprintf(f, "CFG_DEV_INDEX:%d\n", idx);
+    ESP_LOGI(TAG, "CFG_DEV_INDEX:%d\n", idx);
+    fprintf(f, "CFG_WIFI_SSID:%s\n", ssid);
+    ESP_LOGI(TAG, "CFG_WIFI_SSID:%s\n", ssid);
+    fprintf(f, "CFG_WIFI_PASS:%s\n", psw);
+    ESP_LOGI(TAG, "CFG_WIFI_PASS:%s\n", psw);
+    fclose(f);
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(3), write_esp_cfg, write_esp_cfg, write esp cfg);
+
+void list_files(char *path)
+{
+	FF_DIR dir; //定义目录对象
+	int i; //定义变量
+	static FILINFO fno; //定义静态文件信息结构对象
+	FRESULT res = f_opendir(&dir,path); //打开目录，返回状态 和 目录对象的指针
+	char pathBuff[256]; //定义路径数组
+	if(res == FR_OK) //打开成功
+	{
+		for(;;) {
+			res = f_readdir(&dir, &fno); //读取目录，返回状态 和 文件信息的指针
+			if(res != FR_OK || fno.fname[0] == 0){
+                break; //若打开失败 或 到结尾，则退出
+            } 
+			if(fno.fattrib & AM_DIR){
+				printf("dir :%s",fno.fname);
+			}else{
+				printf("file:%s\n",fno.fname); //是文件
+			}
+		}
+	}else{
+		printf("open %s fail\n", path); //打开失败
+	}
+	f_closedir(&dir); //关闭目录
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(1), ls, list_files, list files and dir);
+
+
+void remove_file(char* path)
+{
+    if(path == NULL)return;
+    
+    FRESULT res = f_unlink(path);
+    if(res == FR_OK){
+        printf("delete %s sucess\n", path); //打开失败
+    }else{
+        printf("delete %s fail\n", path); //打开失败
+    }
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(1), rm, remove_file, delete file and dir);
+
+void reboot(){
+    esp_restart();
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), reboot, reboot, reset system);
 
 /**----------------------------------------------------------------------
 * Function    : app_main
@@ -383,21 +455,23 @@ void app_main(void)
 	// 配置串口命令行
 	userShellInit();
 	// 配置信息存储
-	test_storage();
+	init_fatfs();
+    // 初始化默认配置
+    init_default_cfg();
 	// 初始化LED显示
     ESP_LOGI(TAG, "Init led gpio.\n");
     init_led_gpio();
 	// 启动wifi连接配置
     ESP_LOGI(TAG, "Config wifi sta.\n");
-    wifi_init_sta();
+    //wifi_init_sta();
 	// 初始化MPU9250任务
     ESP_LOGI(TAG, "Init mpu9250.\n");
     init_mpu9250_gpio();
 	// 创建udp任务
     ESP_LOGI(TAG, "Create udp task.\n");
-	xTaskCreate(create_multicast_ipv4_socket, "udp_client", 4096, NULL, 5, NULL);
+	//xTaskCreate(create_multicast_ipv4_socket, "udp_client", 4096, NULL, 5, NULL);
 
-    xTaskCreate(shellTask, "shell", 2048, &shell, 12, NULL);
+    xTaskCreate(shellTask, "shell", 4096, &shell, 12, NULL);
 	// MPU9250串口循环发送
     while(1){
         //GetMPU9250Data_Euler(&yaw,&roll,&pitch);

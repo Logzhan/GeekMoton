@@ -1,8 +1,9 @@
-# Hello World Example
-
-Starts a FreeRTOS task to print "Hello World".
-
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+# GEEKIMUv3 -- 一个基于ESP32的IMU模块
+1.替换目录下的esp32.project.ld.in到%IDF_PATH%\esp\esp-idf\components\esp32\ld\的同名文件
+  主要是在.flash.rodata段增加了以下代码
+	_shell_command_start = ABSOLUTE(.);
+	KEEP (*(shellCommand))
+	_shell_command_end = ABSOLUTE(.);
 
 ## How to use example
 

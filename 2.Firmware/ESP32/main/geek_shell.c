@@ -1181,6 +1181,11 @@ unsigned int shellRunCommand(Shell *shell, ShellCommand *command)
     }
     else if (command->attr.attrs.type == SHELL_TYPE_CMD_FUNC)
     {
+        if(command->attr.attrs.paramNum != shell->parser.paramCount - 1){
+            shellWriteString(shell, "invail argument num\r\n");
+            return returnValue;
+        }
+
         returnValue = shellExtRun(shell,
                                   command,
                                   shell->parser.paramCount,
