@@ -185,5 +185,5 @@ void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
 	mpu9250.pitch = Pitch;
 	
 
-    printf("%f %f %f\n", Yaw, Roll, Pitch);
+    //printf("%f %f %f\n", Yaw, Roll, Pitch);
 }

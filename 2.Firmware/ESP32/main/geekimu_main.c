@@ -84,8 +84,20 @@ char shellBuffer[512];
 
 static const char *TAG        = "GEEKIMU";
 static int        s_retry_num = 0;
-
+static int        dev_idx     = 1;
 float yaw,roll,pitch;
+
+wifi_config_t wifi_config = {
+    .sta = {
+        .ssid = CFG_WIFI_SSID,
+        .password = CFG_WIFI_PASS,
+        .threshold.authmode = WIFI_AUTH_WPA2_PSK,
+        .pmf_cfg = {
+            .capable = true,
+            .required = false
+        },
+    },
+};
 
 static void event_handler(void* arg, esp_event_base_t event_base,
                                 int32_t event_id, void* event_data)
@@ -96,11 +108,13 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         if (s_retry_num < CFG_MAXIMUM_RETRY) {
             esp_wifi_connect();
             s_retry_num++;
-            ESP_LOGI(TAG, "retry to connect to the AP");
+            //ESP_LOGI(TAG, "retry to connect to the AP");
+            shellWriteEndLine(&shell,"retry to connect to the AP\r\n");
         } else {
             xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
         }
-        ESP_LOGI(TAG,"connect to the AP fail");
+        //ESP_LOGI(TAG,"connect to the AP fail");
+        shellWriteEndLine(&shell,"connect to the AP fail\r\n");
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
@@ -109,77 +123,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     }
 }
 
-void wifi_init_sta(void)
-{
 
-    s_wifi_event_group = xEventGroupCreate();
-
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    esp_netif_create_default_wifi_sta();
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    esp_event_handler_instance_t instance_any_id;
-    esp_event_handler_instance_t instance_got_ip;
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-                                                        ESP_EVENT_ANY_ID,
-                                                        &event_handler,
-                                                        NULL,
-                                                        &instance_any_id));
-
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
-                                                        IP_EVENT_STA_GOT_IP,
-                                                        &event_handler,
-                                                        NULL,
-                                                        &instance_got_ip));
-
-    wifi_config_t wifi_config = {
-        .sta = {
-            .ssid = CFG_WIFI_SSID,
-            .password = CFG_WIFI_PASS,
-            /* Setting a password implies station will connect to all security modes including WEP/WPA.
-             * However these modes are deprecated and not advisable to be used. Incase your Access point
-             * doesn't support WPA2, these mode can be enabled by commenting below line */
-			.threshold.authmode = WIFI_AUTH_WPA2_PSK,
-            .pmf_cfg = {
-                .capable = true,
-                .required = false
-            },
-        },
-    };
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
-    ESP_ERROR_CHECK(esp_wifi_start() );
-
-    ESP_LOGI(TAG, "wifi_init_sta finished.");
-
-    /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
-     * number of re-tries (WIFI_FAIL_BIT). The bits are set by event_handler() (see above) */
-    EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
-            WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
-            pdFALSE,
-            pdFALSE,
-            portMAX_DELAY);
-
-    /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
-     * happened. */
-    if (bits & WIFI_CONNECTED_BIT) {
-        ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
-                 CFG_WIFI_SSID, CFG_WIFI_PASS);
-    } else if (bits & WIFI_FAIL_BIT) {
-        ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
-                 CFG_WIFI_SSID, CFG_WIFI_PASS);
-    } else {
-        ESP_LOGE(TAG, "UNEXPECTED EVENT");
-    }
-
-    /* The event will not be processed after unregister */
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, instance_got_ip));
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
-    vEventGroupDelete(s_wifi_event_group);
-}
 
 static void create_multicast_ipv4_socket(void *pvParameters)
 {
@@ -278,6 +222,10 @@ signed short userShellRead(char *data, unsigned short len){
  * @brief 用户shell初始化
  * 
  */
+
+
+
+
 void userShellInit(void)
 {
     uart_config_t uartConfig = {
@@ -294,6 +242,109 @@ void userShellInit(void)
     shellInit(&shell, shellBuffer, 512);
 }
 
+void wifi_init_sta(void)
+{
+
+    s_wifi_event_group = xEventGroupCreate();
+
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_netif_create_default_wifi_sta();
+
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+
+    esp_event_handler_instance_t instance_any_id;
+    esp_event_handler_instance_t instance_got_ip;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+                                                        ESP_EVENT_ANY_ID,
+                                                        &event_handler,
+                                                        NULL,
+                                                        &instance_any_id));
+
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
+                                                        IP_EVENT_STA_GOT_IP,
+                                                        &event_handler,
+                                                        NULL,
+                                                        &instance_got_ip));
+
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
+    ESP_ERROR_CHECK(esp_wifi_start() );
+
+    ESP_LOGI(TAG, "wifi_init_sta finished.");
+
+    /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
+     * number of re-tries (WIFI_FAIL_BIT). The bits are set by event_handler() (see above) */
+    EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
+            WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+            pdFALSE,
+            pdFALSE,
+            portMAX_DELAY);
+
+    /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
+     * happened. */
+    if (bits & WIFI_CONNECTED_BIT) {
+        ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
+                 CFG_WIFI_SSID, CFG_WIFI_PASS);
+        xTaskCreate(create_multicast_ipv4_socket, "udp_client", 4096, NULL, 5, NULL);
+    } else if (bits & WIFI_FAIL_BIT) {
+        ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
+                 CFG_WIFI_SSID, CFG_WIFI_PASS);
+    } else {
+        ESP_LOGE(TAG, "UNEXPECTED EVENT");
+    }
+
+    /* The event will not be processed after unregister */
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, instance_got_ip));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT, ESP_EVENT_ANY_ID, instance_any_id));
+    vEventGroupDelete(s_wifi_event_group);
+}
+
+void load_esp_cfg(){
+    FILE* f = fopen("/spiflash/config.bin", "rb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for reading");
+        return;
+    }
+    char line[128];
+    int c = 0;
+    char idx[10] = {0};
+    char ssid[32] = {0};
+    char pass[64] = {0};
+
+    const int len = 14;
+
+    while (fgets(line, sizeof(line), f)){
+        ESP_LOGI(TAG, "Read from file: %s", line);
+        if(c == 0){
+            for(int i = len; line[i]!='\n' && line[i] != '\0'; i++){
+                idx[i - len] = line[i];
+            }
+            dev_idx = atoi(idx);
+            ESP_LOGI(TAG, "dev idx: %d", dev_idx);
+        }
+        if(c == 1){
+            for(int i = len; line[i]!='\n' && line[i] != '\0'; i++){
+                ssid[i - len] = line[i];
+            }
+            strcpy((char*)(wifi_config.sta.ssid), ssid);
+            ESP_LOGI(TAG, "wifi_config.sta.ssid: %s", wifi_config.sta.ssid);
+        }
+        if(c == 2){
+            for(int i = len; line[i]!='\n' && line[i] != '\0'; i++){
+                pass[i - len] = line[i];
+            }
+            //wifi_config
+            strcpy((char*)(wifi_config.sta.password), pass);
+            ESP_LOGI(TAG, "wifi_config.sta.password: %s",wifi_config.sta.password);
+        }
+        c++;
+    }
+    fclose(f);
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), load_esp_cfg, load_esp_cfg, load esp cfg);
 
 void init_fatfs(){
 	 ESP_LOGI(TAG, "Mounting FAT filesystem");
@@ -320,6 +371,7 @@ void init_fatfs(){
 void init_default_cfg(){
     if(fopen("/spiflash/config.bin", "r") != NULL){
         ESP_LOGI(TAG, "already has config file");
+        load_esp_cfg();
         return;
     }
 
@@ -461,17 +513,19 @@ void app_main(void)
 	// 初始化LED显示
     ESP_LOGI(TAG, "Init led gpio.\n");
     init_led_gpio();
+
+    xTaskCreate(shellTask, "shell", 4096, &shell, 12, NULL);
+
 	// 启动wifi连接配置
     ESP_LOGI(TAG, "Config wifi sta.\n");
-    //wifi_init_sta();
+    wifi_init_sta();
 	// 初始化MPU9250任务
     ESP_LOGI(TAG, "Init mpu9250.\n");
     init_mpu9250_gpio();
 	// 创建udp任务
     ESP_LOGI(TAG, "Create udp task.\n");
-	//xTaskCreate(create_multicast_ipv4_socket, "udp_client", 4096, NULL, 5, NULL);
 
-    xTaskCreate(shellTask, "shell", 4096, &shell, 12, NULL);
+    
 	// MPU9250串口循环发送
     while(1){
         //GetMPU9250Data_Euler(&yaw,&roll,&pitch);

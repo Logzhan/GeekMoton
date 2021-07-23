@@ -438,7 +438,7 @@ void shellPrint(Shell *shell, char *fmt, ...);
 void shellScan(Shell *shell, char *fmt, ...);
 Shell* shellGetCurrent(void);
 void shellHandler(Shell *shell, char data);
-void shellWriteEndLine(Shell *shell, char *buffer, int len);
+void shellWriteEndLine(Shell *shell, char *buffer);
 void shellTask(void *param);
 int shellRun(Shell *shell, const char *cmd);
 

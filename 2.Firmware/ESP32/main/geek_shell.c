@@ -1776,8 +1776,9 @@ void shellHandler(Shell *shell, char data)
 
 
 #if SHELL_SUPPORT_END_LINE == 1
-void shellWriteEndLine(Shell *shell, char *buffer, int len)
+void shellWriteEndLine(Shell *shell, char *buffer)
 {
+    int len = strlen(buffer);
     SHELL_LOCK(shell);
     if (!shell->status.isActive)
     {
