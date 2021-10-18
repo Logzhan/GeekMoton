@@ -13,8 +13,8 @@
 #include "esp32/rom/ets_sys.h"
 
 #define LED              2
-#define MPU9250_SDA_PIN  18
-#define MPU9250_SCL_PIN  19
+#define MPU9250_SDA_PIN  22
+#define MPU9250_SCL_PIN  21
 #define IIC_DELAY_TIME   2000
 
 static void i2c_delay(void);

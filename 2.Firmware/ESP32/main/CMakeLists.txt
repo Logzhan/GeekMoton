@@ -1,11 +1,3 @@
-set(srcs
-	"geekimu_main.c"
-    "geek_shell.c"
-    "geek_shell_cmd_list.c"
-    "geek_shell_companion.c"
-    "geek_shell_ext.c")
+set(srcs "app_main.c")
 
-set(include_dirs "include")
-
-idf_component_register(SRCS "${srcs}"
-                       INCLUDE_DIRS "${include_dirs}")
+idf_component_register(SRCS "${srcs}")
