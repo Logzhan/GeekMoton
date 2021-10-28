@@ -2,44 +2,36 @@
 * Description  : MPU9250 diriver for esp32
 /----------------------------------------------------------------------------*/
 #include <math.h>
+#include <stdio.h>
 #include "mpu9250.h"
 #include "mpu9250_iic.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "geek_shell_api.h"
 
-#define I2C_ADDR         0xD0
 #define WHO_AM_I         0x75
-#define MPU9250_SDA_PIN  18
-#define MPU9250_SDL_PIN  19
-
+#define MOUNT_POINT      "/sdcard"
 float q0 = 1.0f; 
 float q1 = 0.0f; 
 float q2 = 0.0f; 
 float q3 = 0.0f;
 MPU mpu9250;
+FILE* fp = NULL;
 
-
-int init_mpu9250_gpio(){
-    // 初始化9250的IIC GPIO
-    //vTaskDelay(1000 / portTICK_PERIOD_MS);
+int init_mpu9250(){
+	// 配置MPU9250 IO口
     init_mpu9250_iic_gpio();
 
-    uint8_t value = 0;
-    //从I2C设备读取一个字节数据
-    value = i2c_read_one_byte(I2C_ADDR, (WHO_AM_I | 0x80));
-
-    ESP_LOGI("MPU9250C", "value = %#x\n", value);
-    
-    if(value == 0x71){
-        ESP_LOGI("MPU9250C", "read mpu9250 sucess...\n");   
-        i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_PWR_MGMT_1,0x00);			/* 唤醒mpu9250                */
-	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_CONFIG,0x06);    			/* 低通滤波5hz				  */
-	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_GYRO_CONFIG,0x18);			/* 不自检，2000deg/s		  */
-	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_ACCEL_CONFIG,0x00);			// (0x00 +-2g;)  ( 0x08 +-4g;)  (0x10 +-8g;)  (0x18 +-16g)
-	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_INT_PIN_CFG,0x02);
-	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_USER_CTRL,0x00);			//使能I2C 
+    if(i2c_read_one_byte(MPU9250_I2C_ADDR, (WHO_AM_I | 0x80)) == MPU9250_Device_ID)
+	{  
+        i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_PWR_MGMT_1,   0x00);			// 唤醒mpu9250
+	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_CONFIG,       0x06);    	    // 低通滤波5hz				 
+	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_GYRO_CONFIG,  0x18);			// 不自检，2000deg/s		  
+	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_ACCEL_CONFIG, 0x00);			// (0x00 +-2g;)  ( 0x08 +-4g;)  (0x10 +-8g;)  (0x18 +-16g)
+	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_INT_PIN_CFG,  0x02);
+	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_USER_CTRL,    0x00);			//使能I2C 
     }
     return 0;
 }
@@ -94,9 +86,9 @@ void GetMPU9250Data()
 	ay = (float) (mpu9250.acc_y * ACC_KEN); 
 	az = (float) (mpu9250.acc_z * ACC_KEN); 
 
+
+
 	AHRSupdate(gx, gy, gz, ax, ay, az);
-	
-	//printf("%f %f %f, %f %f %f\n", ax, ay, az, gx, gy, gz);
 }
 
 void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch)
@@ -117,13 +109,15 @@ void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch)
 	ay = (float) (mpu9250.acc_y * ACC_KEN); 
 	az = (float) (mpu9250.acc_z * ACC_KEN); 
 
+	if(fp != NULL){
+		fprintf(fp, "%f,%f,%f,%f,%f,%f\n", ax,ay,az,gx,gy,gz);
+	}
+
 	AHRSupdate(gx, gy, gz, ax, ay, az);
 	
 	*yaw   = mpu9250.yaw;   
 	*roll  = mpu9250.roll;  
 	*pitch = mpu9250.pitch; 
-	
-	//printf("%f %f %f, %f %f %f\n", ax, ay, az, gx, gy, gz);
 }
 
 void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az) 
@@ -167,22 +161,38 @@ void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
    	q1 = q1 * norm;       //x
    	q2 = q2 * norm;       //y
    	q3 = q3 * norm;       //z
-    
-    //printf("%f %f %f %f\n", q0, q1, q2, q3);
-
-    //float Pitch;
 																	
     float Pitch = asin((float)(-2.0f*(q3*q1 - q0*q2))); // * (180.0f / 3.141592f);							                                            */
     float Yaw  = atan2(q2*q1 + q0*q3,0.5f - q2*q2 - q3*q3); // * (180.0f /3.141592f);
     float Roll  = atan2(q2*q3 + q0*q1,0.5f - q2*q2 - q1*q1); //* (180.0f /3.141592f);
 
     Pitch *= (180.0f / 3.141592f);
-    Yaw *=  (180.0f / 3.141592f);
-    Roll *= (180.0f / 3.141592f);
+    Yaw   *= (180.0f / 3.141592f);
+    Roll  *= (180.0f / 3.141592f);
 	
 	mpu9250.yaw   = Yaw;
 	mpu9250.roll  = Roll;
 	mpu9250.pitch = Pitch;
-	
 
 }
+
+void init_quaternion(){
+	mpu9250.q[0] = 1.0f;
+	mpu9250.q[1] = 0.0f;
+	mpu9250.q[2] = 0.0f;
+	mpu9250.q[3] = 0.0f;
+}
+
+void data_record_task(){
+
+	if(fp != NULL){
+		fp = NULL;
+	}
+	//fp = fopen("1:/imu.txt", "w");
+	fp = fopen(MOUNT_POINT"/imu.txt", "w");
+	if(fp == NULL){
+		//printf("open file fail\r\n");
+	}
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), data_sample_task, data_record_task, save imu data);

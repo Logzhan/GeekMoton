@@ -162,6 +162,7 @@ typedef struct MPU
 	float   yaw;
 	float   roll;
 	float   pitch;
+	float   q[4];
 }MPU;
 
 void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az);
@@ -170,7 +171,7 @@ void GetMPU9250Data(void);
 
 void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch);
 
-int init_mpu9250_gpio(void);
+int init_mpu9250(void);
 
 
 #endif /* MPU9250 */

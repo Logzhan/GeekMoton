@@ -1,6 +1,10 @@
-/*----------------------------------------------------------------------------/
-* Description  : MPU9250 diriver for esp32
-/----------------------------------------------------------------------------*/
+/******************** (C) COPYRIGHT 2020 GEEKIMU *******************************
+* File Name          : sdcard.c
+* Current Version    : V1.0  & ESP32-IDF 4.3.0
+* Author             : zhanli 719901725@qq.com
+* Date of Issued     : 2021.10.21 zhanli : Create
+* Comments           : ESP32芯片SDCARD模块驱动
+********************************************************************************/
 #include <stdio.h>
 #include <string.h>
 #include <sys/unistd.h>
@@ -14,6 +18,7 @@
 #include "sdkconfig.h"
 #include "driver/sdmmc_host.h"
 #include "sdcard.h"
+
 static const char *TAG = "example";
 
 #define MOUNT_POINT "/sdcard"
@@ -21,41 +26,49 @@ static const char *TAG = "example";
 #define SPI_DMA_CHAN    1
 #define PIN_NUM_MISO    2
 #define PIN_NUM_MOSI    15
-#define PIN_NUM_CLK     14
-#define PIN_NUM_CS      13
+#define PIN_NUM_CLK     14               // 
+#define PIN_NUM_CS      13               // SDCARD的片选CS端口
 
 
-void test_sd(void)
+esp_vfs_fat_sdmmc_mount_config_t mount_config = {
+#ifdef CONFIG_EXAMPLE_FORMAT_IF_MOUNT_FAILED
+    .format_if_mount_failed = true,
+#else
+    .format_if_mount_failed = false,
+#endif // EXAMPLE_FORMAT_IF_MOUNT_FAILED
+    .max_files = 5,
+    .allocation_unit_size = 16 * 1024
+};
+sdmmc_card_t* card;
+
+sdmmc_host_t host = SDSPI_HOST_DEFAULT();
+spi_bus_config_t bus_cfg = {
+    .mosi_io_num = PIN_NUM_MOSI,
+    .miso_io_num = PIN_NUM_MISO,
+    .sclk_io_num = PIN_NUM_CLK,
+    .quadwp_io_num = -1,
+    .quadhd_io_num = -1,
+    .max_transfer_sz = 4000,
+};
+
+sdspi_device_config_t slot_config = SDSPI_DEVICE_CONFIG_DEFAULT();
+
+/**----------------------------------------------------------------------
+* Function    : init_sdcard
+* Description : 初始化sdcard模块并加载fatfs文件系统,采用SPI接口
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/21 zhanli
+*---------------------------------------------------------------------**/
+void init_sdcard(void)
 {
     esp_err_t ret;
     // Options for mounting the filesystem.
     // If format_if_mount_failed is set to true, SD card will be partitioned and
     // formatted in case when mounting fails.
-    esp_vfs_fat_sdmmc_mount_config_t mount_config = {
-#ifdef CONFIG_EXAMPLE_FORMAT_IF_MOUNT_FAILED
-        .format_if_mount_failed = true,
-#else
-        .format_if_mount_failed = false,
-#endif // EXAMPLE_FORMAT_IF_MOUNT_FAILED
-        .max_files = 5,
-        .allocation_unit_size = 16 * 1024
-    };
-    sdmmc_card_t* card;
+
     const char mount_point[] = MOUNT_POINT;
-    ESP_LOGI(TAG, "Initializing SD card");
 
-
-    ESP_LOGI(TAG, "Using SPI peripheral");
-
-    sdmmc_host_t host = SDSPI_HOST_DEFAULT();
-    spi_bus_config_t bus_cfg = {
-        .mosi_io_num = PIN_NUM_MOSI,
-        .miso_io_num = PIN_NUM_MISO,
-        .sclk_io_num = PIN_NUM_CLK,
-        .quadwp_io_num = -1,
-        .quadhd_io_num = -1,
-        .max_transfer_sz = 4000,
-    };
+    // 初始化PSI总线
     ret = spi_bus_initialize(host.slot, &bus_cfg, SPI_DMA_CHAN);
     if (ret != ESP_OK) {
         ESP_LOGE(TAG, "Failed to initialize bus.");
@@ -64,7 +77,7 @@ void test_sd(void)
 
     // This initializes the slot without card detect (CD) and write protect (WP) signals.
     // Modify slot_config.gpio_cd and slot_config.gpio_wp if your board has these signals.
-    sdspi_device_config_t slot_config = SDSPI_DEVICE_CONFIG_DEFAULT();
+    
     slot_config.gpio_cs = PIN_NUM_CS;
     slot_config.host_id = host.slot;
 
@@ -81,7 +94,7 @@ void test_sd(void)
         return;
     }
 
-    // Card has been initialized, print its properties
+    // 打印SD卡相关的信息
     sdmmc_card_print_info(stdout, card);
 
     // Use POSIX and C standard library functions to work with files.
@@ -129,9 +142,5 @@ void test_sd(void)
 
     // All done, unmount partition and disable SDMMC or SPI peripheral
     //esp_vfs_fat_sdcard_unmount(mount_point, card);
-    ESP_LOGI(TAG, "Card unmounted");
-#ifdef USE_SPI_MODE
-    //deinitialize the bus after all devices are removed
-    spi_bus_free(host.slot);
-#endif
+    //spi_bus_free(host.slot);
 }

@@ -1,10 +1,10 @@
 /*----------------------------------------------------------------------------/
-/ SDCARD include file               (C)ChaN, 2019
+/ LED include file               (C)ChaN, 2019
 /----------------------------------------------------------------------------*/
-#ifndef _DEF_SDCARD_H_
-#define _DEF_SDCARD_H_
+#ifndef DEF_ADC_H_
+#define DEF_ADC_H_
 /*---------------------------------------------------------------------------*/
 
-void init_sdcard(void);
+void adc_sample_task();
 
-#endif /* SDCARD */
+#endif /* LED */

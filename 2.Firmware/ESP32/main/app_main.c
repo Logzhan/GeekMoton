@@ -36,13 +36,13 @@
 #include "geek_shell_api.h"
 
 // ADC 配置相关
-#include "driver/adc.h"
-#include "esp_adc_cal.h"
 #include "sdcard.h"
+
+#include "adc.h"
 
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
-#define CFG_WIFI_SSID      "log_zhan"          // 配置默认连接的WIFI的SSID
+#define CFG_WIFI_SSID      "logzhan"          // 配置默认连接的WIFI的SSID
 #define CFG_WIFI_PASS      "19931203"         // 配置默认连接的WIFI的密码
 #define CFG_MAXIMUM_RETRY   1000              // 配置最大重新连接次数
 
@@ -57,14 +57,6 @@
 
 #define DEFAULT_VREF    1100        //Use adc2_vref_to_gpio() to obtain a better estimate
 #define NO_OF_SAMPLES   64          //Multisampling
-
-
-// ADC的配置
-static esp_adc_cal_characteristics_t *adc_chars;
-static const adc_channel_t channel = ADC_CHANNEL_6;     //GPIO34 if ADC1, GPIO14 if ADC2
-static const adc_bits_width_t width = ADC_WIDTH_BIT_12;
-static const adc_atten_t atten = ADC_ATTEN_DB_0;
-static const adc_unit_t unit = ADC_UNIT_1;
 
 
 
@@ -85,7 +77,6 @@ static const char *TAG        = "GEEKIMU";
 static int        s_retry_num = 0;
 static int        dev_idx     = 1;
 
-uint32_t voltage;
 
 float yaw,roll,pitch;
 
@@ -126,7 +117,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 }
 
 
-
 static void create_multicast_ipv4_socket(void *pvParameters)
 {
     //struct sockaddr_in saddr = { 0 };
@@ -135,67 +125,34 @@ static void create_multicast_ipv4_socket(void *pvParameters)
     int sock = -1; int sock_in = -1;
     int err = 0;
 
-    // sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
-    // if (sock < 0) {
-    //     ESP_LOGE(TAG, "Failed to create socket. Error %d", errno);
-    //     //return -1;
-    // }
     sock_in = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
-
-    // Bind the socket to any address
-    // saddr.sin_family = PF_INET;
-    // saddr.sin_port = htons(UDP_PORT);
-    // saddr.sin_addr.s_addr = htonl(IPADDR_BROADCAST);
 
     raddr.sin_family = PF_INET;
     raddr.sin_port = htons(UDP_PORT_RECV);
     raddr.sin_addr.s_addr = htonl(IPADDR_ANY);
 
-	char line[128] = "hello my project\n";
     char rx_buffer[128];
 
     err = bind(sock_in, (struct sockaddr *)&raddr, sizeof(struct sockaddr_in));
 
-    //err = bind(sock, (struct sockaddr *)&saddr, sizeof(struct sockaddr_in));
-    struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
+    struct sockaddr_storage source_addr; 
     socklen_t socklen = sizeof(source_addr);
 
     while (1) {
-	// 	sprintf(line, "%f %f %f\n", yaw, roll, pitch);
-    //     printf("send data...\n");
-    //     err = sendto(sock, line, 256, 0, (struct sockaddr *)&saddr, sizeof(struct sockaddr_in));
-    // // freeaddrinfo(res);
-    //     if (err < 0) {
-    //         ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
-    //         //break;
-    //     }   
-
-        printf("recv data...\n");
         int len = recvfrom(sock_in, rx_buffer, sizeof(rx_buffer) - 1, 0, (struct sockaddr *)&source_addr, &socklen);
-        printf("handle recv data...\n");
         // Error occurred during receiving
         if (len < 0) {
             ESP_LOGE(TAG, "recvfrom failed: errno %d", errno);
-            //break;
-        }// Data received
+        }
         else {
-            //rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
-            //ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
             ESP_LOGI(TAG, "%s", rx_buffer);
             memset(rx_buffer, 0 , sizeof(rx_buffer));
         }
 
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
-    // All set, socket is configured for sending and receiving
-    // return sock;
-
-//err:
     close(sock);
-   // return 0;
 }
-
-
 
 static void udp_send_data(void *pvParameters)
 {
@@ -429,73 +386,6 @@ void write_esp_cfg(int idx, char* ssid, char* psw)
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(3), write_esp_cfg, write_esp_cfg, write esp cfg);
 
-
-static void check_efuse(void)
-{
-    //Check if TP is burned into eFuse
-    if (esp_adc_cal_check_efuse(ESP_ADC_CAL_VAL_EFUSE_TP) == ESP_OK) {
-        printf("eFuse Two Point: Supported\n");
-    } else {
-        printf("eFuse Two Point: NOT supported\n");
-    }
-    //Check Vref is burned into eFuse
-    if (esp_adc_cal_check_efuse(ESP_ADC_CAL_VAL_EFUSE_VREF) == ESP_OK) {
-        printf("eFuse Vref: Supported\n");
-    } else {
-        printf("eFuse Vref: NOT supported\n");
-    }
-
-}
-
-
-static void print_char_val_type(esp_adc_cal_value_t val_type)
-{
-    if (val_type == ESP_ADC_CAL_VAL_EFUSE_TP) {
-        printf("Characterized using Two Point Value\n");
-    } else if (val_type == ESP_ADC_CAL_VAL_EFUSE_VREF) {
-        printf("Characterized using eFuse Vref\n");
-    } else {
-        printf("Characterized using Default Vref\n");
-    }
-}
-
-
-void adc_sample_task(){
-    check_efuse();
-    //Configure ADC
-    if (unit == ADC_UNIT_1) {
-        adc1_config_width(width);
-        adc1_config_channel_atten(channel, atten);
-    } else {
-        adc2_config_channel_atten((adc2_channel_t)channel, atten);
-    }
-
-    //Characterize ADC
-    adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
-    esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, width, DEFAULT_VREF, adc_chars);
-    print_char_val_type(val_type);
-
-    //Continuously sample ADC1
-    while (1) {
-        uint32_t adc_reading = 0;
-        //Multisampling
-        for (int i = 0; i < NO_OF_SAMPLES; i++) {
-            if (unit == ADC_UNIT_1) {
-                adc_reading += adc1_get_raw((adc1_channel_t)channel);
-            } else {
-                int raw;
-                adc2_get_raw((adc2_channel_t)channel, width, &raw);
-                adc_reading += raw;
-            }
-        }
-        adc_reading /= NO_OF_SAMPLES;
-        //Convert adc_reading to voltage in mV
-        voltage = esp_adc_cal_raw_to_voltage(adc_reading, adc_chars);
-        printf("Raw: %d\tVoltage: %dmV\n", adc_reading, voltage);
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
-
 /**----------------------------------------------------------------------
 * Function    : app_main
 * Description : GEEKIMU 程序主入口
@@ -512,32 +402,33 @@ void app_main(void)
     // 初始化默认配置
     init_default_cfg();
 
-    test_sd();
-    
+    init_sdcard();
 	// 初始化LED显示
     ESP_LOGI(TAG, "Init led gpio.\n");
-    init_led_gpio();
+    //init_led_gpio();
 	// 启动wifi连接配置
     ESP_LOGI(TAG, "Config wifi sta.\n");
-    wifi_init_sta();
+    xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
+
 	// 初始化MPU9250任务
     ESP_LOGI(TAG, "Init mpu9250.\n");
-    init_mpu9250_gpio();
+    // 初始化MPU9250
+    init_mpu9250();
 	// 创建udp任务
     ESP_LOGI(TAG, "Create udp task.\n");
 
-    //xTaskCreate(adc_sample_task, "shell", 4096, NULL, 12, NULL);
+    xTaskCreate(adc_sample_task, "shell", 4096, NULL, 12, NULL);
 
 	static int i = 0;
 	
-
 	// MPU9250串口循环发送
     while(1){
         i++;
         if(i > 20){
-            ESP_LOGI(TAG, "%f %f %f\n", yaw, roll, pitch);
+            //ESP_LOGI(TAG, "%f %f %f\n", yaw, roll, pitch);
             i = 0;
 	    }
+
         GetMPU9250Data_Euler(&yaw,&roll,&pitch);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -546,10 +437,8 @@ void app_main(void)
 void list_files(char *path)
 {
 	FF_DIR dir; //定义目录对象
-	int i; //定义变量
 	static FILINFO fno; //定义静态文件信息结构对象
 	FRESULT res = f_opendir(&dir,path); //打开目录，返回状态 和 目录对象的指针
-	char pathBuff[256]; //定义路径数组
 	if(res == FR_OK) //打开成功
 	{
 		for(;;) {
