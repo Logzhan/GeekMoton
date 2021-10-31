@@ -11,8 +11,8 @@
 #include "freertos/task.h"
 #include "geek_shell_api.h"
 
-#define WHO_AM_I         0x75
 #define MOUNT_POINT      "/sdcard"
+
 float q0 = 1.0f; 
 float q1 = 0.0f; 
 float q2 = 0.0f; 
@@ -20,11 +20,17 @@ float q3 = 0.0f;
 MPU mpu9250;
 FILE* fp = NULL;
 
+/**----------------------------------------------------------------------
+* Function    : init_mpu9250
+* Description : 初始化配置MPU9250
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/31 zhanli
+*---------------------------------------------------------------------**/
 int init_mpu9250(){
 	// 配置MPU9250 IO口
     init_mpu9250_iic_gpio();
 
-    if(i2c_read_one_byte(MPU9250_I2C_ADDR, (WHO_AM_I | 0x80)) == MPU9250_Device_ID)
+    if(i2c_read_one_byte(MPU9250_I2C_ADDR, (MPU9250_WHO_AM_I | 0x80)) == MPU9250_Device_ID)
 	{  
         i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_PWR_MGMT_1,   0x00);			// 唤醒mpu9250
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_CONFIG,       0x06);    	    // 低通滤波5hz				 
@@ -36,7 +42,8 @@ int init_mpu9250(){
     return 0;
 }
 
-void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,int16_t *gx,int16_t *gy,int16_t *gz,int16_t *temp)
+void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,
+                         int16_t *gx,int16_t *gy,int16_t *gz,int16_t *temp)
 {
 	int16_t buf[20];
 	uint8_t i;	                          //读取加速度、陀螺仪传感器
@@ -55,16 +62,16 @@ void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,int16_t *gx,int16_t
 	}
 	i2c_stop();					          //产生一个停止条件
 
-	//加速度
-	*ax =  (buf[0]<<8)+buf[1];
-	*ay =  (buf[2]<<8)+buf[3];
-	*az =  (buf[4]<<8)+buf[5];
-	//温度
-	*temp =(buf[6]<<8)+buf[7];
-	//陀螺仪
-	*gx = (buf[8]<<8)+buf[9];
-	*gy = (buf[10]<<8)+buf[11];
-	*gz = (buf[12]<<8)+buf[13];
+	// 加速度
+	*ax = (buf[0] << 8) + buf[1];
+	*ay = (buf[2] << 8) + buf[3];
+	*az = (buf[4] << 8) + buf[5];
+	// 温度
+	*temp =(buf[6] <<8) + buf[7];
+	// 陀螺仪
+	*gx = (buf[8]  << 8) + buf[9];
+	*gy = (buf[10] << 8) + buf[11];
+	*gz = (buf[12] << 8) + buf[13];
 }
 
 
@@ -85,8 +92,6 @@ void GetMPU9250Data()
 	ax = (float) (mpu9250.acc_x * ACC_KEN); 
 	ay = (float) (mpu9250.acc_y * ACC_KEN); 
 	az = (float) (mpu9250.acc_z * ACC_KEN); 
-
-
 
 	AHRSupdate(gx, gy, gz, ax, ay, az);
 }
@@ -109,10 +114,10 @@ void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch)
 	ay = (float) (mpu9250.acc_y * ACC_KEN); 
 	az = (float) (mpu9250.acc_z * ACC_KEN); 
 
-	if(fp != NULL){
+	if(fp != NULL ){
 		fprintf(fp, "%f,%f,%f,%f,%f,%f\n", ax,ay,az,gx,gy,gz);
+		printf("%f,%f,%f,%f,%f,%f\r\n", ax,ay,az,gx,gy,gz);
 	}
-
 	AHRSupdate(gx, gy, gz, ax, ay, az);
 	
 	*yaw   = mpu9250.yaw;   
@@ -176,23 +181,50 @@ void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
 
 }
 
-void init_quaternion(){
+void init_quaternion(float q[4]){
 	mpu9250.q[0] = 1.0f;
 	mpu9250.q[1] = 0.0f;
 	mpu9250.q[2] = 0.0f;
 	mpu9250.q[3] = 0.0f;
 }
 
-void data_record_task(){
+/**----------------------------------------------------------------------
+* Function    : data_record_task
+* Description : 启动IMU数据采集任务
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/26 zhanli
+*---------------------------------------------------------------------**/
+int data_record_task(){
 
 	if(fp != NULL){
+		fclose(fp);
 		fp = NULL;
 	}
-	//fp = fopen("1:/imu.txt", "w");
 	fp = fopen(MOUNT_POINT"/imu.txt", "w");
 	if(fp == NULL){
-		//printf("open file fail\r\n");
+		printf("open file fail\r\n");
+		return -1;
 	}
+	return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), data_sample_task, data_record_task, save imu data);
+
+
+/**----------------------------------------------------------------------
+* Function    : data_record_task
+* Description : 停止IMU数据采集任务
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/26 zhanli
+*---------------------------------------------------------------------**/
+int stop_record_task(){
+
+	if(fp != NULL){
+		fclose(fp);
+		fp = NULL;
+		return 0;
+	}
+	return -1;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), stop_sample_task, stop_record_task, stop save imu data);

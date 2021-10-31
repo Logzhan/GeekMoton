@@ -123,7 +123,7 @@ static void create_multicast_ipv4_socket(void *pvParameters)
     struct sockaddr_in raddr = { 0 };
     
     int sock = -1; int sock_in = -1;
-    int err = 0;
+
 
     sock_in = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
 
@@ -133,7 +133,11 @@ static void create_multicast_ipv4_socket(void *pvParameters)
 
     char rx_buffer[128];
 
-    err = bind(sock_in, (struct sockaddr *)&raddr, sizeof(struct sockaddr_in));
+    int err = bind(sock_in, (struct sockaddr *)&raddr, sizeof(struct sockaddr_in));
+
+    if(err < 0){
+        printf("bind socket err\n");
+    }
 
     struct sockaddr_storage source_addr; 
     socklen_t socklen = sizeof(source_addr);
@@ -191,7 +195,7 @@ static void udp_send_data(void *pvParameters)
    // return 0;
 }
 
-void wifi_init_sta(void)
+void wifi_init_sta()
 {
 
     s_wifi_event_group = xEventGroupCreate();
@@ -251,11 +255,11 @@ void wifi_init_sta(void)
     vEventGroupDelete(s_wifi_event_group);
 }
 
-void load_esp_cfg(){
+int load_esp_cfg(){
     FILE* f = fopen("/spiflash/config.bin", "rb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
-        return;
+        return -1;
     }
     char line[128];
     int c = 0;
@@ -292,6 +296,7 @@ void load_esp_cfg(){
         c++;
     }
     fclose(f);
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), load_esp_cfg, load_esp_cfg, load esp cfg);
@@ -350,28 +355,29 @@ void init_default_cfg(){
 }
 
 
-void read_esp_cfg(){
+int read_esp_cfg(){
     FILE* f = fopen("/spiflash/config.bin", "rb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
-        return;
+        return -1;
     }
     char line[128];
     while (fgets(line, sizeof(line), f)){
         ESP_LOGI(TAG, "Read from file: %s", line);
     }
     fclose(f);
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), read_esp_cfg, read_esp_cfg, read esp cfg);
 
 
-void write_esp_cfg(int idx, char* ssid, char* psw)
+int write_esp_cfg(int idx, char* ssid, char* psw)
 {
     FILE *f = fopen("/spiflash/config.bin", "wb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for writing");
-        return;
+        return -1;
     }
     fprintf(f, "CFG_DEV_INDEX:%d\n", idx);
     fprintf(f, "CFG_WIFI_SSID:%s\n", ssid);
@@ -382,6 +388,7 @@ void write_esp_cfg(int idx, char* ssid, char* psw)
     ESP_LOGI(TAG, "wifi_pass = %s\n", psw);
 
     fclose(f);
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(3), write_esp_cfg, write_esp_cfg, write esp cfg);
@@ -434,7 +441,7 @@ void app_main(void)
     }
 }
 
-void list_files(char *path)
+int list_files(char *path)
 {
 	FF_DIR dir; //定义目录对象
 	static FILINFO fno; //定义静态文件信息结构对象
@@ -456,27 +463,30 @@ void list_files(char *path)
 		printf("open %s fail\n", path); //打开失败
 	}
 	f_closedir(&dir); //关闭目录
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(1), ls, list_files, list files and dir);
 
 
-void remove_file(char* path)
+int remove_file(char* path)
 {
-    if(path == NULL)return;
+    if(path == NULL)return -1;
     
     FRESULT res = f_unlink(path);
     if(res == FR_OK){
-        printf("delete %s sucess\n", path); //打开失败
+        printf("delete %s sucess!\n", path); //打开失败
     }else{
-        printf("delete %s fail\n", path); //打开失败
+        printf("delete %s fail!\n", path); //打开失败
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(1), rm, remove_file, delete file and dir);
 
-void reboot(){
+int reboot(){
     esp_restart();
+    return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), reboot, reboot, reset system);

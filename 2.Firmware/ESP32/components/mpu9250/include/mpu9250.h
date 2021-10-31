@@ -173,5 +173,21 @@ void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch);
 
 int init_mpu9250(void);
 
+/**----------------------------------------------------------------------
+* Function    : data_record_task
+* Description : 启动IMU数据采集任务
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/26 zhanli
+*---------------------------------------------------------------------**/
+int data_record_task(void);
+
+/**----------------------------------------------------------------------
+* Function    : data_record_task
+* Description : 停止IMU数据采集任务
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/26 zhanli
+*---------------------------------------------------------------------**/
+int stop_record_task(void);
+
 
 #endif /* MPU9250 */
