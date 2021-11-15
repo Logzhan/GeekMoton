@@ -37,9 +37,8 @@
 
 // ADC 配置相关
 #include "sdcard.h"
-
 #include "adc.h"
-
+#include "lcd.h"
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
 #define CFG_WIFI_SSID      "logzhan"          // 配置默认连接的WIFI的SSID
@@ -404,7 +403,7 @@ void app_main(void)
 	// 配置串口0作为命令行输入输出
 	userShellInit(0);
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
-	// 配置信息存储
+	//配置信息存储
 	init_fatfs();
     // 初始化默认配置
     init_default_cfg();
@@ -426,6 +425,8 @@ void app_main(void)
 
     xTaskCreate(adc_sample_task, "shell", 4096, NULL, 12, NULL);
 
+    lcd_test();
+
 	static int i = 0;
 	
 	// MPU9250串口循环发送
@@ -435,7 +436,6 @@ void app_main(void)
             //ESP_LOGI(TAG, "%f %f %f\n", yaw, roll, pitch);
             i = 0;
 	    }
-
         GetMPU9250Data_Euler(&yaw,&roll,&pitch);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
