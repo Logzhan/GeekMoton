@@ -557,7 +557,7 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
 	}			
 }
 
-int lcd_test(void)
+void lcd_test(void)
 {
 	float t=0;
 	ESP_LOGI(TAG, "lcd init.\n");
@@ -576,6 +576,5 @@ int lcd_test(void)
 		t+=0.5;
 		vTaskDelay(500 / portTICK_PERIOD_MS);
 	}
-	return 0;
 }
 

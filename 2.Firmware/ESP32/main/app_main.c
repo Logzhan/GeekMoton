@@ -392,7 +392,45 @@ int write_esp_cfg(int idx, char* ssid, char* psw)
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(3), write_esp_cfg, write_esp_cfg, write esp cfg);
 
-/**----------------------------------------------------------------------
+void key_task(){
+    int KEY1 = 25;
+    int KEY2 = 32;
+    int KEY3 = 33;
+
+    gpio_pad_select_gpio(KEY1);
+	gpio_set_direction(KEY1, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(KEY1, GPIO_PULLUP_ONLY);
+
+    gpio_pad_select_gpio(KEY2);
+	gpio_set_direction(KEY2, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(KEY2, GPIO_PULLUP_ONLY);
+
+    gpio_pad_select_gpio(KEY3);
+	gpio_set_direction(KEY3, GPIO_MODE_INPUT);
+    gpio_set_pull_mode(KEY3, GPIO_PULLUP_ONLY);
+
+
+
+    while(1){
+        int level = 1;
+        level = gpio_get_level(KEY2);
+        if(level == 0){
+            printf("you press key2\n");
+        }
+        level = gpio_get_level(KEY3);
+        if(level == 0){
+            printf("you press key3\n");
+        }
+        level = gpio_get_level(KEY1);
+        if(level == 0){
+            printf("you press key1\n");
+        }
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+
+}
+
+/**------------------------2----------------------------------------------
 * Function    : app_main
 * Description : GEEKIMU 程序主入口
 * Author      : zhanli&719901725@qq.com
@@ -404,9 +442,9 @@ void app_main(void)
 	userShellInit(0);
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
 	//配置信息存储
-	init_fatfs();
+	//init_fatfs();
     // 初始化默认配置
-    init_default_cfg();
+    //init_default_cfg();
 
     init_sdcard();
 	// 初始化LED显示
@@ -414,18 +452,23 @@ void app_main(void)
     //init_led_gpio();
 	// 启动wifi连接配置
     ESP_LOGI(TAG, "Config wifi sta.\n");
-    xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
+    //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
 
 	// 初始化MPU9250任务
     ESP_LOGI(TAG, "Init mpu9250.\n");
     // 初始化MPU9250
-    init_mpu9250();
+    
 	// 创建udp任务
     ESP_LOGI(TAG, "Create udp task.\n");
 
-    xTaskCreate(adc_sample_task, "shell", 4096, NULL, 12, NULL);
+    xTaskCreate(lcd_test, "lcd", 4096, NULL, 12, NULL);
 
-    lcd_test();
+    xTaskCreate(key_task, "key_task", 4096, NULL, 12, NULL);
+
+    xTaskCreate(adc_sample_task, "adc_task", 4096, NULL, 12, NULL);
+
+    init_mpu9250();
+    //lcd_test();
 
 	static int i = 0;
 	

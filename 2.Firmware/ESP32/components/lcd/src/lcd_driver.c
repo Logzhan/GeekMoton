@@ -16,7 +16,7 @@ spi_device_handle_t spi;
 #define DMA_CHAN        2
 #define PARALLEL_LINES  16
 
-#define PIN_NUM_MISO    25
+#define PIN_NUM_MISO    25 
 #define PIN_NUM_MOSI    23
 #define PIN_NUM_CLK     19
 #define PIN_NUM_CS      4

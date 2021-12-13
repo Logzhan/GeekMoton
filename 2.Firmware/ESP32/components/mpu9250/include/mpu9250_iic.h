@@ -5,6 +5,8 @@
 #define _DEF_MPU9250_IIC_H_
 /*---------------------------------------------------------------------------*/
 
+#include <stdint.h>
+
 /* System Configurations */
 int init_mpu9250_iic_gpio(void);
 
@@ -54,5 +56,14 @@ void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned
 * Date        : 2021/10/26 zhanli
 *---------------------------------------------------------------------**/ 
 unsigned char i2c_read_one_byte(unsigned char slave_addr,unsigned char reg_addr);
+
+/**----------------------------------------------------------------------
+* Function    : i2c_read_one_byte
+* Description : i2c读多个字节
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/10/26 zhanli
+*---------------------------------------------------------------------**/ 
+void i2c_read_bytes(uint8_t slave_addr,uint8_t reg_addr,
+					uint8_t *data, uint8_t len);
 
 #endif /* MPU9250 */

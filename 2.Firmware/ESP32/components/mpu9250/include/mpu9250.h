@@ -171,7 +171,7 @@ void GetMPU9250Data(void);
 
 void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch);
 
-int init_mpu9250(void);
+void init_mpu9250(void);
 
 /**----------------------------------------------------------------------
 * Function    : data_record_task

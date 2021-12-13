@@ -12,7 +12,7 @@
 #include "geek_shell_api.h"
 
 #define MOUNT_POINT      "/sdcard"
-
+static const char *TAG = "MPU9250";
 float q0 = 1.0f; 
 float q1 = 0.0f; 
 float q2 = 0.0f; 
@@ -26,41 +26,37 @@ FILE* fp = NULL;
 * Author      : zhanli&719901725@qq.com
 * Date        : 2021/10/31 zhanli
 *---------------------------------------------------------------------**/
-int init_mpu9250(){
+void init_mpu9250(){
 	// 配置MPU9250 IO口
     init_mpu9250_iic_gpio();
 
-    if(i2c_read_one_byte(MPU9250_I2C_ADDR, (MPU9250_WHO_AM_I | 0x80)) == MPU9250_Device_ID)
+	uint8_t id = 0;
+	while(id != MPU9250_Device_ID)
+	{
+		id = i2c_read_one_byte(MPU9250_I2C_ADDR, (MPU9250_WHO_AM_I));
+		vTaskDelay(200 / portTICK_PERIOD_MS);
+	}
+    if(id == MPU9250_Device_ID)
 	{  
+		ESP_LOGI(TAG, "read device id sucess. 0x%.2x\n", id);
         i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_PWR_MGMT_1,   0x00);			// 唤醒mpu9250
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_CONFIG,       0x06);    	    // 低通滤波5hz				 
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_GYRO_CONFIG,  0x18);			// 不自检，2000deg/s		  
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_ACCEL_CONFIG, 0x00);			// (0x00 +-2g;)  ( 0x08 +-4g;)  (0x10 +-8g;)  (0x18 +-16g)
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_INT_PIN_CFG,  0x02);
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_USER_CTRL,    0x00);			//使能I2C 
-    }
-    return 0;
+    }else{
+		ESP_LOGI(TAG, "read device id fail.0x%.2x\n", id);
+	}
+	//vTaskDelete(NULL);
 }
 
 void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,
                          int16_t *gx,int16_t *gy,int16_t *gz,int16_t *temp)
 {
-	int16_t buf[20];
-	uint8_t i;	                          //读取加速度、陀螺仪传感器
-	i2c_start();                          //起始信号
-	i2c_send_byte(MPU9250_I2C_ADDR);      //发送设备地址+写信号
-	i2c_wait_ack();	   
-	i2c_send_byte(MPU9250_ACCEL_XOUT_H);  //发送存储单元地址，从0开始
-	i2c_wait_ack();	   
-	i2c_start();                          //起始信号
-	i2c_send_byte(MPU9250_I2C_ADDR+1);    //发送设备地址+读信号
-	i2c_wait_ack();
-	for(i=0;i<14;i++)
-	{
-		if(i==13)buf[i]=i2c_read_byte(0); //读取一个字节,不继续再读,发送NACK  
-		else buf[i]=i2c_read_byte(1);	  //读取一个字节,继续读,发送ACK 
-	}
-	i2c_stop();					          //产生一个停止条件
+	uint8_t buf[20];
+	i2c_read_bytes(MPU9250_I2C_ADDR,MPU9250_ACCEL_XOUT_H,
+				   buf, 14);
 
 	// 加速度
 	*ax = (buf[0] << 8) + buf[1];
@@ -78,7 +74,7 @@ void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,
 void GetMPU9250Data()
 {
 	float ax,ay,az,gx,gy,gz;
-
+	ESP_LOGI(TAG, "Get data....\n");
 	/*获取加速度计和陀螺仪的数据*/
 	IIC_Get_MPU6500Data(&mpu9250.acc_x,&mpu9250.acc_y,&mpu9250.acc_z,&mpu9250.gyro_x,
 	                    &mpu9250.gyro_y,&mpu9250.gyro_z,&mpu9250.temp);

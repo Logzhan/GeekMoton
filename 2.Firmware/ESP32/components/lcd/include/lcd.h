@@ -25,7 +25,7 @@ void LCD_ShowFloatNum1(u16 x,u16 y,float num,u8 len,u16 fc,u16 bc,u8 sizey);//œ‘
 
 void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[]);//œ‘ æÕº∆¨
 
-int lcd_test(void);
+void lcd_test(void);
 
 //ª≠± —’…´
 #define WHITE         	 0xFFFF
