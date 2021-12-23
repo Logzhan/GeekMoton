@@ -159,6 +159,8 @@ typedef struct MPU
 	int16_t mag_x;
 	int16_t mag_y;
 	int16_t mag_z;
+	float   acc[3];
+	float   gyr[3];
 	float   yaw;
 	float   roll;
 	float   pitch;

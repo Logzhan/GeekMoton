@@ -46,6 +46,7 @@ void userShellInit(int shellUart)
     };
     uart_param_config(SHELL_UART, &uartConfig);
     uart_driver_install(SHELL_UART, 256 * 2, 0, 0, NULL, 0);
+    //uart_flush_input(0);
     shell.write = userShellWrite;
     shell.read  = userShellRead;
     shellInit(&shell, shellBuffer, 512);

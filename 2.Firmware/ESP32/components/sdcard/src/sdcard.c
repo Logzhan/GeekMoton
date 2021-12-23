@@ -18,12 +18,17 @@
 #include "sdkconfig.h"
 #include "driver/sdmmc_host.h"
 #include "sdcard.h"
+#include "pic.h"
+#include "geek_shell_api.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 
 static const char *TAG = "example";
 
 #define MOUNT_POINT "/sdcard"
 
-#define SPI_DMA_CHAN    1
+#define SPI_DMA_CHAN    2
 #define PIN_NUM_MISO    2
 #define PIN_NUM_MOSI    15
 #define PIN_NUM_CLK     14               // 
@@ -144,3 +149,32 @@ void init_sdcard(void)
     //esp_vfs_fat_sdcard_unmount(mount_point, card);
     //spi_bus_free(host.slot);
 }
+
+int decode(){
+
+    printf("void hex2file() {\n \
+                ofstream ouFile(data_out.bin, ios::out | ios::binary);\n \
+                for (int i = 0; i < ArrayLength(image); i++) {\n \
+                    char s = image[i] - 127;\n \
+                    ouFile.write(&s, 1);\n \
+                }\n \
+                    ouFile.close();\n \
+            }\n");
+    printf("int image[] = {\n");
+    int count = 0;
+    for(long long i = 0; i <  (sizeof(image) / sizeof(*image)); i++){
+        count++;
+		if (count == 10) {
+			printf("0x%02x,\n", image[i]);
+			count = 0;
+            vTaskDelay(10 / portTICK_PERIOD_MS);
+		}else {
+			printf("0x%02x,", image[i]);
+		}
+    }
+    printf("}\n");
+
+    return 0;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), decode, decode, decode data);

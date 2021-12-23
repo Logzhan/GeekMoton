@@ -38,7 +38,7 @@ void init_mpu9250(){
 	}
     if(id == MPU9250_Device_ID)
 	{  
-		ESP_LOGI(TAG, "read device id sucess. 0x%.2x\n", id);
+		ESP_LOGI(TAG, "read device id sucess. 0x%.2x\r\n", id);
         i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_PWR_MGMT_1,   0x00);			// 唤醒mpu9250
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_CONFIG,       0x06);    	    // 低通滤波5hz				 
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_GYRO_CONFIG,  0x18);			// 不自检，2000deg/s		  
@@ -46,7 +46,7 @@ void init_mpu9250(){
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_INT_PIN_CFG,  0x02);
 	    i2c_write_one_byte(MPU9250_I2C_ADDR,MPU9250_USER_CTRL,    0x00);			//使能I2C 
     }else{
-		ESP_LOGI(TAG, "read device id fail.0x%.2x\n", id);
+		ESP_LOGI(TAG, "read device id fail.0x%.2x\r\n", id);
 	}
 	//vTaskDelete(NULL);
 }
@@ -57,7 +57,6 @@ void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,
 	uint8_t buf[20];
 	i2c_read_bytes(MPU9250_I2C_ADDR,MPU9250_ACCEL_XOUT_H,
 				   buf, 14);
-
 	// 加速度
 	*ax = (buf[0] << 8) + buf[1];
 	*ay = (buf[2] << 8) + buf[3];
@@ -70,6 +69,13 @@ void IIC_Get_MPU6500Data(int16_t *ax,int16_t *ay,int16_t *az,
 	*gz = (buf[12] << 8) + buf[13];
 }
 
+// void imu_sample_task(){
+
+// }
+
+// int imu_detect_static(){
+// 	return 0;
+// }
 
 void GetMPU9250Data()
 {
@@ -109,6 +115,14 @@ void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch)
 	ax = (float) (mpu9250.acc_x * ACC_KEN); 
 	ay = (float) (mpu9250.acc_y * ACC_KEN); 
 	az = (float) (mpu9250.acc_z * ACC_KEN); 
+
+	mpu9250.acc[0] = ax;
+	mpu9250.acc[1] = ay;
+	mpu9250.acc[2] = az;
+
+	mpu9250.gyr[0] = gx;
+	mpu9250.gyr[1] = gy;
+	mpu9250.gyr[2] = gz;
 
 	if(fp != NULL ){
 		fprintf(fp, "%f,%f,%f,%f,%f,%f\n", ax,ay,az,gx,gy,gz);

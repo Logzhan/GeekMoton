@@ -95,7 +95,7 @@ void lcd_address_set(u16 x1,u16 y1,u16 x2,u16 y2);
 * Author      : zhanli&719901725@qq.com
 * Date        : 2021/11/15 zhanli
 *---------------------------------------------------------------------**/
-void lcd_init(void);
+void lcd_hw_init(void);
 #endif
 
 

@@ -24,7 +24,6 @@ spi_device_handle_t spi;
 #define PIN_NUM_RST     18
 #define PIN_NUM_BCKL    5
 
-
 /**----------------------------------------------------------------------
 * Function    : lcd_spi
 * Description : lcd的SPI函数函数,调用ESP32的硬件SPI函数.
@@ -230,7 +229,7 @@ void lcd_config_gpio(){
 * Author      : zhanli&719901725@qq.com
 * Date        : 2021/11/15 zhanli
 *---------------------------------------------------------------------**/
-void lcd_init(void)
+void lcd_hw_init(void)
 {
 	// LCD 初始化硬件SPI
 	lcd_init_spi();

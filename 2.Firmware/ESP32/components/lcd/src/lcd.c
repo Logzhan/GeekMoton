@@ -7,18 +7,20 @@
 #include "esp_log.h"
 
 static const char *TAG        = "GEEKLCD";
+int lcd_enable_flag = 0;
 
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÔÚÖ¸¶¨ÇøÓòÌî³äÑÕÉ«
-      Èë¿ÚÊı¾İ£ºxsta,ysta   ÆğÊ¼×ø±ê
-                xend,yend   ÖÕÖ¹×ø±ê
-				color       ÒªÌî³äµÄÑÕÉ«
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_Fill
+* Description : xsta,ysta   èµ·å§‹åæ ‡
+                xend,yend   ç»ˆæ­¢åæ ‡
+				color       è¦å¡«å……çš„é¢œè‰²
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17  zhanli
+*---------------------------------------------------------------------**/
 void LCD_Fill(u16 xsta,u16 ysta,u16 xend,u16 yend,u16 color)
 {          
 	u16 i,j; 
-	lcd_address_set(xsta,ysta,xend-1,yend-1);//ÉèÖÃÏÔÊ¾·¶Î§
+	lcd_address_set(xsta,ysta,xend-1,yend-1);
 	for(i=ysta;i<yend;i++){													   	 	
 		for(j=xsta;j<xend;j++){
 			lcd_write_data(color);
@@ -26,69 +28,77 @@ void LCD_Fill(u16 xsta,u16 ysta,u16 xend,u16 yend,u16 color)
 	} 					  	    
 }
 
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÔÚÖ¸¶¨Î»ÖÃ»­µã
-      Èë¿ÚÊı¾İ£ºx,y »­µã×ø±ê
-                color µãµÄÑÕÉ«
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_DrawPoint
+* Description : åœ¨æŒ‡å®šä½ç½®ç”»ç‚¹
+				x,y ç”»ç‚¹åæ ‡
+                color ç‚¹çš„é¢œè‰²
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_DrawPoint(u16 x,u16 y,u16 color)
 {
-	lcd_address_set(x,y,x,y);//ÉèÖÃ¹â±êÎ»ÖÃ 
+	// è®¾ç½®å…‰æ ‡ä½ç½® 
+	lcd_address_set(x,y,x,y);
 	lcd_write_data(color);
 } 
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£º»­Ïß
-      Èë¿ÚÊı¾İ£ºx1,y1   ÆğÊ¼×ø±ê
-                x2,y2   ÖÕÖ¹×ø±ê
-                color   ÏßµÄÑÕÉ«
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_DrawLine
+* Description : ç”»çº¿
+				x1,y1   èµ·å§‹åæ ‡
+                x2,y2   ç»ˆæ­¢åæ ‡
+                color   çº¿çš„é¢œè‰²
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_DrawLine(u16 x1,u16 y1,u16 x2,u16 y2,u16 color)
 {
 	u16 t; 
 	int xerr=0,yerr=0,delta_x,delta_y,distance;
 	int incx,incy,uRow,uCol;
-	delta_x=x2-x1; //¼ÆËã×ø±êÔöÁ¿ 
+	// è®¡ç®—åæ ‡å¢é‡ 
+	delta_x=x2-x1; 
 	delta_y=y2-y1;
-	uRow=x1;//»­ÏßÆğµã×ø±ê
+	//ç”»çº¿èµ·ç‚¹åæ ‡
+	uRow=x1;
 	uCol=y1;
-	if(delta_x>0)incx=1; //ÉèÖÃµ¥²½·½Ïò 
-	else if (delta_x==0)incx=0;//´¹Ö±Ïß 
+	// è®¾ç½®å•æ­¥æ–¹å‘ 
+	if(delta_x>0)incx=1; 
+	else if (delta_x==0)incx=0;  // å‚ç›´çº¿ 
 	else {incx=-1;delta_x=-delta_x;}
+	
 	if(delta_y>0)incy=1;
-	else if (delta_y==0)incy=0;//Ë®Æ½Ïß 
+	else if (delta_y==0)incy=0;  // æ°´å¹³çº¿ 
 	else {incy=-1;delta_y=-delta_y;}
-	if(delta_x>delta_y)distance=delta_x; //Ñ¡È¡»ù±¾ÔöÁ¿×ø±êÖá 
+	// é€‰å–åŸºæœ¬å¢é‡åæ ‡è½´ 
+	if(delta_x>delta_y)distance=delta_x;
 	else distance=delta_y;
 	for(t=0;t<distance+1;t++)
 	{
-		LCD_DrawPoint(uRow,uCol,color);//»­µã
-		xerr+=delta_x;
-		yerr+=delta_y;
-		if(xerr>distance)
-		{
-			xerr-=distance;
-			uRow+=incx;
+		// ç”»ç‚¹
+		LCD_DrawPoint(uRow,uCol,color);
+		xerr += delta_x;
+		yerr += delta_y;
+		if(xerr>distance){
+			xerr -= distance;
+			uRow += incx;
 		}
-		if(yerr>distance)
-		{
-			yerr-=distance;
-			uCol+=incy;
+		if(yerr > distance){
+			yerr -= distance;
+			uCol += incy;
 		}
 	}
 }
-
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£º»­¾ØĞÎ
-      Èë¿ÚÊı¾İ£ºx1,y1   ÆğÊ¼×ø±ê
-                x2,y2   ÖÕÖ¹×ø±ê
-                color   ¾ØĞÎµÄÑÕÉ«
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_DrawRectangle
+* Description : ç”»çŸ©å½¢
+                x1,y1   èµ·å§‹åæ ‡
+                x2,y2   ç»ˆæ­¢åæ ‡
+                color   çŸ©å½¢çš„é¢œè‰²
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color)
 {
 	LCD_DrawLine(x1,y1,x2,y1,color);
@@ -97,14 +107,15 @@ void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2,u16 color)
 	LCD_DrawLine(x2,y1,x2,y2,color);
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£º»­Ô²
-      Èë¿ÚÊı¾İ£ºx0,y0   Ô²ĞÄ×ø±ê
-                r       °ë¾¶
-                color   Ô²µÄÑÕÉ«
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : Draw_Circle
+* Description : ç”»åœ†
+       		  ï¼šx0,y0   åœ†å¿ƒåæ ‡
+                r       åŠå¾„
+                color   åœ†çš„é¢œè‰²
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void Draw_Circle(u16 x0,u16 y0,u8 r,u16 color)
 {
 	int a,b;
@@ -120,23 +131,24 @@ void Draw_Circle(u16 x0,u16 y0,u8 r,u16 color)
 		LCD_DrawPoint(x0+a,y0+b,color);             //6 
 		LCD_DrawPoint(x0-b,y0+a,color);             //7
 		a++;
-		if((a*a+b*b)>(r*r))//ÅĞ¶ÏÒª»­µÄµãÊÇ·ñ¹ıÔ¶
+		if((a*a+b*b)>(r*r)) // åˆ¤æ–­è¦ç”»çš„ç‚¹æ˜¯å¦è¿‡è¿œ
 		{
 			b--;
 		}
 	}
 }
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾ºº×Ö´®
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *s ÒªÏÔÊ¾µÄºº×Ö´®
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ ¿ÉÑ¡ 16 24 32
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese
+* Description : æ˜¾ç¤ºæ±‰å­—ä¸²
+      			x,yæ˜¾ç¤ºåæ ‡
+                *s è¦æ˜¾ç¤ºçš„æ±‰å­—ä¸²
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å· å¯é€‰ 16 24 32
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChinese(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	while(*s!=0)
@@ -151,26 +163,29 @@ void LCD_ShowChinese(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	}
 }
 
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾µ¥¸ö12x12ºº×Ö
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *s ÒªÏÔÊ¾µÄºº×Ö
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese12x12
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+      			x,yæ˜¾ç¤ºåæ ‡
+                *s è¦æ˜¾ç¤ºçš„æ±‰å­—
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChinese12x12(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	// u8 i,j,m=0;
 	// u16 k;
-	// u16 HZnum;//ºº×ÖÊıÄ¿
-	// u16 TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óĞ¡
+	// u16 HZnum;//???????
+	// u16 TypefaceNum;//?????????????ï¿½ï¿½
 	// u16 x0=x;
 	// TypefaceNum=(sizey/8+((sizey%8)?1:0))*sizey;
 	                         
-	// HZnum=sizeof(tfont12)/sizeof(typFNT_GB12);	//Í³¼Æºº×ÖÊıÄ¿
+	// HZnum=sizeof(tfont12)/sizeof(typFNT_GB12);	//?????????
 	// for(k=0;k<HZnum;k++) 
 	// {
 	// 	if((tfont12[k].Index[0]==*(s))&&(tfont12[k].Index[1]==*(s+1)))
@@ -180,7 +195,7 @@ void LCD_ShowChinese12x12(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 		{
 	// 			for(j=0;j<8;j++)
 	// 			{	
-	// 				if(!mode)//·Çµş¼Ó·½Ê½
+	// 				if(!mode)//???????
 	// 				{
 	// 					if(tfont12[k].Msk[i]&(0x01<<j))LCD_WR_DATA(fc);
 	// 					else LCD_WR_DATA(bc);
@@ -191,9 +206,9 @@ void LCD_ShowChinese12x12(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 						break;
 	// 					}
 	// 				}
-	// 				else//µş¼Ó·½Ê½
+	// 				else//??????
 	// 				{
-	// 					if(tfont12[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//»­Ò»¸öµã
+	// 					if(tfont12[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//???????
 	// 					x++;
 	// 					if((x-x0)==sizey)
 	// 					{
@@ -205,29 +220,31 @@ void LCD_ShowChinese12x12(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 			}
 	// 		}
 	// 	}				  	
-	// 	continue;  //²éÕÒµ½¶ÔÓ¦µãÕó×Ö¿âÁ¢¼´ÍË³ö£¬·ÀÖ¹¶à¸öºº×ÖÖØ¸´È¡Ä£´øÀ´Ó°Ïì
+	// 	continue;  //??????????????????????????????????????????????
 	// }
 } 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾µ¥¸ö16x16ºº×Ö
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *s ÒªÏÔÊ¾µÄºº×Ö
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese16x16
+* Description : æ˜¾ç¤ºå•ä¸ª16x16æ±‰å­—
+				x,yæ˜¾ç¤ºåæ ‡
+                *s è¦æ˜¾ç¤ºçš„æ±‰å­—
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChinese16x16(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	// u8 i,j,m=0;
 	// u16 k;
-	// u16 HZnum;//ºº×ÖÊıÄ¿
-	// u16 TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óĞ¡
+	// u16 HZnum;//???????
+	// u16 TypefaceNum;//?????????????ï¿½ï¿½
 	// u16 x0=x;
 	// TypefaceNum=(sizey/8+((sizey%8)?1:0))*sizey;
-	// HZnum=sizeof(tfont16)/sizeof(typFNT_GB16);	//Í³¼Æºº×ÖÊıÄ¿
+	// HZnum=sizeof(tfont16)/sizeof(typFNT_GB16);	//?????????
 	// for(k=0;k<HZnum;k++) 
 	// {
 	// 	if ((tfont16[k].Index[0]==*(s))&&(tfont16[k].Index[1]==*(s+1)))
@@ -237,7 +254,7 @@ void LCD_ShowChinese16x16(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 		{
 	// 			for(j=0;j<8;j++)
 	// 			{	
-	// 				if(!mode)//·Çµş¼Ó·½Ê½
+	// 				if(!mode)//???????
 	// 				{
 	// 					if(tfont16[k].Msk[i]&(0x01<<j))LCD_WR_DATA(fc);
 	// 					else LCD_WR_DATA(bc);
@@ -248,9 +265,9 @@ void LCD_ShowChinese16x16(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 						break;
 	// 					}
 	// 				}
-	// 				else//µş¼Ó·½Ê½
+	// 				else//??????
 	// 				{
-	// 					if(tfont16[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//»­Ò»¸öµã
+	// 					if(tfont16[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//???????
 	// 					x++;
 	// 					if((x-x0)==sizey)
 	// 					{
@@ -262,30 +279,32 @@ void LCD_ShowChinese16x16(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 			}
 	// 		}
 	// 	}				  	
-	// 	continue;  //²éÕÒµ½¶ÔÓ¦µãÕó×Ö¿âÁ¢¼´ÍË³ö£¬·ÀÖ¹¶à¸öºº×ÖÖØ¸´È¡Ä£´øÀ´Ó°Ïì
+	// 	continue;  //??????????????????????????????????????????????
 	// }
 } 
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾µ¥¸ö24x24ºº×Ö
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *s ÒªÏÔÊ¾µÄºº×Ö
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese24x24
+* Description : æ˜¾ç¤ºå•ä¸ª24x24æ±‰å­—
+				x,yæ˜¾ç¤ºåæ ‡
+                *s è¦æ˜¾ç¤ºçš„æ±‰å­—
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChinese24x24(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	// u8 i,j,m=0;
 	// u16 k;
-	// u16 HZnum;//ºº×ÖÊıÄ¿
-	// u16 TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óĞ¡
+	// u16 HZnum;//???????
+	// u16 TypefaceNum;//?????????????ï¿½ï¿½
 	// u16 x0=x;
 	// TypefaceNum=(sizey/8+((sizey%8)?1:0))*sizey;
-	// HZnum=sizeof(tfont24)/sizeof(typFNT_GB24);	//Í³¼Æºº×ÖÊıÄ¿
+	// HZnum=sizeof(tfont24)/sizeof(typFNT_GB24);	//?????????
 	// for(k=0;k<HZnum;k++) 
 	// {
 	// 	if ((tfont24[k].Index[0]==*(s))&&(tfont24[k].Index[1]==*(s+1)))
@@ -295,7 +314,7 @@ void LCD_ShowChinese24x24(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 		{
 	// 			for(j=0;j<8;j++)
 	// 			{	
-	// 				if(!mode)//·Çµş¼Ó·½Ê½
+	// 				if(!mode)//???????
 	// 				{
 	// 					if(tfont24[k].Msk[i]&(0x01<<j))LCD_WR_DATA(fc);
 	// 					else LCD_WR_DATA(bc);
@@ -306,9 +325,9 @@ void LCD_ShowChinese24x24(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 						break;
 	// 					}
 	// 				}
-	// 				else//µş¼Ó·½Ê½
+	// 				else//??????
 	// 				{
-	// 					if(tfont24[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//»­Ò»¸öµã
+	// 					if(tfont24[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//???????
 	// 					x++;
 	// 					if((x-x0)==sizey)
 	// 					{
@@ -320,29 +339,32 @@ void LCD_ShowChinese24x24(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 			}
 	// 		}
 	// 	}				  	
-	// 	continue;  //²éÕÒµ½¶ÔÓ¦µãÕó×Ö¿âÁ¢¼´ÍË³ö£¬·ÀÖ¹¶à¸öºº×ÖÖØ¸´È¡Ä£´øÀ´Ó°Ïì
+	// 	continue;  //??????????????????????????????????????????????
 	// }
 } 
 
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾µ¥¸ö32x32ºº×Ö
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *s ÒªÏÔÊ¾µÄºº×Ö
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese32x32
+* Description : æ˜¾ç¤ºå•ä¸ª32x32æ±‰å­—
+				x,yæ˜¾ç¤ºåæ ‡
+                *s è¦æ˜¾ç¤ºçš„æ±‰å­—
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChinese32x32(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	// u8 i,j,m=0;
 	// u16 k;
-	// u16 HZnum;//ºº×ÖÊıÄ¿
-	// u16 TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óĞ¡
+	// u16 HZnum;//???????
+	// u16 TypefaceNum;//?????????????ï¿½ï¿½
 	// u16 x0=x;
 	// TypefaceNum=(sizey/8+((sizey%8)?1:0))*sizey;
-	// HZnum=sizeof(tfont32)/sizeof(typFNT_GB32);	//Í³¼Æºº×ÖÊıÄ¿
+	// HZnum=sizeof(tfont32)/sizeof(typFNT_GB32);	//?????????
 	// for(k=0;k<HZnum;k++) 
 	// {
 	// 	if ((tfont32[k].Index[0]==*(s))&&(tfont32[k].Index[1]==*(s+1)))
@@ -352,7 +374,7 @@ void LCD_ShowChinese32x32(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 		{
 	// 			for(j=0;j<8;j++)
 	// 			{	
-	// 				if(!mode)//·Çµş¼Ó·½Ê½
+	// 				if(!mode)//???????
 	// 				{
 	// 					if(tfont32[k].Msk[i]&(0x01<<j))LCD_WR_DATA(fc);
 	// 					else LCD_WR_DATA(bc);
@@ -363,9 +385,9 @@ void LCD_ShowChinese32x32(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 						break;
 	// 					}
 	// 				}
-	// 				else//µş¼Ó·½Ê½
+	// 				else//??????
 	// 				{
-	// 					if(tfont32[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//»­Ò»¸öµã
+	// 					if(tfont32[k].Msk[i]&(0x01<<j))	LCD_DrawPoint(x,y,fc);//???????
 	// 					x++;
 	// 					if((x-x0)==sizey)
 	// 					{
@@ -377,40 +399,42 @@ void LCD_ShowChinese32x32(u16 x,u16 y,u8 *s,u16 fc,u16 bc,u8 sizey,u8 mode)
 	// 			}
 	// 		}
 	// 	}				  	
-	// 	continue;  //²éÕÒµ½¶ÔÓ¦µãÕó×Ö¿âÁ¢¼´ÍË³ö£¬·ÀÖ¹¶à¸öºº×ÖÖØ¸´È¡Ä£´øÀ´Ó°Ïì
+	// 	continue;  //??????????????????????????????????????????????
 	// }
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾µ¥¸ö×Ö·û
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                num ÒªÏÔÊ¾µÄ×Ö·û
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowChinese32x32
+* Description : æ˜¾ç¤ºå•ä¸ªå­—ç¬¦
+				x,yæ˜¾ç¤ºåæ ‡
+                num è¦æ˜¾ç¤ºçš„å­—ç¬¦
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+                mode:  0éå åŠ æ¨¡å¼  1å åŠ æ¨¡å¼
+* Description : æ˜¾ç¤ºå•ä¸ª12x12æ±‰å­—
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowChar(u16 x,u16 y,u8 num,u16 fc,u16 bc,u8 sizey,u8 mode)
 {
 	u8 temp,sizex,t,m=0;
-	u16 i,TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óĞ¡
+	u16 i,TypefaceNum;//?????????????ï¿½ï¿½
 	u16 x0=x;
 	sizex=sizey/2;
 	TypefaceNum=(sizex/8+((sizex%8)?1:0))*sizey;
-	num=num-' ';    //µÃµ½Æ«ÒÆºóµÄÖµ
-	lcd_address_set(x,y,x+sizex-1,y+sizey-1);  //ÉèÖÃ¹â±êÎ»ÖÃ 
+	num=num-' ';    //?????????
+	lcd_address_set(x,y,x+sizex-1,y+sizey-1);  //???ï¿½ï¿½??ï¿½ï¿½?? 
 	for(i=0;i<TypefaceNum;i++)
 	{ 
-		if(sizey==12)temp=ascii_1206[num][i];		       //µ÷ÓÃ6x12×ÖÌå
-		else if(sizey==16)temp=ascii_1608[num][i];		 //µ÷ÓÃ8x16×ÖÌå
-		else if(sizey==24)temp=ascii_2412[num][i];		 //µ÷ÓÃ12x24×ÖÌå
-		else if(sizey==32)temp=ascii_3216[num][i];		 //µ÷ÓÃ16x32×ÖÌå
+		if(sizey==12)temp=ascii_1206[num][i];		       //????6x12????
+		else if(sizey==16)temp=ascii_1608[num][i];		 //????8x16????
+		else if(sizey==24)temp=ascii_2412[num][i];		 //????12x24????
+		else if(sizey==32)temp=ascii_3216[num][i];		 //????16x32????
 		else return;
 		for(t=0;t<8;t++)
 		{
-			if(!mode)//·Çµş¼ÓÄ£Ê½
+			if(!mode)//???????
 			{
 				if(temp&(0x01<<t))lcd_write_data(fc);
 				else lcd_write_data(bc);
@@ -421,9 +445,9 @@ void LCD_ShowChar(u16 x,u16 y,u8 num,u16 fc,u16 bc,u8 sizey,u8 mode)
 					break;
 				}
 			}
-			else//µş¼ÓÄ£Ê½
+			else//??????
 			{
-				if(temp&(0x01<<t))LCD_DrawPoint(x,y,fc);//»­Ò»¸öµã
+				if(temp&(0x01<<t))LCD_DrawPoint(x,y,fc);//???????
 				x++;
 				if((x-x0)==sizex)
 				{
@@ -436,58 +460,56 @@ void LCD_ShowChar(u16 x,u16 y,u8 num,u16 fc,u16 bc,u8 sizey,u8 mode)
 	}   	 	  
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾×Ö·û´®
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                *p ÒªÏÔÊ¾µÄ×Ö·û´®
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-                mode:  0·Çµş¼ÓÄ£Ê½  1µş¼ÓÄ£Ê½
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
-void LCD_ShowString(u16 x,u16 y,const u8 *p,u16 fc,u16 bc,u8 sizey,u8 mode)
-{         
-	while(*p!='\0')
-	{       
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowString
+* Description : æ˜¾ç¤ºå­—ç¬¦ä¸²
+				x,yæ˜¾ç¤ºåæ ‡
+                *p è¦æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
+void LCD_ShowString(u16 x,u16 y,const u8 *p,u16 fc,u16 bc,u8 sizey,u8 mode){         
+	while(*p!='\0'){       
 		LCD_ShowChar(x,y,*p,fc,bc,sizey,mode);
 		x+=sizey/2;
 		p++;
 	}  
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾Êı×Ö
-      Èë¿ÚÊı¾İ£ºmµ×Êı£¬nÖ¸Êı
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
-u32 mypow(u8 m,u8 n)
-{
+/**----------------------------------------------------------------------
+* Function    : mypow
+* Description : æ˜¾ç¤ºæ•°å­—
+				måº•æ•°ï¼ŒnæŒ‡æ•°
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
+u32 mypow(u8 m,u8 n){
 	u32 result=1;	 
 	while(n--)result*=m;
 	return result;
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾ÕûÊı±äÁ¿
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                num ÒªÏÔÊ¾ÕûÊı±äÁ¿
-                len ÒªÏÔÊ¾µÄÎ»Êı
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowIntNum
+* Description : æ˜¾ç¤ºæ•´æ•°å˜é‡
+				x,yæ˜¾ç¤ºåæ ‡
+                num è¦æ˜¾ç¤ºæ•´æ•°å˜é‡
+                len è¦æ˜¾ç¤ºçš„ä½æ•°
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowIntNum(u16 x,u16 y,u16 num,u8 len,u16 fc,u16 bc,u8 sizey)
 {         	
 	u8 t,temp;
 	u8 enshow=0;
 	u8 sizex=sizey/2;
-	for(t=0;t<len;t++)
-	{
+	for(t=0;t<len;t++){
 		temp=(num/mypow(10,len-t-1))%10;
 		if(enshow==0&&t<(len-1))
 		{
@@ -502,25 +524,25 @@ void LCD_ShowIntNum(u16 x,u16 y,u16 num,u8 len,u16 fc,u16 bc,u8 sizey)
 	}
 } 
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾Á½Î»Ğ¡Êı±äÁ¿
-      Èë¿ÚÊı¾İ£ºx,yÏÔÊ¾×ø±ê
-                num ÒªÏÔÊ¾Ğ¡Êı±äÁ¿
-                len ÒªÏÔÊ¾µÄÎ»Êı
-                fc ×ÖµÄÑÕÉ«
-                bc ×ÖµÄ±³¾°É«
-                sizey ×ÖºÅ
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowFloatNum1
+* Description : æ˜¾ç¤ºä¸¤ä½å°æ•°å˜é‡
+                x,yæ˜¾ç¤ºåæ ‡
+                num è¦æ˜¾ç¤ºå°æ•°å˜é‡
+                len è¦æ˜¾ç¤ºçš„ä½æ•°
+                fc å­—çš„é¢œè‰²
+                bc å­—çš„èƒŒæ™¯è‰²
+                sizey å­—å·
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
 void LCD_ShowFloatNum1(u16 x,u16 y,float num,u8 len,u16 fc,u16 bc,u8 sizey)
 {         	
 	u8 t,temp,sizex;
 	u16 num1;
 	sizex=sizey/2;
 	num1=num*100;
-	for(t=0;t<len;t++)
-	{
+	for(t=0;t<len;t++){
 		temp=(num1/mypow(10,len-t-1))%10;
 		if(t==(len-2))
 		{
@@ -532,22 +554,22 @@ void LCD_ShowFloatNum1(u16 x,u16 y,float num,u8 len,u16 fc,u16 bc,u8 sizey)
 	}
 }
 
-
-/******************************************************************************
-      º¯ÊıËµÃ÷£ºÏÔÊ¾Í¼Æ¬
-      Èë¿ÚÊı¾İ£ºx,yÆğµã×ø±ê
-                length Í¼Æ¬³¤¶È
-                width  Í¼Æ¬¿í¶È
-                pic[]  Í¼Æ¬Êı×é    
-      ·µ»ØÖµ£º  ÎŞ
-******************************************************************************/
-void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
+/**----------------------------------------------------------------------
+* Function    : LCD_ShowPicture
+* Description : æ˜¾ç¤ºå›¾ç‰‡
+                x,yèµ·ç‚¹åæ ‡
+                length å›¾ç‰‡é•¿åº¦
+                width  å›¾ç‰‡å®½åº¦
+                pic[]  å›¾ç‰‡æ•°ç»„  
+* Author      : zhanli&719901725@qq.com
+* Date        : 2021/12/17 zhanli
+*---------------------------------------------------------------------**/
+void LCD_ShowPicture(u16 x,u16 y, u16 length,u16 width, const u8 pic[])
 {
 	u16 i,j;
 	u32 k=0;
 	lcd_address_set(x,y,x+length-1,y+width-1);
-	for(i=0;i<length;i++)
-	{
+	for(i=0;i<length;i++){
 		for(j=0;j<width;j++)
 		{
 			lcd_write_data_u8(pic[k*2]);
@@ -557,24 +579,34 @@ void LCD_ShowPicture(u16 x,u16 y,u16 length,u16 width,const u8 pic[])
 	}			
 }
 
-void lcd_test(void)
+void lcd_init(void* para)
 {
 	float t=0;
-	ESP_LOGI(TAG, "lcd init.\n");
-	lcd_init();//LCD³õÊ¼»¯
-	ESP_LOGI(TAG, "lcd fill white.\n");
+	ESP_LOGI(TAG, "lcd hardware init.\n");
+	lcd_hw_init();
 	LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
-	// //while(1)
-	// //LCD_ShowChinese(40,0,"ÖĞ¾°Ô°µç×Ó",RED,WHITE,32,0);
-	// //LCD_ShowString(10,33,"LCD_W:",RED,WHITE,32,0);
-	// LCD_ShowIntNum(106,33,LCD_W,3,RED,WHITE,32);
-	// //LCD_ShowString(10,66,"LCD_H:",RED,WHITE,32,0);
-	// LCD_ShowIntNum(106,66,LCD_H,3,RED,WHITE,32);
 	LCD_ShowPicture(160,95,40,40,gImage_1);
+	lcd_enable_flag = 1;
 	while(1){
+		lcd_enable_flag = 0;
 		LCD_ShowFloatNum1(10,99,t,4,RED,WHITE,32);
+		lcd_enable_flag = 1;
 		t+=0.5;
 		vTaskDelay(500 / portTICK_PERIOD_MS);
 	}
 }
+
+void lcd_show_battery_voltage(float voltage){
+	if(lcd_enable_flag == 1){
+		//LCD_ShowFloatNum1(10,10,voltage,4,RED,WHITE,16);
+	}
+}
+
+void lcd_show_battery_capacity(float capacity){
+	if(lcd_enable_flag == 1){
+		LCD_ShowIntNum(200,5,capacity,3,RED,WHITE,16);
+		LCD_ShowString(225,5,(unsigned char*)"%",RED,WHITE,16, 0);
+	}
+}
+
 

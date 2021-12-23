@@ -289,8 +289,7 @@ void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned
 	esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_1, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	if (ret == ESP_OK) {
-		ESP_LOGI("MPU9250", "IIC configured successfully");
-		ESP_LOGI("MPU9250", "write dev:0x%.2X reg:0x%.2X data:0x%.2X", 
+		ESP_LOGI("MPU9250", "write dev:0x%.2X reg:0x%.2X data:0x%.2X\r\n", 
 			slave_addr,reg_addr, reg_data);
 	} else {
 		ESP_LOGE("MPU9250", "IIC Write OneByte failed. code: 0x%.2X", ret);
@@ -392,7 +391,7 @@ void i2c_read_bytes(uint8_t slave_addr,uint8_t reg_addr,
 	esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_1, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	if (ret != ESP_OK) {
-		ESP_LOGE("MPU9250", "IIC Read Bytes failed. code: 0x%.2X", ret);
+		ESP_LOGE("MPU9250", "IIC Read Bytes failed. code: 0x%.2X\r\n", ret);
 	}
 #endif
 }

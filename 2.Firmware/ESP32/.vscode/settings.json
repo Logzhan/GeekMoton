@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "sdcard.h": "c",
+        "geek_shell_api.h": "c",
+        "esp_vfs_fat.h": "c",
+        "stat.h": "c"
+    }
+}
