@@ -53,20 +53,8 @@
 #endif
 
 #include "lvgl_helpers.h"
+#include "lv_examples/src/lv_demo_widgets/lv_geek_gui.h"
 
-#ifndef CONFIG_LV_TFT_DISPLAY_MONOCHROME
-    #if defined CONFIG_LV_USE_DEMO_WIDGETS
-        #include "lv_examples/src/lv_demo_widgets/lv_demo_widgets.h"
-    #elif defined CONFIG_LV_USE_DEMO_KEYPAD_AND_ENCODER
-        #include "lv_examples/src/lv_demo_keypad_encoder/lv_demo_keypad_encoder.h"
-    #elif defined CONFIG_LV_USE_DEMO_BENCHMARK
-        #include "lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.h"
-    #elif defined CONFIG_LV_USE_DEMO_STRESS
-        #include "lv_examples/src/lv_demo_stress/lv_demo_stress.h"
-    #else
-        #error "No demo application selected."
-    #endif
-#endif
 
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
@@ -515,7 +503,7 @@ void app_main(void)
     // 启动命令行
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
 
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*3, NULL, 0, NULL, 1);
 
 	// MPU9250串口循环发送
     while(1){
@@ -672,42 +660,96 @@ static void guiTask(void *pvParameter) {
     vTaskDelete(NULL);
 }
 
+
+
+// lv_obj_t* scr;
+// // lv_obj_t* scr_2;
+
+
+// void update_geek_status_bar(int battery_capity, int wifi_status,
+// 	                        int sdcard_status) {
+
+//     //lv_obj_t * scr = lv_disp_get_scr_act(NULL);
+// 	// 设定电池百分比
+// 	lv_obj_t* label1 = lv_label_create(scr, NULL);
+// 	lv_label_set_recolor(label1, true);
+// 	lv_label_set_text_fmt(label1, "#f1f1f1 %d%%", 98);
+// 	lv_obj_set_pos(label1, 205, 5);
+
+// 	// 显示电池图标
+// 	lv_obj_t* sd_card = lv_label_create(scr, NULL);
+// 	lv_label_set_recolor(sd_card, true);
+// 	lv_label_set_text_fmt(sd_card, "#f1f1f1 %s", LV_SYMBOL_BATTERY_FULL);
+// 	lv_obj_set_pos(sd_card, 184, 5);
+
+// 	// 显示SD卡图标
+// 	lv_obj_t* battery = lv_label_create(scr, NULL);
+// 	lv_label_set_recolor(battery, true);
+// 	lv_label_set_text_fmt(battery, "#f1f1f1 %s", LV_SYMBOL_SD_CARD);
+// 	lv_obj_set_pos(battery, 32, 5);
+
+// 	// 显示WIFI图标
+// 	lv_obj_t* wifi = lv_label_create(scr, NULL);
+// 	lv_label_set_recolor(wifi, true);
+// 	lv_label_set_text_fmt(wifi, "#f1f1f1 %s", LV_SYMBOL_WIFI);
+// 	lv_obj_set_pos(wifi, 5, 5);
+// }
+
+
+// void set_scr_main_bg_img() {
+// 	// 设定背景图片
+// 	// scr = lv_scr_act();
+// 	// lv_obj_t* img1 = lv_img_create(scr, NULL);
+// 	// lv_img_set_src(img1, &dev_bg);
+// 	// lv_obj_align(img1, NULL, LV_ALIGN_CENTER, 0, 0);
+// }
+
+// void update_step_info() {
+// 	lv_obj_t* img2 = lv_img_create(scr, NULL);
+// 	// lv_img_set_src(img2, &run_img);
+// 	// lv_obj_set_pos(img2, 160, 110);
+
+// 	lv_obj_t* label1 = lv_label_create(scr, NULL);
+// 	lv_label_set_recolor(label1, true);
+// 	lv_label_set_text_fmt(label1, "#f1f1f1 / %d", 1204);
+// 	lv_obj_set_pos(label1, 185, 115);
+
+// 	static lv_style_t font_style1;
+// 	lv_style_init(&font_style1);
+// 	lv_style_set_text_font(&font_style1, LV_STATE_DEFAULT, &lv_font_montserrat_16);
+// 	lv_style_set_text_color(&font_style1, LV_STATE_DEFAULT, lv_color_hex(0xf1f1f1));
+
+// 	lv_obj_t* font_label1 = lv_label_create(scr, NULL);
+// 	lv_obj_add_style(font_label1, LV_LABEL_PART_MAIN, &font_style1);
+// 	lv_label_set_text_fmt(font_label1, "%d:%d", 15,34);
+// 	lv_obj_align(font_label1, NULL, LV_ALIGN_CENTER, 0, 10);
+// }
+
+// static void msgbox_create(void)
+// {
+// //	lv_obj_t* mbox = lv_msgbox_create(lv_layer_top(), NULL);
+// //	lv_msgbox_set_text(mbox, "Welcome to the keyboard and encoder demo");
+// //	lv_obj_set_event_cb(mbox, msgbox_event_cb);
+// //	lv_group_add_obj(g, mbox);
+// //	lv_group_focus_obj(mbox);
+// //#if LV_EX_MOUSEWHEEL
+// //	lv_group_set_editing(g, true);
+// //#endif
+// //	lv_group_focus_freeze(g, true);
+// //
+// //	static const char* btns[] = { "Ok", "Cancel", "" };
+// //	lv_msgbox_add_btns(mbox, btns);
+// //	lv_obj_align(mbox, NULL, LV_ALIGN_CENTER, 0, 0);
+// //
+// //	lv_obj_set_style_local_bg_opa(lv_layer_top(), LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_70);
+// //	lv_obj_set_style_local_bg_color(lv_layer_top(), LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
+// //	lv_obj_set_click(lv_layer_top(), true);
+// }
+
+
 static void create_demo_application(void)
 {
-    /* When using a monochrome display we only show "Hello World" centered on the
-     * screen */
-#if defined CONFIG_LV_TFT_DISPLAY_MONOCHROME || \
-    defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7735S
-
-    /* use a pretty small demo for monochrome displays */
-    /* Get the current screen  */
-    lv_obj_t * scr = lv_disp_get_scr_act(NULL);
-
-    /*Create a Label on the currently active screen*/
-    lv_obj_t * label1 =  lv_label_create(scr, NULL);
-
-    /*Modify the Label's text*/
-    lv_label_set_text(label1, "Hello\nworld");
-
-    /* Align the Label to the center
-     * NULL means align on parent (which is the screen now)
-     * 0, 0 at the end means an x, y offset after alignment*/
-    lv_obj_align(label1, NULL, LV_ALIGN_CENTER, 0, 0);
-#else
-    /* Otherwise we show the selected demo */
-
-    #if defined CONFIG_LV_USE_DEMO_WIDGETS
-        lv_demo_widgets();
-    #elif defined CONFIG_LV_USE_DEMO_KEYPAD_AND_ENCODER
-        lv_demo_keypad_encoder();
-    #elif defined CONFIG_LV_USE_DEMO_BENCHMARK
-        lv_demo_benchmark();
-    #elif defined CONFIG_LV_USE_DEMO_STRESS
-        lv_demo_stress();
-    #else
-        #error "No demo application selected."
-    #endif
-#endif
+    geek_gui_init();
 }
 
 static void lv_tick_task(void *arg) {

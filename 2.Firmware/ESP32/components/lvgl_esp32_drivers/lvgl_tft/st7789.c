@@ -158,7 +158,7 @@ void st7789_flush(lv_disp_drv_t * drv, const lv_area_t * area, lv_color_t * colo
     uint16_t offsety2 = area->y2;
 
     const int CONFIG_LV_TFT_DISPLAY_X_OFFSET = 40;
-    const int CONFIG_LV_TFT_DISPLAY_Y_OFFSET = 52;
+    const int CONFIG_LV_TFT_DISPLAY_Y_OFFSET = 53;
 
     offsetx1 += CONFIG_LV_TFT_DISPLAY_X_OFFSET;
     offsetx2 += CONFIG_LV_TFT_DISPLAY_X_OFFSET;

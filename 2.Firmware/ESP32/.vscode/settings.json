@@ -3,6 +3,12 @@
         "sdcard.h": "c",
         "geek_shell_api.h": "c",
         "esp_vfs_fat.h": "c",
-        "stat.h": "c"
-    }
+        "stat.h": "c",
+        "lv_demo_widgets.h": "c",
+        "lv_examples.h": "c",
+        "lvgl.h": "c",
+        "lv_geek_gui.h": "c"
+    },
+    "idf.adapterTargetName": "esp32",
+    "idf.portWin": "COM5"
 }
