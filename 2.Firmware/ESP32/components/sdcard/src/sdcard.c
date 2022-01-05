@@ -22,7 +22,7 @@
 #include "geek_shell_api.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-
+#include "ff.h"
 
 static const char *TAG = "example";
 
@@ -151,7 +151,6 @@ void init_sdcard(void)
 }
 
 int decode(){
-
     printf("void hex2file() {\n \
                 ofstream ouFile(data_out.bin, ios::out | ios::binary);\n \
                 for (int i = 0; i < ArrayLength(image); i++) {\n \
@@ -178,3 +177,68 @@ int decode(){
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), decode, decode, decode data);
+
+/**----------------------------------------------------------------------
+* Function    : list_files
+* Description : 列出指定路径的下的所有文件信息
+                例子: ls "0:/" (如果SD卡的默认挂载点是0)
+* Author      : zhanli&719901725@qq.com
+* Date        : 2022/01/04 zhanli
+*---------------------------------------------------------------------**/
+int list_files(char *path)
+{
+    // 定义目录对象
+	FF_DIR dir; 
+    // 定义静态文件信息结构对象
+	static FILINFO fno; 
+    // 打开目录，返回状态和目录对象的指针
+	FRESULT res = f_opendir(&dir,path); 
+    // 打开成功
+	if(res == FR_OK){
+		for(;;) {
+			res = f_readdir(&dir, &fno); 
+            // 若打开失败或到结尾，则退出
+			if(res != FR_OK || fno.fname[0] == 0){
+                break;
+            } 
+			if(fno.fattrib & AM_DIR){
+				printf("dir :%s\n",fno.fname);
+			}else{
+				printf("file:%s\n",fno.fname); 
+			}
+		}
+	}else{
+        // 打开失败
+		printf("open %s fail\n", path); 
+	}
+    // 关闭目录
+	f_closedir(&dir); 
+    return 0;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(1), ls, list_files, list files and dir);
+
+
+/**----------------------------------------------------------------------
+* Function    : list_files
+* Description : 列出指定路径的下的所有文件信息
+                例子: ls "0:/" (如果SD卡的默认挂载点是0)
+* Author      : zhanli&719901725@qq.com
+* Date        : 2022/01/04 zhanli
+*---------------------------------------------------------------------**/
+int remove_file(char* path)
+{
+    if(path == NULL)return -1;
+    
+    FRESULT res = f_unlink(path);
+    if(res == FR_OK){
+        // 删除成功
+        printf("delete %s sucess!\n", path); 
+    }else{
+        // 删除失败
+        printf("delete %s fail!\n", path); //打开失败
+    }
+    return 0;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(1), rm, remove_file, delete file and dir);

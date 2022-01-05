@@ -600,12 +600,14 @@ static const char* shellGetCommandDesc(ShellCommand *command)
 void shellListItem(Shell *shell, ShellCommand *item)
 {
     short spaceLength;
-
-    spaceLength = 22 - shellWriteString(shell, shellGetCommandName(item));
+    // 动态计算命令名和解释说明信息之间的空格长度
+    spaceLength = SHELL_MAX_CMD_NAME_LEN - shellWriteString(shell, shellGetCommandName(item));
+    // 保证最少有4个空格
     spaceLength = (spaceLength > 0) ? spaceLength : 4;
     do {
         shellWriteByte(shell, ' ');
     } while (--spaceLength);
+
     if (item->attr.attrs.type <= SHELL_TYPE_CMD_FUNC)
     {
         shellWriteString(shell, shellText[SHELL_TEXT_TYPE_CMD]);

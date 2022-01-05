@@ -39,6 +39,13 @@
 #define     SHELL_SUPPORT_END_LINE      1
 
 /**
+ * @brief shell最大的函数命令字符串长度, 当输入help时，shell会列出所有命令，
+ *        指定最大长度命令可以在输入help时，系统打印的命令名和说明能够对齐
+ */
+#define     SHELL_MAX_CMD_NAME_LEN      30
+
+
+/**
  * @brief 是否在输出命令列表中列出用户
  */
 #define     SHELL_HELP_LIST_USER        0

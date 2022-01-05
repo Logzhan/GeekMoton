@@ -1,14 +1,35 @@
 {
+    "idf.adapterTargetName": "esp32",
     "files.associations": {
-        "sdcard.h": "c",
-        "geek_shell_api.h": "c",
-        "esp_vfs_fat.h": "c",
-        "stat.h": "c",
-        "lv_demo_widgets.h": "c",
+        "task.h": "c",
+        "freertos.h": "c",
+        "portable.h": "c",
+        "reent.h": "c",
+        "adc.h": "c",
         "lv_examples.h": "c",
         "lvgl.h": "c",
-        "lv_geek_gui.h": "c"
+        "lv_geek_gui.h": "c",
+        "battery_hal.h": "c",
+        "battery.h": "c",
+        "future": "c",
+        "memory": "c",
+        "optional": "c",
+        "random": "c",
+        "esp_system.h": "c",
+        "portmacro.h": "c",
+        "ff.h": "c",
+        "ffconf.h": "c",
+        "string.h": "c",
+        "lv_log.h": "c",
+        "lv_conf_internal.h": "c",
+        "lv_conf.h": "c",
+        "stdint.h": "c",
+        "stdio.h": "c",
+        "lvgl_helpers.h": "c"
     },
-    "idf.adapterTargetName": "esp32",
-    "idf.portWin": "COM5"
+    "idf.portWin": "COM5",
+    "idf.openOcdConfigs": [
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "target/esp32.cfg"
+    ]
 }

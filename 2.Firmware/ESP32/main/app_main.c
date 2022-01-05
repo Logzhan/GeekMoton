@@ -7,6 +7,7 @@
 ********************************************************************************/
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -28,8 +29,6 @@
 #include "esp_netif.h"
 #include "lwip/sockets.h"
 #include <lwip/netdb.h>
-// 外设驱动相关
-#include "led.h"
 #include "mpu9250.h"
 // ESP 串口配置相关
 #include "freertos/queue.h"
@@ -38,8 +37,6 @@
 // ADC 配置相关
 #include "sdcard.h"
 #include "battery.h"
-#include "lcd.h"
-
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
 
@@ -53,8 +50,7 @@
 #endif
 
 #include "lvgl_helpers.h"
-#include "lv_examples/src/lv_demo_widgets/lv_geek_gui.h"
-
+#include "page/lv_geek_gui.h"
 
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
@@ -70,9 +66,6 @@
 #define MULTICAST_TTL       255
 #define MULTICAST_IPV4_ADDR CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR
 #define LISTEN_ALL_IF       EXAMPLE_MULTICAST_LISTEN_ALL_IF
-
-#define DEFAULT_VREF    1100        // Use adc2_vref_to_gpio() to obtain a better estimate
-#define NO_OF_SAMPLES   64          // Multisampling
 
 
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
@@ -99,7 +92,6 @@ static int        dev_idx     = 1;
  **********************/
 static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
-static void create_demo_application(void);
 
 
 float yaw,roll,pitch;
@@ -433,33 +425,30 @@ void key_task(){
     gpio_pad_select_gpio(KEY3);
 	gpio_set_direction(KEY3, GPIO_MODE_INPUT);
     gpio_set_pull_mode(KEY3, GPIO_PULLUP_ONLY);
-
+    int key_press_flg = 0;
+    int c = 50;
     while(1){
+        if(key_press_flg > 0){
+            key_press_flg--;
+        }
         int level = 1;
         level = gpio_get_level(KEY2);
-        if(level == 0){
+        if(level == 0 && key_press_flg == 0){
             printf("you press key2\n");
+            key_press_flg = c;
         }
         level = gpio_get_level(KEY3);
-        if(level == 0){
+        if(level == 0 && key_press_flg == 0){
             printf("you press key3\n");
+            key_press_flg = c;
         }
         level = gpio_get_level(KEY1);
-        if(level == 0){
+        if(level == 0 && key_press_flg == 0){
             printf("you press key1\n");
+            enter_func_page();
+            key_press_flg = c;
         }
         vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-void update_sys_info(){
-    while(1){
-        float voltage = battery_get_voltage();
-        float capacity = battery_get_capacity();
-        lcd_show_battery_voltage(voltage);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-        lcd_show_battery_capacity(capacity);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
 
@@ -482,17 +471,10 @@ void app_main(void)
 	// 启动wifi连接配置
     ESP_LOGI(TAG, "Config wifi sta.\n");
     //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
-    
-	// 创建udp任务
-    ESP_LOGI(TAG, "Create udp task.\n");
 
-    //xTaskCreate(lcd_init, "lcd", 4096, NULL, 12, NULL);
-
-    xTaskCreate(key_task, "key_task", 4096, NULL, 12, NULL);
+    xTaskCreate(key_task, "key_task", 2048, NULL, 12, NULL);
 
     xTaskCreate(battery_sample_task, "adc_task", 4096, NULL, 12, NULL);
-    // IMU系统信息更新
-    xTaskCreate(update_sys_info, "sys_info_task", 4096, NULL, 12, NULL);
     // 初始化MPU9250任务
     ESP_LOGI(TAG, "Init mpu9250.\n");
     init_mpu9250();
@@ -502,58 +484,14 @@ void app_main(void)
 	userShellInit(0);
     // 启动命令行
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
-
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*3, NULL, 0, NULL, 1);
-
+    // 启动图形GUI
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
 	// MPU9250串口循环发送
     while(1){
         GetMPU9250Data_Euler(&yaw,&roll,&pitch);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
-
-int list_files(char *path)
-{
-	FF_DIR dir; //定义目录对象
-	static FILINFO fno; //定义静态文件信息结构对象
-	FRESULT res = f_opendir(&dir,path); //打开目录，返回状态 和 目录对象的指针
-	if(res == FR_OK) //打开成功
-	{
-		for(;;) {
-			res = f_readdir(&dir, &fno); //读取目录，返回状态 和 文件信息的指针
-			if(res != FR_OK || fno.fname[0] == 0){
-                break; //若打开失败 或 到结尾，则退出
-            } 
-			if(fno.fattrib & AM_DIR){
-				printf("dir :%s\n",fno.fname);
-			}else{
-				printf("file:%s\n",fno.fname); //是文件
-			}
-		}
-	}else{
-		printf("open %s fail\n", path); //打开失败
-	}
-	f_closedir(&dir); //关闭目录
-    return 0;
-}
-SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
-                 SHELL_CMD_PARAM_NUM(1), ls, list_files, list files and dir);
-
-
-int remove_file(char* path)
-{
-    if(path == NULL)return -1;
-    
-    FRESULT res = f_unlink(path);
-    if(res == FR_OK){
-        printf("delete %s sucess!\n", path); //打开失败
-    }else{
-        printf("delete %s fail!\n", path); //打开失败
-    }
-    return 0;
-}
-SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
-                 SHELL_CMD_PARAM_NUM(1), rm, remove_file, delete file and dir);
 
 int reboot(){
     esp_restart();
@@ -573,61 +511,30 @@ static void guiTask(void *pvParameter) {
     xGuiSemaphore = xSemaphoreCreateMutex();
 
     lv_init();
-
-    /* Initialize SPI or I2C bus used by the drivers */
+    // 初始化LCD显示驱动
     lvgl_driver_init();
 
     lv_color_t* buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf1 != NULL);
-
-    /* Use double buffered when not working with monochrome displays */
-#ifndef CONFIG_LV_TFT_DISPLAY_MONOCHROME
+    // 对于非单色显示器需要使用双BUFF
     lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf2 != NULL);
-#else
-    static lv_color_t *buf2 = NULL;
-#endif
 
     static lv_disp_buf_t disp_buf;
 
     uint32_t size_in_px = DISP_BUF_SIZE;
 
-#if defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_IL3820         \
-    || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_JD79653A    \
-    || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_UC8151D     \
-    || defined CONFIG_LV_TFT_DISPLAY_CONTROLLER_SSD1306
-
-    /* Actual size in pixels, not bytes. */
-    size_in_px *= 8;
-#endif
-
     /* Initialize the working buffer depending on the selected display.
      * NOTE: buf2 == NULL when using monochrome displays. */
     lv_disp_buf_init(&disp_buf, buf1, buf2, size_in_px);
 
+    // 初始化显示驱动并配置屏幕刷新函数
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
     disp_drv.flush_cb = disp_driver_flush;
-
-    /* When using a monochrome display we need to register the callbacks:
-     * - rounder_cb
-     * - set_px_cb */
-#ifdef CONFIG_LV_TFT_DISPLAY_MONOCHROME
-    disp_drv.rounder_cb = disp_driver_rounder;
-    disp_drv.set_px_cb = disp_driver_set_px;
-#endif
-
+    // 指定缓存buff和注册驱动
     disp_drv.buffer = &disp_buf;
     lv_disp_drv_register(&disp_drv);
-
-    /* Register an input device when enabled on the menuconfig */
-#if CONFIG_LV_TOUCH_CONTROLLER != TOUCH_CONTROLLER_NONE
-    lv_indev_drv_t indev_drv;
-    lv_indev_drv_init(&indev_drv);
-    indev_drv.read_cb = touch_driver_read;
-    indev_drv.type = LV_INDEV_TYPE_POINTER;
-    lv_indev_drv_register(&indev_drv);
-#endif
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
@@ -638,20 +545,18 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
-    /* Create the demo application */
-    create_demo_application();
+    // 启动GEEK GUI
+    geek_gui_init();
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
         vTaskDelay(pdMS_TO_TICKS(10));
-
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY)) {
             lv_task_handler();
             xSemaphoreGive(xGuiSemaphore);
        }
     }
-
     /* A task should NEVER return */
     free(buf1);
 #ifndef CONFIG_LV_TFT_DISPLAY_MONOCHROME
@@ -660,100 +565,7 @@ static void guiTask(void *pvParameter) {
     vTaskDelete(NULL);
 }
 
-
-
-// lv_obj_t* scr;
-// // lv_obj_t* scr_2;
-
-
-// void update_geek_status_bar(int battery_capity, int wifi_status,
-// 	                        int sdcard_status) {
-
-//     //lv_obj_t * scr = lv_disp_get_scr_act(NULL);
-// 	// 设定电池百分比
-// 	lv_obj_t* label1 = lv_label_create(scr, NULL);
-// 	lv_label_set_recolor(label1, true);
-// 	lv_label_set_text_fmt(label1, "#f1f1f1 %d%%", 98);
-// 	lv_obj_set_pos(label1, 205, 5);
-
-// 	// 显示电池图标
-// 	lv_obj_t* sd_card = lv_label_create(scr, NULL);
-// 	lv_label_set_recolor(sd_card, true);
-// 	lv_label_set_text_fmt(sd_card, "#f1f1f1 %s", LV_SYMBOL_BATTERY_FULL);
-// 	lv_obj_set_pos(sd_card, 184, 5);
-
-// 	// 显示SD卡图标
-// 	lv_obj_t* battery = lv_label_create(scr, NULL);
-// 	lv_label_set_recolor(battery, true);
-// 	lv_label_set_text_fmt(battery, "#f1f1f1 %s", LV_SYMBOL_SD_CARD);
-// 	lv_obj_set_pos(battery, 32, 5);
-
-// 	// 显示WIFI图标
-// 	lv_obj_t* wifi = lv_label_create(scr, NULL);
-// 	lv_label_set_recolor(wifi, true);
-// 	lv_label_set_text_fmt(wifi, "#f1f1f1 %s", LV_SYMBOL_WIFI);
-// 	lv_obj_set_pos(wifi, 5, 5);
-// }
-
-
-// void set_scr_main_bg_img() {
-// 	// 设定背景图片
-// 	// scr = lv_scr_act();
-// 	// lv_obj_t* img1 = lv_img_create(scr, NULL);
-// 	// lv_img_set_src(img1, &dev_bg);
-// 	// lv_obj_align(img1, NULL, LV_ALIGN_CENTER, 0, 0);
-// }
-
-// void update_step_info() {
-// 	lv_obj_t* img2 = lv_img_create(scr, NULL);
-// 	// lv_img_set_src(img2, &run_img);
-// 	// lv_obj_set_pos(img2, 160, 110);
-
-// 	lv_obj_t* label1 = lv_label_create(scr, NULL);
-// 	lv_label_set_recolor(label1, true);
-// 	lv_label_set_text_fmt(label1, "#f1f1f1 / %d", 1204);
-// 	lv_obj_set_pos(label1, 185, 115);
-
-// 	static lv_style_t font_style1;
-// 	lv_style_init(&font_style1);
-// 	lv_style_set_text_font(&font_style1, LV_STATE_DEFAULT, &lv_font_montserrat_16);
-// 	lv_style_set_text_color(&font_style1, LV_STATE_DEFAULT, lv_color_hex(0xf1f1f1));
-
-// 	lv_obj_t* font_label1 = lv_label_create(scr, NULL);
-// 	lv_obj_add_style(font_label1, LV_LABEL_PART_MAIN, &font_style1);
-// 	lv_label_set_text_fmt(font_label1, "%d:%d", 15,34);
-// 	lv_obj_align(font_label1, NULL, LV_ALIGN_CENTER, 0, 10);
-// }
-
-// static void msgbox_create(void)
-// {
-// //	lv_obj_t* mbox = lv_msgbox_create(lv_layer_top(), NULL);
-// //	lv_msgbox_set_text(mbox, "Welcome to the keyboard and encoder demo");
-// //	lv_obj_set_event_cb(mbox, msgbox_event_cb);
-// //	lv_group_add_obj(g, mbox);
-// //	lv_group_focus_obj(mbox);
-// //#if LV_EX_MOUSEWHEEL
-// //	lv_group_set_editing(g, true);
-// //#endif
-// //	lv_group_focus_freeze(g, true);
-// //
-// //	static const char* btns[] = { "Ok", "Cancel", "" };
-// //	lv_msgbox_add_btns(mbox, btns);
-// //	lv_obj_align(mbox, NULL, LV_ALIGN_CENTER, 0, 0);
-// //
-// //	lv_obj_set_style_local_bg_opa(lv_layer_top(), LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_70);
-// //	lv_obj_set_style_local_bg_color(lv_layer_top(), LV_OBJ_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-// //	lv_obj_set_click(lv_layer_top(), true);
-// }
-
-
-static void create_demo_application(void)
-{
-    geek_gui_init();
-}
-
 static void lv_tick_task(void *arg) {
     (void) arg;
-
     lv_tick_inc(LV_TICK_PERIOD_MS);
 }

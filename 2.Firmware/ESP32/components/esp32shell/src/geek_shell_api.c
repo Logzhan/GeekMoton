@@ -16,7 +16,7 @@ char shellBuffer[512];
 signed short userShellWrite(char* data, unsigned short len)
 {
     uart_write_bytes(SHELL_UART, (const char *)data, len);
-    return 0;
+    return len;
 }
 /**
  * @brief 用户shell读
