@@ -49,6 +49,7 @@
 #include "lvgl/lvgl.h"
 #endif
 
+#include "Button.h"
 #include "lvgl_helpers.h"
 #include "page/lv_geek_gui.h"
 
@@ -472,7 +473,10 @@ void app_main(void)
     ESP_LOGI(TAG, "Config wifi sta.\n");
     //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
 
-    xTaskCreate(key_task, "key_task", 2048, NULL, 12, NULL);
+    button_init();
+    xTaskCreate(Button_Update, "button_task", 2048, NULL, 12, NULL);
+
+    //xTaskCreate(key_task, "key_task", 2048, NULL, 12, NULL);
 
     xTaskCreate(battery_sample_task, "adc_task", 4096, NULL, 12, NULL);
     // 初始化MPU9250任务
