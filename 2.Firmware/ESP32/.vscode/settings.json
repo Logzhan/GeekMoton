@@ -25,9 +25,13 @@
         "lv_conf.h": "c",
         "stdint.h": "c",
         "stdio.h": "c",
-        "lvgl_helpers.h": "c"
+        "lvgl_helpers.h": "c",
+        "lv_conf_kconfig.h": "c",
+        "sdkconfig.h": "c",
+        "disp_driver.h": "c",
+        "lvgl_spi_conf.h": "c"
     },
-    "idf.portWin": "COM5",
+    "idf.portWin": "COM8",
     "idf.openOcdConfigs": [
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32.cfg"

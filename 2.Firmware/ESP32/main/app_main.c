@@ -509,6 +509,8 @@ SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
  * you should lock on the very same semaphore! */
 SemaphoreHandle_t xGuiSemaphore;
 
+//#define DISP_BUF_SIZE  (240*135)
+
 static void guiTask(void *pvParameter) {
 
     (void) pvParameter;
@@ -524,21 +526,21 @@ static void guiTask(void *pvParameter) {
     lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf2 != NULL);
 
-    static lv_disp_buf_t disp_buf;
+    static lv_disp_draw_buf_t disp_buf;
 
     uint32_t size_in_px = DISP_BUF_SIZE;
 
     /* Initialize the working buffer depending on the selected display.
      * NOTE: buf2 == NULL when using monochrome displays. */
-    lv_disp_buf_init(&disp_buf, buf1, buf2, size_in_px);
+    lv_disp_draw_buf_init(&disp_buf, buf1, buf2, size_in_px);
 
-    // 初始化显示驱动并配置屏幕刷新函数
-    lv_disp_drv_t disp_drv;
-    lv_disp_drv_init(&disp_drv);
-    disp_drv.flush_cb = disp_driver_flush;
-    // 指定缓存buff和注册驱动
-    disp_drv.buffer = &disp_buf;
-    lv_disp_drv_register(&disp_drv);
+    static lv_disp_drv_t disp_drv;         /*A variable to hold the drivers. Must be static or global.*/
+    lv_disp_drv_init(&disp_drv);           /*Basic initialization*/
+    disp_drv.draw_buf = &disp_buf;         /*Set an initialized buffer*/
+    disp_drv.flush_cb = disp_driver_flush; /*Set a flush callback to draw to the display*/
+    disp_drv.hor_res = LV_HOR_RES_MAX;     /*Set the horizontal resolution in pixels*/
+    disp_drv.ver_res = LV_VER_RES_MAX;     /*Set the vertical resolution in pixels*/
+    lv_disp_drv_register(&disp_drv);       /*Register the driver and save the created display objects*/
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
