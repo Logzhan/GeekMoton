@@ -1,6 +1,13 @@
 if(ESP_PLATFORM)
 
-file(GLOB_RECURSE SOURCES page/*.c assets/*.c)
+file(GLOB_RECURSE SOURCES Pages/*.cpp 
+						  Resource/*.c 
+						  System/*.cpp 
+						  System/PageManager/*.cpp 
+						  System/lv_ext/*.cpp
+						  System/lv_ext/*.c 
+						  Resource/*.cpp 
+						  Resource/front/*.c)
 
 idf_component_register(SRCS ${SOURCES}
                        INCLUDE_DIRS .

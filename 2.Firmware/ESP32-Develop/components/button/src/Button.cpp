@@ -4,8 +4,7 @@
 #include "freertos/task.h"
 #include "ButtonEvent.h"
 #include "Button.h"
-#include "page/lv_geek_gui.h"
-
+#include "System/GeekOS.h"
 const uint8_t KEY1 = 25;
 const uint8_t KEY2 = 32;
 const uint8_t KEY3 = 33;
@@ -30,17 +29,23 @@ static void Button_EventHandler(ButtonEvent* btn, int event)
     if(event == ButtonEvent::EVENT_ButtonClick){
         if(btn == &btOK){
             printf("BtOk click\n");
-            enter_func_page();
+            PageSwitchByName("Pages/_Template");
         }
         if(btn == &btUP){
+            //PageSwitchByName("Pages/Launcher");
             printf("BtUp click\n");
         }
         if(btn == &btDOWN){
             printf("BtDown click\n");
+            ExitCurrentPages();
         }
     }
-    // /*传递至页面事件*/
-    // page.PageEventTransmit(btn, event);
+    if(event == ButtonEvent::EVENT_ButtonLongPressed){
+        if(btn == &btOK){
+            printf("BtOk LongPress\n");
+            //ExitCurrentPages();
+        }
+    }
 }
 
 /**
@@ -67,15 +72,15 @@ static void ButtonPower_EventHandler(ButtonEvent* btn, int event){
 void button_init()
 {
     gpio_pad_select_gpio(KEY1);
-	  gpio_set_direction((gpio_num_t)KEY1, GPIO_MODE_INPUT);
+    gpio_set_direction((gpio_num_t)KEY1, GPIO_MODE_INPUT);
     gpio_set_pull_mode((gpio_num_t)KEY1, GPIO_PULLUP_ONLY);
 
     gpio_pad_select_gpio((gpio_num_t)KEY2);
-	  gpio_set_direction((gpio_num_t)KEY2, GPIO_MODE_INPUT);
+    gpio_set_direction((gpio_num_t)KEY2, GPIO_MODE_INPUT);
     gpio_set_pull_mode((gpio_num_t)KEY2, GPIO_PULLUP_ONLY);
 
     gpio_pad_select_gpio((gpio_num_t)KEY3);
-	  gpio_set_direction((gpio_num_t)KEY3, GPIO_MODE_INPUT);
+    gpio_set_direction((gpio_num_t)KEY3, GPIO_MODE_INPUT);
     gpio_set_pull_mode((gpio_num_t)KEY3, GPIO_PULLUP_ONLY);
 
     printf("Init Button\n");

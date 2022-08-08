@@ -28,7 +28,7 @@
 #include "lvgl/examples/lv_examples.h"
 #include "lv_drivers/win32drv/win32drv.h"
 #include "lv_fs_if/lv_fs_if.h"
-#include "Page/lv_geek_gui.h"
+#include "System/GeekOS.h"
 
 #if _MSC_VER >= 1200
 // Restore compilation warnings.
@@ -55,8 +55,7 @@ int main()
 
     HAL::HAL_Init();  
 
-    geek_gui_init();
-    //App_Init();
+    GeekOS_Init();
 
     while (!lv_win32_quit_signal)
     {
@@ -64,8 +63,7 @@ int main()
         HAL::HAL_Update();
         Sleep(1);
     }
-
-    App_Uninit();
+    GeekOS_Uninit();
 
     return 0;
 }

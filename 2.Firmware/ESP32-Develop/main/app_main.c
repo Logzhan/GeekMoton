@@ -51,7 +51,7 @@
 
 #include "Button.h"
 #include "lvgl_helpers.h"
-#include "page/lv_geek_gui.h"
+#include "System/GeekOS.h"
 
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
@@ -446,7 +446,7 @@ void key_task(){
         level = gpio_get_level(KEY1);
         if(level == 0 && key_press_flg == 0){
             printf("you press key1\n");
-            enter_func_page();
+            //enter_func_page();
             key_press_flg = c;
         }
         vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -552,7 +552,7 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
     // 启动GEEK GUI
-    geek_gui_init();
+    GeekOS_Init();
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */

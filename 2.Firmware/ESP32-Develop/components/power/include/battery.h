@@ -4,7 +4,9 @@
 #ifndef DEF_BATTERY_H_
 #define DEF_BATTERY_H_
 /*---------------------------------------------------------------------------*/
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct _BatteryInfo{
     float voltage;                 // 电池电压
     float capacity;                // 电池电量
@@ -13,5 +15,9 @@ typedef struct _BatteryInfo{
 void  battery_sample_task();
 int   battery_get_capacity(void);
 float battery_get_voltage(void);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* LED */

@@ -63,7 +63,7 @@ void Startup::onTimer(lv_timer_t* timer)
 {
     Startup* instance = (Startup*)timer->user_data;
 
-    instance->Manager->Push("Pages/Dialplate");
+    instance->Manager->Push("Pages/_Template");
 }
 
 void Startup::onEvent(lv_event_t* event)
