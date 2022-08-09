@@ -301,9 +301,6 @@
     <Filter Include="GeekOS\System">
       <UniqueIdentifier>{0223d4b6-fd7d-44c0-8245-30429a675a59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GeekOS\Pages\_Template">
-      <UniqueIdentifier>{970310e2-16e9-430c-aa4d-21ec6c369f7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GeekOS\System\PageManager">
       <UniqueIdentifier>{ec11e0cb-4ca3-4e51-a10d-6236d8392c15}</UniqueIdentifier>
     </Filter>
@@ -324,6 +321,18 @@
     </Filter>
     <Filter Include="GeekOS\DataCenter\PingPongBuffer">
       <UniqueIdentifier>{67042e04-f745-4459-99b7-2ee502be9c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System\Utils">
+      <UniqueIdentifier>{e91c94a9-111d-4db1-8b4d-37b0a2af4c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HalWin32">
+      <UniqueIdentifier>{59b2cff4-e9a9-482e-8316-60a8985c898f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HalWin32\Event">
+      <UniqueIdentifier>{66232f7d-021d-4db7-baa0-c6407769d292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages\SystemInfos">
+      <UniqueIdentifier>{c6f9f425-9f47-4a5d-9ab7-2a352f602f16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -714,15 +723,6 @@
     <ClInclude Include="..\..\components\lvgl_gui\Pages\Page.h">
       <Filter>GeekOS\Pages</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\Template.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageBase.h">
       <Filter>GeekOS\System\PageManager</Filter>
     </ClInclude>
@@ -794,6 +794,24 @@
     </ClInclude>
     <ClInclude Include="..\..\components\user_hal\HAL\HAL_Config.h">
       <Filter>HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\HalWin32.h">
+      <Filter>HalWin32</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\Event\ButtonEvent.h">
+      <Filter>HalWin32\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\HalWin32_Button.h">
+      <Filter>HalWin32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1523,15 +1541,6 @@
     <ClCompile Include="..\..\components\lvgl_gui\Pages\AppFactory.cpp">
       <Filter>GeekOS\Pages</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\Template.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Anim.cpp">
       <Filter>GeekOS\System\PageManager</Filter>
     </ClCompile>
@@ -1583,12 +1592,6 @@
     <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherView.cpp">
       <Filter>GeekOS\Pages\Launcher</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_bg_img_main.c">
-      <Filter>GeekOS\Resource\img</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_Morganite_100.c">
-      <Filter>GeekOS\Resource\front</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_run_ico_img.c">
       <Filter>GeekOS\Resource\img</Filter>
     </ClCompile>
@@ -1606,6 +1609,102 @@
     </ClCompile>
     <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_65.c">
       <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\HalWin32.cpp">
+      <Filter>HalWin32</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\Event\ButtonEvent.cpp">
+      <Filter>HalWin32\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\HalWin32_Button.cpp">
+      <Filter>HalWin32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_13.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_17.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_32.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_alarm.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_bicycle.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_compass.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_dark.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_default.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_light.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_pin.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gyroscope.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_locate.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_map_location.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_menu.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_origin_point.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_pause.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_satellite.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_sd_card.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_start.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_stop.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_storage.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_system_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_time_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_trip.c">
+      <Filter>GeekOS\Resource\img</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,42 +27,37 @@ do{\
     static void Resource_Init()
     {
         /* Import Fonts */
-        //IMPORT_FONT(bahnschrift_13);
-        //IMPORT_FONT(bahnschrift_17);
-        //IMPORT_FONT(bahnschrift_32);
-        
-        //IMPORT_FONT_RAW(lv_font_montserrat_48);
+        IMPORT_FONT(bahnschrift_13);
+        IMPORT_FONT(bahnschrift_17);
+        IMPORT_FONT(bahnschrift_32);
         IMPORT_FONT(bahnschrift_65);
-        
-        IMPORT_FONT(Morganite_100);
         IMPORT_FONT(agencyb_36);
         
         /* Import Images */
-        //IMPORT_IMG(alarm);
+        IMPORT_IMG(alarm);
         IMPORT_IMG(run_ico_img);
-        IMPORT_IMG(bg_img_main);
-        //IMPORT_IMG(battery);
-        //IMPORT_IMG(battery_info);
-        //IMPORT_IMG(bicycle);
-        //IMPORT_IMG(compass);
-        //IMPORT_IMG(gps_arrow_default);
-        //IMPORT_IMG(gps_arrow_dark);
-        //IMPORT_IMG(gps_arrow_light);
-        //IMPORT_IMG(gps_pin);
-        //IMPORT_IMG(gyroscope);
-        //IMPORT_IMG(locate);
-        //IMPORT_IMG(map_location);
-        //IMPORT_IMG(menu);
-        //IMPORT_IMG(origin_point);
-        //IMPORT_IMG(pause);
-        //IMPORT_IMG(satellite);
-        //IMPORT_IMG(sd_card);
-        //IMPORT_IMG(start);
-        //IMPORT_IMG(stop);
-        //IMPORT_IMG(storage);
-        //IMPORT_IMG(system_info);
-        //IMPORT_IMG(time_info);
-        //IMPORT_IMG(trip);
+        IMPORT_IMG(battery);
+        IMPORT_IMG(battery_info);
+        IMPORT_IMG(bicycle);
+        IMPORT_IMG(compass);
+        IMPORT_IMG(gps_arrow_default);
+        IMPORT_IMG(gps_arrow_dark);
+        IMPORT_IMG(gps_arrow_light);
+        IMPORT_IMG(gps_pin);
+        IMPORT_IMG(gyroscope);
+        IMPORT_IMG(locate);
+        IMPORT_IMG(map_location);
+        IMPORT_IMG(menu);
+        IMPORT_IMG(origin_point);
+        IMPORT_IMG(pause);
+        IMPORT_IMG(satellite);
+        IMPORT_IMG(sd_card);
+        IMPORT_IMG(start);
+        IMPORT_IMG(stop);
+        IMPORT_IMG(storage);
+        IMPORT_IMG(system_info);
+        IMPORT_IMG(time_info);
+        IMPORT_IMG(trip);
     }
 
 } /* extern "C" */

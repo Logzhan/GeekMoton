@@ -4,6 +4,8 @@
 #include "System/PageManager/PageManager.h"
 #include "Resource/ResourcePool.h"
 
+#include "Pages/SystemInfos/SystemInfos.h"
+
 static AppFactory factory;
 static PageManager manager(&factory);
 
@@ -16,6 +18,16 @@ do{\
 }while(0)
 
 
+void GeekOSMemMonitor() {
+    lv_mem_monitor_t monitor;
+    lv_mem_monitor(&monitor);
+    printf("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n",
+        (int)monitor.total_size - monitor.free_size,
+        monitor.used_pct,
+        monitor.frag_pct,
+        (int)monitor.free_biggest_size);
+}
+
 void GeekOS_Init() {
 
     //  lvgl initial config and set backgroud color to black
@@ -26,15 +38,18 @@ void GeekOS_Init() {
     
     ResourcePool::Init();
 
-    manager.Install("Template", "Pages/_Template");
-    manager.Install("Launcher", "Pages/Launcher");
-    manager.Install("Startup", "Pages/Startup");
-    //manager.Install("Dialplate", "Pages/Dialplate");
-    //manager.Install("SystemInfos", "Pages/SystemInfos");
+    Page::SystemInfos* sysInfoPages = new Page::SystemInfos();
+    sysInfoPages->root = scr;
+    sysInfoPages->onViewLoad();
+    // manager.Install("Launcher", "Pages/Launcher");
+    // manager.Install("Startup", "Pages/Startup");
+    // //manager.Install("Dialplate", "Pages/Dialplate");
+    // manager.Install("SystemInfos", "Pages/SystemInfos");
 
-    manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP, 500);
+    // manager.SetGlobalLoadAnimType(PageManager::LOAD_ANIM_OVER_TOP, 500);
 
-    manager.Push("Pages/Startup");
+    // manager.Push("Pages/Startup");
+    GeekOSMemMonitor();
 }
 
 void GeekOS_Uninit(){
@@ -42,23 +57,12 @@ void GeekOS_Uninit(){
 }
 
 void PageSwitchByName(const char* name){
-    lv_mem_monitor_t monitor;
-    lv_mem_monitor(&monitor);
-    printf("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n",
-        (int)monitor.total_size - monitor.free_size,
-        monitor.used_pct,
-        monitor.frag_pct,
-        (int)monitor.free_biggest_size);
     manager.Push(name);
+    GeekOSMemMonitor();
 }
 
 void ExitCurrentPages(){
-    lv_mem_monitor_t monitor;
-    lv_mem_monitor(&monitor);
-    printf("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n",
-        (int)monitor.total_size - monitor.free_size,
-        monitor.used_pct,
-        monitor.frag_pct,
-        (int)monitor.free_biggest_size);
+    printf("manager.Pop()\n");
     manager.Pop();
+    GeekOSMemMonitor();
 }

@@ -3,6 +3,7 @@
 #include "battery.h"
 #endif // ! _WIN32
 
+#include "stdio.h"
 using namespace Page;
 
 Launcher::Launcher()
@@ -23,8 +24,9 @@ void Launcher::onCustomAttrConfig()
 
 void Launcher::onViewLoad()
 {
+    printf("Launcher::onViewLoad() View.Create(root)\n");
     View.Create(root);
-    AttachEvent(root);
+    //AttachEvent(root);
 
     Model.TickSave = Model.GetData();
 }
@@ -51,7 +53,6 @@ void Launcher::onViewWillAppear()
 
 void Launcher::onViewDidAppear()
 {
-    View.TimeObjCreate(root);
 }
 
 void Launcher::onViewWillDisappear()
@@ -67,6 +68,7 @@ void Launcher::onViewDidDisappear()
 
 void Launcher::onViewDidUnload()
 {
+    printf("Launcher::onViewDidUnload()\n");
     View.Delete();
 }
 
@@ -104,17 +106,17 @@ void Launcher::onStatusBarUpdate(lv_timer_t* timer) {
 
 void Launcher::onEvent(lv_event_t* event)
 {
-    Launcher* instance = (Launcher*)lv_event_get_user_data(event);
-    LV_ASSERT_NULL(instance);
+    //Launcher* instance = (Launcher*)lv_event_get_user_data(event);
+    //LV_ASSERT_NULL(instance);
 
-    lv_obj_t* obj = lv_event_get_target(event);
-    lv_event_code_t code = lv_event_get_code(event);
+    //lv_obj_t* obj = lv_event_get_target(event);
+    //lv_event_code_t code = lv_event_get_code(event);
 
-    if (obj == instance->root)
-    {
-        if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LEAVE)
-        {
-            instance->Manager->Pop();
-        }
-    }
+    //if (obj == instance->root)
+    //{
+    //    if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LEAVE)
+    //    {
+    //        instance->Manager->Pop();
+    //    }
+    //}
 }

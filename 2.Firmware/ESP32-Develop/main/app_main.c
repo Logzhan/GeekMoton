@@ -489,7 +489,7 @@ void app_main(void)
     // 启动命令行
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
     // 启动图形GUI
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*4, NULL, 0, NULL, 1);
 	// MPU9250串口循环发送
     while(1){
         GetMPU9250Data_Euler(&yaw,&roll,&pitch);
@@ -523,8 +523,10 @@ static void guiTask(void *pvParameter) {
     lv_color_t* buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf1 != NULL);
     // 对于非单色显示器需要使用双BUFF
-    lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
-    assert(buf2 != NULL);
+    // lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
+    // assert(buf2 != NULL);
+
+    lv_color_t* buf2 = NULL;
 
     static lv_disp_draw_buf_t disp_buf;
 

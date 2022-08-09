@@ -10,7 +10,7 @@ class LauncherView
 {
 public:
     void Create(lv_obj_t* root);
-    void TimeObjCreate(lv_obj_t* root);
+    void CreateTimeObj(lv_obj_t* root);
     void CreateBackgroundImage(lv_obj_t* root);
     void CreateStausBar(lv_obj_t* root);
     void UpdateBatteryInfo(lv_obj_t* root, int capacity);

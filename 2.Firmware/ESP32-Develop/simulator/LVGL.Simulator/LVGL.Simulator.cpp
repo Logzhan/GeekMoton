@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "resource.h"
 #include "App.h"
+#include "HalWin32/HalWin32.h"
 #include "Common/HAL/HAL.h"
 #include "Utils/lv_lib_png/lv_png.h"
 
@@ -51,16 +52,15 @@ int main()
         return -1;
     }
 
-    lv_win32_add_all_input_devices_to_group(NULL);
+    //lv_win32_add_all_input_devices_to_group(NULL);
 
-    HAL::HAL_Init();  
-
+    HalWin32::Hal_Init();
     GeekOS_Init();
 
     while (!lv_win32_quit_signal)
     {
         lv_timer_handler();
-        HAL::HAL_Update();
+        HalWin32::Hal_Update();
         Sleep(1);
     }
     GeekOS_Uninit();

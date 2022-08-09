@@ -12,6 +12,7 @@ void LauncherView::Create(lv_obj_t* root)
     CreateBackgroundImage(root);
     CreateStausBar(root);
     CreateStepObj(root);
+    CreateTimeObj(root);
 }
 
 void LauncherView::CreateStausBar(lv_obj_t* root) {
@@ -45,16 +46,16 @@ void LauncherView::CreateStausBar(lv_obj_t* root) {
 }
 
 void LauncherView::CreateBackgroundImage(lv_obj_t* root) {
-    lv_obj_t* img = lv_img_create(root);
-    lv_img_set_src(img, ResourcePool::GetImage("bg_img_main"));
-    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
-    ui.bGImage = img;
+    //lv_obj_t* img = lv_img_create(root);
+    //lv_img_set_src(img, ResourcePool::GetImage("bg_img_main"));
+    //lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
+    //ui.bGImage = img;
 }
 extern "C" {
     LV_FONT_DECLARE(lv_font_montserrat_48);
 }
 
-void LauncherView::TimeObjCreate(lv_obj_t* root) {
+void LauncherView::CreateTimeObj(lv_obj_t* root) {
      lv_obj_t* label = lv_label_create(root);
      lv_obj_set_style_text_font(label, &lv_font_montserrat_48, 0);
      lv_obj_set_style_text_color(label, lv_color_hex(0xf1f1f1), 0);

@@ -21,10 +21,9 @@
  * SOFTWARE.
  */
 #include "AppFactory.h"
-#include "Pages/_Template/Template.h"
 #include "Pages/Launcher/Launcher.h"
 //#include "Dialplate/Dialplate.h"
-//#include "SystemInfos/SystemInfos.h"
+#include "Pages/SystemInfos/SystemInfos.h"
 #include "Pages/Startup/Startup.h"
 
 #define APP_CLASS_MATCH(className)\
@@ -37,10 +36,9 @@ do{\
 
 PageBase* AppFactory::CreatePage(const char* name)
 {
-    APP_CLASS_MATCH(Template);
     APP_CLASS_MATCH(Launcher);
     //APP_CLASS_MATCH(Dialplate);
-    //APP_CLASS_MATCH(SystemInfos);
+    APP_CLASS_MATCH(SystemInfos);
     APP_CLASS_MATCH(Startup);
     return nullptr;
 }

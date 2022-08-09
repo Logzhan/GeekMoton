@@ -29,7 +29,7 @@ static void Button_EventHandler(ButtonEvent* btn, int event)
     if(event == ButtonEvent::EVENT_ButtonClick){
         if(btn == &btOK){
             printf("BtOk click\n");
-            PageSwitchByName("Pages/_Template");
+            PageSwitchByName("Pages/SystemInfos");
         }
         if(btn == &btUP){
             //PageSwitchByName("Pages/Launcher");
