@@ -44,10 +44,10 @@
 #define CONFIG_SCREEN_SCK_PIN       PA5
 #define CONFIG_SCREEN_MOSI_PIN      PA7
 #define CONFIG_SCREEN_BLK_PIN       PB1  // TIM3
+#define CONFIG_SCREEN_SPI           SPI
 
 #define CONFIG_SCREEN_HOR_RES       240
 #define CONFIG_SCREEN_VER_RES       240
-#define CONFIG_SCREEN_BUFFER_SIZE   (CONFIG_SCREEN_HOR_RES * CONFIG_SCREEN_VER_RES)
 
 /* Battery */
 #define CONFIG_BAT_DET_PIN          PA1
@@ -80,6 +80,7 @@
 #define CONFIG_POWER_EN_PIN         PA12
 #define CONFIG_POWER_WAIT_TIME      1000
 #define CONFIG_POWER_SHUTDOWM_DELAY 5000
+#define CONFIG_POWER_BATT_CHG_DET_PULLUP    true
 
 /* Debug USART */
 #define CONFIG_DEBUG_SERIAL         Serial
@@ -97,10 +98,14 @@
 /* HAL Interrupt Update Timer */
 #define CONFIG_HAL_UPDATE_TIM       TIM4
 
-/* Show stack Info */
+/* Show Stack & Heap Info */
 #define CONFIG_SHOW_STACK_INFO      0
-
-/* Show heap Info */
 #define CONFIG_SHOW_HEAP_INFO       0
+
+/* Use Watch Dog */
+#define CONFIG_WATCH_DOG_ENABLE     1
+#if CONFIG_WATCH_DOG_ENABLE
+#  define CONFIG_WATCH_DOG_TIMEOUT (10 * 1000) // [ms]
+#endif
 
 #endif

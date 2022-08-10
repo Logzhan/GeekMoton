@@ -253,68 +253,8 @@
     <Filter Include="lvgl\zephyr">
       <UniqueIdentifier>{6c4ef90c-cc0f-4a1f-813a-095c2310e4cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App">
-      <UniqueIdentifier>{87c4d8b7-b0b3-47cc-961d-78da55e5298b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Common">
-      <UniqueIdentifier>{0512d278-ee1c-40f7-bb4b-2098f92ff9ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Resource">
-      <UniqueIdentifier>{ea879e26-d2ef-49e4-94a5-118c58ccdee9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils">
-      <UniqueIdentifier>{d326b082-915e-4444-89be-59e3b467d4d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Common\DataProc">
-      <UniqueIdentifier>{5ac231e6-9353-46f9-b25f-7ac2d5c20533}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Common\HAL">
-      <UniqueIdentifier>{b6b82220-ed66-4b87-a1d2-b92b5bc44896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\DataCenter">
-      <UniqueIdentifier>{ef1fb8a4-38bb-4f3b-b0eb-c90e40b242f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\Filters">
-      <UniqueIdentifier>{5d34399d-98b1-4555-875c-84b30193b722}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\lv_ext">
-      <UniqueIdentifier>{16fa757d-74ee-46bb-b2ef-e337193cd491}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\MapConv">
-      <UniqueIdentifier>{db44516e-e085-48d3-b782-b251661d0c5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\PageManager">
-      <UniqueIdentifier>{ea97d806-56a5-4b04-b44b-e9bb00e0adf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Resource\Font">
-      <UniqueIdentifier>{8f8e9771-252c-426e-9585-5ed60f2af56d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Resource\Image">
-      <UniqueIdentifier>{37a5f3ca-0d99-49b9-bd51-b08c26fcff2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages">
-      <UniqueIdentifier>{e00f06d0-b9ec-4765-95d2-5ec2035907c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages\StatusBar">
-      <UniqueIdentifier>{a57efb7a-99e0-4964-abd2-6257750559b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages\Dialplate">
-      <UniqueIdentifier>{ec3728c3-8efa-400f-86cb-cc6fcd678873}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages\LiveMap">
-      <UniqueIdentifier>{d4cc9aed-4fa0-424c-9054-e6951db5fa90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages\_Template">
-      <UniqueIdentifier>{c6736262-fd09-4c8a-9500-07d8c51bf0fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lv_fs_if">
       <UniqueIdentifier>{4fd35d9b-6021-4e7a-8d55-c6a6640115cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\GPX">
-      <UniqueIdentifier>{eb7d2e9f-81c2-42e5-8aeb-1a389e32517b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\WString">
-      <UniqueIdentifier>{487d2466-a545-44ac-a2ed-20eb9691db12}</UniqueIdentifier>
     </Filter>
     <Filter Include="lvgl\src\extra\widgets\chart">
       <UniqueIdentifier>{ba4cf77a-84d8-465d-adb1-ff5819847843}</UniqueIdentifier>
@@ -322,41 +262,8 @@
     <Filter Include="lvgl\src\extra\widgets\meter">
       <UniqueIdentifier>{5dee73ba-3c85-46f6-adf2-020b4ea27f92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App\Pages\SystemInfos">
-      <UniqueIdentifier>{455f63df-c798-4e22-b9d7-b162bf754056}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\ArduinoJson">
-      <UniqueIdentifier>{bc0b8967-981c-4e35-b927-8868332b09ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\StorageService">
-      <UniqueIdentifier>{a04192f2-5d2c-4d9d-bf0c-a8a4f1f539f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\TonePlayer">
-      <UniqueIdentifier>{8c3f11fb-1591-47e2-94b0-5940f35acec8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Common\Music">
-      <UniqueIdentifier>{cf822a00-91f5-41e8-8c2d-14b62e708670}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\Time">
-      <UniqueIdentifier>{8203c2d1-eff3-4a9b-a96e-baad94dbc101}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lvgl\src\extra\themes\mono">
       <UniqueIdentifier>{19e567ae-ba85-45f0-9ba6-94c9e860b5dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\TrackFilter">
-      <UniqueIdentifier>{0f735ffd-c9ba-452c-9f1f-22a7fadd18ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\TileConv">
-      <UniqueIdentifier>{ab575e4a-7eec-467a-beec-da885672c5f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\GPX_Parser">
-      <UniqueIdentifier>{15e0424b-cdf2-45f0-aae3-ff01d2e9131b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Config">
-      <UniqueIdentifier>{a87c00e9-164a-4330-90af-c452b2391df6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\Stream">
-      <UniqueIdentifier>{2c910873-82bf-4044-8da8-798dff7b5625}</UniqueIdentifier>
     </Filter>
     <Filter Include="lvgl\src\extra\others">
       <UniqueIdentifier>{4d7d9b2e-2c1e-4de6-a499-b1f133ef8b96}</UniqueIdentifier>
@@ -367,29 +274,8 @@
     <Filter Include="lvgl\src\extra\widgets\span">
       <UniqueIdentifier>{5db124e7-60d6-4b06-9e67-93c83cf70d8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App\Utils\MapConv\GPS_Transform">
-      <UniqueIdentifier>{8d0075d6-b180-4223-aa20-5b8ae8b0bc87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\MapConv\TileSystem">
-      <UniqueIdentifier>{07f89167-2976-4ade-b85e-1cdb1267900e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Pages\Startup">
-      <UniqueIdentifier>{a9f7a372-994a-40ce-ad80-ef374e6e28fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\lv_lib_png">
-      <UniqueIdentifier>{81e9e579-c620-49c7-a471-e94f6b488ec8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HAL">
       <UniqueIdentifier>{83526f90-0302-468a-b87c-d5988d8c85c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\new">
-      <UniqueIdentifier>{940bd30d-f74e-44d2-8a0d-b0c01bf5853b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\PointContainer">
-      <UniqueIdentifier>{7d1cbbef-c41c-4364-b771-2c8523db03cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="App\Utils\lv_poly_line">
-      <UniqueIdentifier>{a01b3944-3a79-4911-a5b1-805a4b2a2977}</UniqueIdentifier>
     </Filter>
     <Filter Include="lvgl\src\draw\sw">
       <UniqueIdentifier>{88509982-5ca7-4641-af81-d83816ec9896}</UniqueIdentifier>
@@ -397,8 +283,59 @@
     <Filter Include="lvgl\src\extra\others\monkey">
       <UniqueIdentifier>{92cee91d-e480-462e-914b-c9180dd5aa6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App\Utils\DataCenter\PingPongBuffer">
-      <UniqueIdentifier>{8b0faae2-7768-4e8d-8481-b69068f9bd47}</UniqueIdentifier>
+    <Filter Include="GeekOS">
+      <UniqueIdentifier>{9b591615-1e4d-4631-945e-1f496f814c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages">
+      <UniqueIdentifier>{2f4076f1-8070-4266-aca3-d5bdc4ef1d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Resource">
+      <UniqueIdentifier>{f8f6f275-6cba-4556-9196-67431c93e79a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Resource\img">
+      <UniqueIdentifier>{ef0d4245-f088-4dfc-a417-76d87dc9e030}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Resource\front">
+      <UniqueIdentifier>{e58380df-2ead-4608-85db-293c5520a56d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System">
+      <UniqueIdentifier>{0223d4b6-fd7d-44c0-8245-30429a675a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System\PageManager">
+      <UniqueIdentifier>{ec11e0cb-4ca3-4e51-a10d-6236d8392c15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages\StartUp">
+      <UniqueIdentifier>{99711bfc-2245-4cf7-9c27-d6abe14f0b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System\lv_ext">
+      <UniqueIdentifier>{b23f234d-a29f-49b6-973f-412d04aa3706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages\Launcher">
+      <UniqueIdentifier>{08ae121d-32e2-4c0a-9d32-e71e175f9efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System\HAL">
+      <UniqueIdentifier>{736209aa-500f-41c2-9ea3-430f545ba104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\DataCenter">
+      <UniqueIdentifier>{dc933036-28f6-4549-83ad-96419d829fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\DataCenter\PingPongBuffer">
+      <UniqueIdentifier>{67042e04-f745-4459-99b7-2ee502be9c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\System\Utils">
+      <UniqueIdentifier>{e91c94a9-111d-4db1-8b4d-37b0a2af4c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HalWin32">
+      <UniqueIdentifier>{59b2cff4-e9a9-482e-8316-60a8985c898f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HalWin32\Event">
+      <UniqueIdentifier>{66232f7d-021d-4db7-baa0-c6407769d292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages\SystemInfos">
+      <UniqueIdentifier>{c6f9f425-9f47-4a5d-9ab7-2a352f602f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeekOS\Pages\_Template">
+      <UniqueIdentifier>{8e5f6dbd-d56b-47a3-b9e3-fbd18c93f577}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -747,128 +684,11 @@
     <ClInclude Include="lvgl\lv_conf_template.h">
       <Filter>lvgl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\App.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Common\DataProc\DataProc.h">
-      <Filter>App\Common\DataProc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Common\HAL\HAL.h">
-      <Filter>App\Common\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Common\HAL\HAL_Def.h">
-      <Filter>App\Common\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\Account.h">
-      <Filter>App\Utils\DataCenter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\DataCenter.h">
-      <Filter>App\Utils\DataCenter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\DataCenterLog.h">
-      <Filter>App\Utils\DataCenter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_obj_ext_func.h">
-      <Filter>App\Utils\lv_ext</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\MapConv.h">
-      <Filter>App\Utils\MapConv</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageBase.h">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageFactory.h">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageManager.h">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PM_Log.h">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\ResourceManager.h">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Resource\ResourcePool.h">
-      <Filter>App\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\AppFactory.h">
-      <Filter>App\Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Page.h">
-      <Filter>App\Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\StatusBar\StatusBar.h">
-      <Filter>App\Pages\StatusBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\Dialplate.h">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\DialplateModel.h">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\DialplateView.h">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMap.h">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMapModel.h">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMapView.h">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\_Template\Template.h">
-      <Filter>App\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\_Template\TemplateModel.h">
-      <Filter>App\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\_Template\TemplateView.h">
-      <Filter>App\Pages\_Template</Filter>
-    </ClInclude>
     <ClInclude Include="lvgl\src\core\lv_event.h">
       <Filter>lvgl\src\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\Common\DataProc\DataProc_Def.h">
-      <Filter>App\Common\DataProc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\LowpassFilter.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\FilterBase.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\MedianFilter.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\MedianQueueFilter.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\HysteresisFilter.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\SlidingFilter.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
     <ClInclude Include="lv_fs_if\lv_fs_if.h">
       <Filter>lv_fs_if</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Filters\Filters.h">
-      <Filter>App\Utils\Filters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\GPX\GPX.h">
-      <Filter>App\Utils\GPX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\WString\dtostrf.h">
-      <Filter>App\Utils\WString</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\WString\WCharacter.h">
-      <Filter>App\Utils\WString</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\WString\WString.h">
-      <Filter>App\Utils\WString</Filter>
     </ClInclude>
     <ClInclude Include="lvgl\src\extra\widgets\chart\lv_chart.h">
       <Filter>lvgl\src\extra\widgets\chart</Filter>
@@ -876,65 +696,8 @@
     <ClInclude Include="lvgl\src\extra\widgets\meter\lv_meter.h">
       <Filter>lvgl\src\extra\widgets\meter</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfos.h">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfosModel.h">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfosView.h">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\ArduinoJson\ArduinoJson.h">
-      <Filter>App\Utils\ArduinoJson</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\StorageService\StorageService.h">
-      <Filter>App\Utils\StorageService</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\TonePlayer\TonePlayer.h">
-      <Filter>App\Utils\TonePlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Common\Music\ToneMap.h">
-      <Filter>App\Common\Music</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Time\Time.h">
-      <Filter>App\Utils\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Time\TimeLib.h">
-      <Filter>App\Utils\Time</Filter>
-    </ClInclude>
     <ClInclude Include="lvgl\src\extra\themes\mono\lv_theme_mono.h">
       <Filter>lvgl\src\extra\themes\mono</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackLineFilter.h">
-      <Filter>App\Utils\TrackFilter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackPointFilter.h">
-      <Filter>App\Utils\TrackFilter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackFilter.h">
-      <Filter>App\Utils\TrackFilter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\TileConv\TileConv.h">
-      <Filter>App\Utils\TileConv</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Config\Config.h">
-      <Filter>App\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\GPX_Parser\GPX_Parser.h">
-      <Filter>App\Utils\GPX_Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Print.h">
-      <Filter>App\Utils\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Printable.h">
-      <Filter>App\Utils\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Stream.h">
-      <Filter>App\Utils\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Version.h">
-      <Filter>App</Filter>
     </ClInclude>
     <ClInclude Include="lvgl\src\misc\lv_anim_timeline.h">
       <Filter>lvgl\src\misc</Filter>
@@ -948,50 +711,119 @@
     <ClInclude Include="lvgl\src\extra\widgets\span\lv_span.h">
       <Filter>lvgl\src\extra\widgets\span</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_anim_timeline_wrapper.h">
-      <Filter>App\Utils\lv_ext</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\GPS_Transform\GPS_Transform.h">
-      <Filter>App\Utils\MapConv\GPS_Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\TileSystem\TileSystem.h">
-      <Filter>App\Utils\MapConv\TileSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Startup\Startup.h">
-      <Filter>App\Pages\Startup</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Startup\StartupModel.h">
-      <Filter>App\Pages\Startup</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Pages\Startup\StartupView.h">
-      <Filter>App\Pages\Startup</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_lib_png\lodepng.h">
-      <Filter>App\Utils\lv_lib_png</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_lib_png\lv_png.h">
-      <Filter>App\Utils\lv_lib_png</Filter>
-    </ClInclude>
-    <ClInclude Include="HAL\HAL.h">
-      <Filter>HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\PointContainer\PointContainer.h">
-      <Filter>App\Utils\PointContainer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_poly_line\lv_poly_line.h">
-      <Filter>App\Utils\lv_poly_line</Filter>
-    </ClInclude>
     <ClInclude Include="lvgl\src\draw\sw\lv_draw_sw.h">
       <Filter>lvgl\src\draw\sw</Filter>
     </ClInclude>
     <ClInclude Include="lvgl\src\extra\others\monkey\lv_monkey.h">
       <Filter>lvgl\src\extra\others\monkey</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.h">
-      <Filter>App\Utils\DataCenter\PingPongBuffer</Filter>
+    <ClInclude Include="..\..\components\lvgl_gui\System\GeekOS.h">
+      <Filter>GeekOS\System</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_anim_label.h">
-      <Filter>App\Utils\lv_ext</Filter>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\AppFactory.h">
+      <Filter>GeekOS\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Page.h">
+      <Filter>GeekOS\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\ResourceManager.h">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUp.h">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpModel.h">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpView.h">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_label.h">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_timeline_wrapper.h">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_obj_ext_func.h">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Resource\ResourcePool.h">
+      <Filter>GeekOS\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\Launcher.h">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherModel.h">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherView.h">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\Version.h">
+      <Filter>GeekOS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\HAL\HAL.h">
+      <Filter>GeekOS\System\HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\HAL\HAL_Def.h">
+      <Filter>GeekOS\System\HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\Account.h">
+      <Filter>GeekOS\DataCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\DataCenter.h">
+      <Filter>GeekOS\DataCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\DataCenterLog.h">
+      <Filter>GeekOS\DataCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\PingPongBuffer\PingPongBuffer.h">
+      <Filter>GeekOS\DataCenter\PingPongBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\user_hal\HAL\HAL.h">
+      <Filter>HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\user_hal\HAL\HAL_Config.h">
+      <Filter>HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\HalWin32.h">
+      <Filter>HalWin32</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\Event\ButtonEvent.h">
+      <Filter>HalWin32\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="HalWin32\HalWin32_Button.h">
+      <Filter>HalWin32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.h">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\Template.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageBase.h">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageFactory.h">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageManager.h">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PM_Log.h">
+      <Filter>GeekOS\System\PageManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1646,135 +1478,6 @@
     <ClCompile Include="lvgl\src\widgets\lv_textarea.c">
       <Filter>lvgl\src\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\USER\App\App.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DataProc.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Clock.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_GPS.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Power.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_SportStatus.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\Account.cpp">
-      <Filter>App\Utils\DataCenter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\DataCenter.cpp">
-      <Filter>App\Utils\DataCenter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_obj_ext_func.cpp">
-      <Filter>App\Utils\lv_ext</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Base.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Drag.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Router.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_State.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\ResourceManager.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\ResourcePool.cpp">
-      <Filter>App\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_13.c">
-      <Filter>App\Resource\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_17.c">
-      <Filter>App\Resource\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_32.c">
-      <Filter>App\Resource\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_65.c">
-      <Filter>App\Resource\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_alarm.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_battery.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_pin.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_locate.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_menu.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_origin_point.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_satellite.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_stop.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_trip.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Anim.cpp">
-      <Filter>App\Utils\PageManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_pause.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_start.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\AppFactory.cpp">
-      <Filter>App\Pages</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\StatusBar\StatusBar.cpp">
-      <Filter>App\Pages\StatusBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\Dialplate.cpp">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\DialplateModel.cpp">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\DialplateView.cpp">
-      <Filter>App\Pages\Dialplate</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMap.cpp">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMapModel.cpp">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMapView.cpp">
-      <Filter>App\Pages\LiveMap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\_Template\Template.cpp">
-      <Filter>App\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\_Template\TemplateModel.cpp">
-      <Filter>App\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\_Template\TemplateView.cpp">
-      <Filter>App\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Recorder.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
     <ClCompile Include="lvgl\src\core\lv_event.c">
       <Filter>lvgl\src\core</Filter>
     </ClCompile>
@@ -1787,68 +1490,11 @@
     <ClCompile Include="lv_fs_if\lv_fs_posix.c">
       <Filter>lv_fs_if</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\GPX\GPX.cpp">
-      <Filter>App\Utils\GPX</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\WString\dtostrf.c">
-      <Filter>App\Utils\WString</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\WString\WString.cpp">
-      <Filter>App\Utils\WString</Filter>
-    </ClCompile>
     <ClCompile Include="lvgl\src\extra\widgets\chart\lv_chart.c">
       <Filter>lvgl\src\extra\widgets\chart</Filter>
     </ClCompile>
     <ClCompile Include="lvgl\src\extra\widgets\meter\lv_meter.c">
       <Filter>lvgl\src\extra\widgets\meter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_battery_info.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_bicycle.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_compass.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gyroscope.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_map_location.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_storage.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_system_info.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_time_info.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfos.cpp">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfosModel.cpp">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfosView.cpp">
-      <Filter>App\Pages\SystemInfos</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_IMU.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_MAG.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_agencyb_36.c">
-      <Filter>App\Resource\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Storage.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\StorageService\StorageService.cpp">
-      <Filter>App\Utils\StorageService</Filter>
     </ClCompile>
     <ClCompile Include="lvgl\src\core\lv_obj_style_gen.c">
       <Filter>lvgl\src\core</Filter>
@@ -1856,50 +1502,8 @@
     <ClCompile Include="lvgl\src\misc\lv_style_gen.c">
       <Filter>lvgl\src\misc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\TonePlayer\TonePlayer.cpp">
-      <Filter>App\Utils\TonePlayer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_MusicPlayer.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\Time\DateStrings.cpp">
-      <Filter>App\Utils\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\Time\Time.cpp">
-      <Filter>App\Utils\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_TzConv.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
     <ClCompile Include="lvgl\src\extra\themes\mono\lv_theme_mono.c">
       <Filter>lvgl\src\extra\themes\mono</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_SysConfig.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\TrackFilter\TrackLineFilter.cpp">
-      <Filter>App\Utils\TrackFilter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\TrackFilter\TrackPointFilter.cpp">
-      <Filter>App\Utils\TrackFilter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\TileConv\TileConv.cpp">
-      <Filter>App\Utils\TileConv</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_TrackFilter.cpp">
-      <Filter>App\Common\DataProc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\GPX_Parser\GPX_Parser.cpp">
-      <Filter>App\Utils\GPX_Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\Stream\Print.cpp">
-      <Filter>App\Utils\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\Stream\Stream.cpp">
-      <Filter>App\Utils\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_sd_card.c">
-      <Filter>App\Resource\Image</Filter>
     </ClCompile>
     <ClCompile Include="lvgl\src\misc\lv_anim_timeline.c">
       <Filter>lvgl\src\misc</Filter>
@@ -1909,81 +1513,6 @@
     </ClCompile>
     <ClCompile Include="lvgl\src\extra\widgets\span\lv_span.c">
       <Filter>lvgl\src\extra\widgets\span</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_anim_timeline_wrapper.c">
-      <Filter>App\Utils\lv_ext</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\GPS_Transform\GPS_Transform.c">
-      <Filter>App\Utils\MapConv\GPS_Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\TileSystem\TileSystem.cpp">
-      <Filter>App\Utils\MapConv\TileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\MapConv.cpp">
-      <Filter>App\Utils\MapConv</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Startup\Startup.cpp">
-      <Filter>App\Pages\Startup</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Startup\StartupModel.cpp">
-      <Filter>App\Pages\Startup</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Pages\Startup\StartupView.cpp">
-      <Filter>App\Pages\Startup</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_dark.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_light.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_default.c">
-      <Filter>App\Resource\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_lib_png\lodepng.c">
-      <Filter>App\Utils\lv_lib_png</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_lib_png\lv_png.c">
-      <Filter>App\Utils\lv_lib_png</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_Audio.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_Buzz.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_Clock.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_Encoder.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_GPS.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_IMU.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_MAG.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_Power.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="HAL\HAL_SD_CARD.cpp">
-      <Filter>HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\new\new.cpp">
-      <Filter>App\Utils\new</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\PointContainer\PointContainer.cpp">
-      <Filter>App\Utils\PointContainer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_poly_line\lv_poly_line.cpp">
-      <Filter>App\Utils\lv_poly_line</Filter>
     </ClCompile>
     <ClCompile Include="lvgl\src\draw\sw\lv_draw_sw.c">
       <Filter>lvgl\src\draw\sw</Filter>
@@ -2018,11 +1547,188 @@
     <ClCompile Include="lvgl\src\extra\others\monkey\lv_monkey.c">
       <Filter>lvgl\src\extra\others\monkey</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.c">
-      <Filter>App\Utils\DataCenter\PingPongBuffer</Filter>
+    <ClCompile Include="..\..\components\lvgl_gui\System\GeekOS.cpp">
+      <Filter>GeekOS\System</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_anim_label.c">
-      <Filter>App\Utils\lv_ext</Filter>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\AppFactory.cpp">
+      <Filter>GeekOS\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\ResourceManager.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUp.cpp">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpModel.cpp">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpView.cpp">
+      <Filter>GeekOS\Pages\StartUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_label.c">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_timeline_wrapper.c">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_obj_ext_func.cpp">
+      <Filter>GeekOS\System\lv_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\ResourcePool.cpp">
+      <Filter>GeekOS\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_agencyb_36.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\Launcher.cpp">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherModel.cpp">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherView.cpp">
+      <Filter>GeekOS\Pages\Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_run_ico_img.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\Account.cpp">
+      <Filter>GeekOS\DataCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\DataCenter.cpp">
+      <Filter>GeekOS\DataCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\PingPongBuffer\PingPongBuffer.c">
+      <Filter>GeekOS\DataCenter\PingPongBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\user_hal\HAL\HAL.cpp">
+      <Filter>HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_65.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\HalWin32.cpp">
+      <Filter>HalWin32</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\Event\ButtonEvent.cpp">
+      <Filter>HalWin32\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="HalWin32\HalWin32_Button.cpp">
+      <Filter>HalWin32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.cpp">
+      <Filter>GeekOS\Pages\SystemInfos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_13.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_17.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_32.c">
+      <Filter>GeekOS\Resource\front</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_alarm.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_bicycle.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_compass.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_dark.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_default.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_light.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_pin.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gyroscope.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_locate.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_map_location.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_menu.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_origin_point.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_pause.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_satellite.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_sd_card.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_start.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_stop.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_storage.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_system_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_time_info.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_trip.c">
+      <Filter>GeekOS\Resource\img</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\Template.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PageBase.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Anim.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Base.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Drag.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Router.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_State.cpp">
+      <Filter>GeekOS\System\PageManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2700,12 +2406,6 @@
     </None>
     <None Include="lvgl\README.md">
       <Filter>lvgl</Filter>
-    </None>
-    <None Include="..\..\USER\App\Common\DataProc\DP_LIST.inc">
-      <Filter>App\Common\DataProc</Filter>
-    </None>
-    <None Include="..\..\USER\App\Common\Music\MusicCode.h">
-      <Filter>App\Common\Music</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -49,9 +49,10 @@
 #include "lvgl/lvgl.h"
 #endif
 
+
 #include "Button.h"
 #include "lvgl_helpers.h"
-#include "page/lv_geek_gui.h"
+#include "System/GeekOS.h"
 
 // WIFI账号和密码配置
 #define CFG_DEV_INDEX       1
@@ -446,7 +447,7 @@ void key_task(){
         level = gpio_get_level(KEY1);
         if(level == 0 && key_press_flg == 0){
             printf("you press key1\n");
-            enter_func_page();
+            //enter_func_page();
             key_press_flg = c;
         }
         vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -464,43 +465,70 @@ void app_main(void)
 	//配置信息存储
 	//init_fatfs();
     // 初始化默认配置
-    init_default_cfg();
-    init_sdcard();
-	// 初始化LED显示
-    ESP_LOGI(TAG, "Init led gpio.\n");
-    //init_led_gpio();
-	// 启动wifi连接配置
-    ESP_LOGI(TAG, "Config wifi sta.\n");
+    // init_default_cfg();
+    // init_sdcard();
+	// // 初始化LED显示
+    // ESP_LOGI(TAG, "Init led gpio.\n");
+    // //init_led_gpio();
+	// // 启动wifi连接配置
+    // ESP_LOGI(TAG, "Config wifi sta.\n");
     //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
 
     button_init();
-    xTaskCreate(Button_Update, "button_task", 2048, NULL, 12, NULL);
+    xTaskCreate(Button_Update, "button_task", 2048 * 4, NULL, 12, NULL);
 
     //xTaskCreate(key_task, "key_task", 2048, NULL, 12, NULL);
 
     xTaskCreate(battery_sample_task, "adc_task", 4096, NULL, 12, NULL);
-    // 初始化MPU9250任务
-    ESP_LOGI(TAG, "Init mpu9250.\n");
-    init_mpu9250();
+    // // 初始化MPU9250任务
+    // ESP_LOGI(TAG, "Init mpu9250.\n");
+    // init_mpu9250();
     
-    // 配置串口0作为命令行输入输出
-    vTaskDelay(100 / portTICK_PERIOD_MS);
-	userShellInit(0);
-    // 启动命令行
-    xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
+    // // 配置串口0作为命令行输入输出
+    // vTaskDelay(100 / portTICK_PERIOD_MS);
+	// userShellInit(0);
+    // // 启动命令行
+    // xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
     // 启动图形GUI
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
 	// MPU9250串口循环发送
     while(1){
-        GetMPU9250Data_Euler(&yaw,&roll,&pitch);
+        //GetMPU9250Data_Euler(&yaw,&roll,&pitch);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
+}
+void keypad_init(void)
+{
+    /*Your code comes here*/
+}
+
+/* Will be called by the library to read the encoder */
+void keypad_read(lv_indev_drv_t* indev_drv, lv_indev_data_t* data)
+{
+    int ok = 0;
+    int up = 0;
+    int dn = 0;
+
+    getKeyPadState(&ok, &up, &dn);
+
+    data->enc_diff = up - dn;
+
+    if(data->enc_diff != 0){
+        printf("%d\n",data->enc_diff);
+    }
+
+    int16_t isPush = ok;
+
+    data->state = isPush ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+
+
 }
 
 int reboot(){
     esp_restart();
     return 0;
 }
+
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), reboot, reboot, reset system);
 
@@ -519,12 +547,15 @@ static void guiTask(void *pvParameter) {
     lv_init();
     // 初始化LCD显示驱动
     lvgl_driver_init();
+    keypad_init();
 
     lv_color_t* buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf1 != NULL);
     // 对于非单色显示器需要使用双BUFF
-    lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
-    assert(buf2 != NULL);
+    // lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
+    // assert(buf2 != NULL);
+
+    lv_color_t* buf2 = NULL;
 
     static lv_disp_draw_buf_t disp_buf;
 
@@ -542,6 +573,25 @@ static void guiTask(void *pvParameter) {
     disp_drv.ver_res = LV_VER_RES_MAX;     /*Set the vertical resolution in pixels*/
     lv_disp_drv_register(&disp_drv);       /*Register the driver and save the created display objects*/
 
+    static lv_indev_drv_t indev_drv;
+
+    /*Register a encoder input device*/
+    lv_indev_drv_init(&indev_drv);
+    indev_drv.type = LV_INDEV_TYPE_ENCODER;
+    indev_drv.read_cb = keypad_read;
+    lv_indev_t* indev = lv_indev_drv_register(&indev_drv);
+
+    lv_group_t* group = lv_group_create();
+    if (!lv_group_get_default())
+    {
+        group = lv_group_create();
+        if (group){
+            lv_group_set_default(group);
+        }
+    }
+    lv_indev_set_group(indev, group);
+
+
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
@@ -552,7 +602,7 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
     // 启动GEEK GUI
-    geek_gui_init();
+    GeekOS_Init();
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */

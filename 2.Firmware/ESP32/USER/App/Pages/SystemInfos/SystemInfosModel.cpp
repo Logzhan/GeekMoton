@@ -14,6 +14,7 @@ void SystemInfosModel::Init()
     account->Subscribe("Clock");
     account->Subscribe("Power");
     account->Subscribe("Storage");
+    account->Subscribe("StatusBar");
 }
 
 void SystemInfosModel::Deinit()
@@ -31,7 +32,7 @@ void SystemInfosModel::GetSportInfo(
     float* maxSpd
 )
 {
-    HAL::SportStatus_Info_t sport;
+    HAL::SportStatus_Info_t sport = { 0 };
     account->Pull("SportStatus", &sport, sizeof(sport));
     *trip = sport.totalDistance / 1000;
     DataProc::MakeTimeString(sport.totalTime, time, len);
@@ -47,7 +48,7 @@ void SystemInfosModel::GetGPSInfo(
     float* speed
 )
 {
-    HAL::GPS_Info_t gps;
+    HAL::GPS_Info_t gps = { 0 };
     account->Pull("GPS", &gps, sizeof(gps));
     *lat = (float)gps.latitude;
     *lng = (float)gps.longitude;
@@ -73,8 +74,8 @@ void SystemInfosModel::GetMAGInfo(
     int* z
 )
 {
-    HAL::MAG_Info_t mag;
-    memset(&mag, 0, sizeof(mag));
+    HAL::MAG_Info_t mag = { 0 };
+
     account->Pull("MAG", &mag, sizeof(mag));
 
     *dir = 0;
@@ -88,8 +89,8 @@ void SystemInfosModel::GetIMUInfo(
     char* info, uint32_t len
 )
 {
-    HAL::IMU_Info_t imu;
-    memset(&imu, 0, sizeof(imu));
+    HAL::IMU_Info_t imu = { 0 };
+
     account->Pull("IMU", &imu, sizeof(imu));
     *step = imu.steps;
     snprintf(
@@ -109,7 +110,7 @@ void SystemInfosModel::GetRTCInfo(
     char* dateTime, uint32_t len
 )
 {
-    HAL::Clock_Info_t clock;
+    HAL::Clock_Info_t clock = { 0 };
     account->Pull("Clock", &clock, sizeof(clock));
     snprintf(
         dateTime,
@@ -130,7 +131,7 @@ void SystemInfosModel::GetBatteryInfo(
     char* state, uint32_t len
 )
 {
-    HAL::Power_Info_t power;
+    HAL::Power_Info_t power = { 0 };
     account->Pull("Power", &power, sizeof(power));
     *usage = power.usage;
     *voltage = power.voltage / 1000.0f;
@@ -144,7 +145,7 @@ void SystemInfosModel::GetStorageInfo(
     char* usage, uint32_t len
 )
 {
-    DataProc::Storage_Basic_Info_t info;
+    DataProc::Storage_Basic_Info_t info = { 0 };
     account->Pull("Storage", &info, sizeof(info));
     *detect = info.isDetect;
     *type = info.type;
@@ -153,4 +154,15 @@ void SystemInfosModel::GetStorageInfo(
         "%0.1f GB",
         info.totalSizeMB / 1024.0f
     );
+}
+
+void SystemInfosModel::SetStatusBarStyle(DataProc::StatusBar_Style_t style)
+{
+    DataProc::StatusBar_Info_t info;
+    DATA_PROC_INIT_STRUCT(info);
+
+    info.cmd = DataProc::STATUS_BAR_CMD_SET_STYLE;
+    info.param.style = style;
+
+    account->Notify("StatusBar", &info, sizeof(info));
 }

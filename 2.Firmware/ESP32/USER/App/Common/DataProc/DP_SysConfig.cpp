@@ -26,7 +26,10 @@ static int onEvent(Account* account, Account::EventParam_t* param)
         else if (info->cmd == SYSCONFIG_CMD_SAVE)
         {
             HAL::GPS_Info_t gpsInfo;
-            account->Pull("GPS", &gpsInfo, sizeof(gpsInfo));
+            if(account->Pull("GPS", &gpsInfo, sizeof(gpsInfo)) != Account::RES_OK)
+            {
+                return Account::RES_UNKNOW;
+            }
 
             if(gpsInfo.isVaild)
             {
@@ -45,7 +48,7 @@ static int onEvent(Account* account, Account::EventParam_t* param)
         return Account::RES_UNSUPPORTED_REQUEST;
     }
 
-    return 0;
+    return Account::RES_OK;
 }
 
 DATA_PROC_INIT_DEF(SysConfig)

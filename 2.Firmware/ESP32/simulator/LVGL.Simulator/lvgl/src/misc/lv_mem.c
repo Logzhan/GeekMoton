@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file lv_mem.c
  * General and portable implementation of malloc and free.
  * The dynamic memory monitoring is also supported.

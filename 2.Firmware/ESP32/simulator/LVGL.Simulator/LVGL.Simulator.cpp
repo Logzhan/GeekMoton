@@ -12,8 +12,9 @@
 #include <stdio.h>
 #include "resource.h"
 #include "App.h"
+#include "HalWin32/HalWin32.h"
 #include "Common/HAL/HAL.h"
-#include "Utils/lv_lib_png/lv_png.h"
+//#include "Utils/lv_lib_png/lv_png.h"
 
 #if _MSC_VER >= 1200
  // Disable compilation warnings.
@@ -28,6 +29,7 @@
 #include "lvgl/examples/lv_examples.h"
 #include "lv_drivers/win32drv/win32drv.h"
 #include "lv_fs_if/lv_fs_if.h"
+#include "System/GeekOS.h"
 
 #if _MSC_VER >= 1200
 // Restore compilation warnings.
@@ -44,7 +46,7 @@ int main()
         GetModuleHandleW(NULL),
         SW_SHOW,
         240,
-        240,
+        135,
         LoadIconW(GetModuleHandleW(NULL), MAKEINTRESOURCE(IDI_LVGL))))
     {
         return -1;
@@ -52,18 +54,16 @@ int main()
 
     lv_win32_add_all_input_devices_to_group(NULL);
 
-    HAL::HAL_Init();  
-
-    App_Init();
+    HalWin32::Hal_Init();
+    GeekOS_Init();
 
     while (!lv_win32_quit_signal)
     {
         lv_timer_handler();
-        HAL::HAL_Update();
+        HalWin32::Hal_Update();
         Sleep(1);
     }
-
-    App_Uninit();
+    GeekOS_Uninit();
 
     return 0;
 }

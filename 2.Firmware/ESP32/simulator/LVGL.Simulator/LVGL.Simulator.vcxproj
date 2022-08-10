@@ -64,14 +64,14 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization Condition="'$(Configuration)'=='Release'">MinSpace</Optimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(ProjectDir)..\..\USER\App</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\..\components\hal\;$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)..\..\components\hal\;$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(ProjectDir)..\..\USER\App</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..\components\hal\;$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)..\..\components\hal\;$(ProjectDir)..\..\components\lvgl_gui\;$(ProjectDir)..\..\USER\App;$(ProjectDir)..\..\USER\App\Utils\ArduinoJson\src</AdditionalIncludeDirectories>
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProgramDatabase</DebugInformationFormat>
       <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</MultiProcessorCompilation>
@@ -79,77 +79,42 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\USER\App\App.h" />
-    <ClInclude Include="..\..\USER\App\Common\DataProc\DataProc.h" />
-    <ClInclude Include="..\..\USER\App\Common\DataProc\DataProc_Def.h" />
-    <ClInclude Include="..\..\USER\App\Common\HAL\HAL.h" />
-    <ClInclude Include="..\..\USER\App\Common\HAL\HAL_Def.h" />
-    <ClInclude Include="..\..\USER\App\Common\Music\ToneMap.h" />
-    <ClInclude Include="..\..\USER\App\Config\Config.h" />
-    <ClInclude Include="..\..\USER\App\Pages\AppFactory.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\Dialplate.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\DialplateModel.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Dialplate\DialplateView.h" />
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMap.h" />
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMapModel.h" />
-    <ClInclude Include="..\..\USER\App\Pages\LiveMap\LiveMapView.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Page.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Startup\Startup.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Startup\StartupModel.h" />
-    <ClInclude Include="..\..\USER\App\Pages\Startup\StartupView.h" />
-    <ClInclude Include="..\..\USER\App\Pages\StatusBar\StatusBar.h" />
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfos.h" />
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfosModel.h" />
-    <ClInclude Include="..\..\USER\App\Pages\SystemInfos\SystemInfosView.h" />
-    <ClInclude Include="..\..\USER\App\Pages\_Template\Template.h" />
-    <ClInclude Include="..\..\USER\App\Pages\_Template\TemplateModel.h" />
-    <ClInclude Include="..\..\USER\App\Pages\_Template\TemplateView.h" />
-    <ClInclude Include="..\..\USER\App\Resource\ResourcePool.h" />
-    <ClInclude Include="..\..\USER\App\Utils\ArduinoJson\ArduinoJson.h" />
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\Account.h" />
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\DataCenter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\DataCenterLog.h" />
-    <ClInclude Include="..\..\USER\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\FilterBase.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\Filters.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\MedianFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\LowpassFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\MedianQueueFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\HysteresisFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Filters\SlidingFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\GPX\GPX.h" />
-    <ClInclude Include="..\..\USER\App\Utils\GPX_Parser\GPX_Parser.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_anim_label.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_anim_timeline_wrapper.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_ext\lv_obj_ext_func.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_lib_png\lodepng.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_lib_png\lv_png.h" />
-    <ClInclude Include="..\..\USER\App\Utils\lv_poly_line\lv_poly_line.h" />
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\GPS_Transform\GPS_Transform.h" />
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\MapConv.h" />
-    <ClInclude Include="..\..\USER\App\Utils\MapConv\TileSystem\TileSystem.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageBase.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageFactory.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PageManager.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\PM_Log.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PageManager\ResourceManager.h" />
-    <ClInclude Include="..\..\USER\App\Utils\PointContainer\PointContainer.h" />
-    <ClInclude Include="..\..\USER\App\Utils\StorageService\StorageService.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Print.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Printable.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Stream\Stream.h" />
-    <ClInclude Include="..\..\USER\App\Utils\TileConv\TileConv.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Time\Time.h" />
-    <ClInclude Include="..\..\USER\App\Utils\Time\TimeLib.h" />
-    <ClInclude Include="..\..\USER\App\Utils\TonePlayer\TonePlayer.h" />
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackLineFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\TrackFilter\TrackPointFilter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\WString\dtostrf.h" />
-    <ClInclude Include="..\..\USER\App\Utils\WString\WCharacter.h" />
-    <ClInclude Include="..\..\USER\App\Utils\WString\WString.h" />
-    <ClInclude Include="..\..\USER\App\Version.h" />
-    <ClInclude Include="HAL\HAL.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\AppFactory.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\Launcher.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherModel.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherView.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\Page.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUp.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpModel.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpView.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\Template.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\Resource\ResourcePool.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\Account.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\DataCenter.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\DataCenterLog.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\DataCenter\PingPongBuffer\PingPongBuffer.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\GeekOS.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\HAL\HAL.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\HAL\HAL_Def.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_label.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_timeline_wrapper.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\lv_ext\lv_obj_ext_func.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageBase.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageFactory.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PageManager.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\PM_Log.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\PageManager\ResourceManager.h" />
+    <ClInclude Include="..\..\components\lvgl_gui\System\Version.h" />
+    <ClInclude Include="..\..\components\user_hal\HAL\HAL.h" />
+    <ClInclude Include="..\..\components\user_hal\HAL\HAL_Config.h" />
+    <ClInclude Include="HalWin32\Event\ButtonEvent.h" />
+    <ClInclude Include="HalWin32\HalWin32.h" />
+    <ClInclude Include="HalWin32\HalWin32_Button.h" />
     <ClInclude Include="lvgl\examples\get_started\lv_example_get_started.h" />
     <ClInclude Include="lvgl\examples\layouts\flex\lv_example_flex.h" />
     <ClInclude Include="lvgl\examples\layouts\grid\lv_example_grid.h" />
@@ -277,109 +242,67 @@
     <ClInclude Include="lvgl\lv_conf_template.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\USER\App\App.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DataProc.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Clock.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_GPS.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_IMU.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_MAG.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_MusicPlayer.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Power.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Recorder.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_SportStatus.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_Storage.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_SysConfig.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_TrackFilter.cpp" />
-    <ClCompile Include="..\..\USER\App\Common\DataProc\DP_TzConv.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\AppFactory.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\Dialplate.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\DialplateModel.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Dialplate\DialplateView.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMap.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMapModel.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\LiveMap\LiveMapView.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Startup\Startup.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Startup\StartupModel.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\Startup\StartupView.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\StatusBar\StatusBar.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfos.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfosModel.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\SystemInfos\SystemInfosView.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\_Template\Template.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\_Template\TemplateModel.cpp" />
-    <ClCompile Include="..\..\USER\App\Pages\_Template\TemplateView.cpp" />
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_agencyb_36.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_13.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_17.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_32.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Font\font_bahnschrift_65.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_alarm.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_battery.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_battery_info.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_bicycle.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_compass.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_dark.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_default.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_arrow_light.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gps_pin.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_gyroscope.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_locate.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_map_location.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_menu.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_origin_point.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_pause.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_satellite.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_sd_card.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_start.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_stop.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_storage.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_system_info.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_time_info.c" />
-    <ClCompile Include="..\..\USER\App\Resource\Image\img_src_trip.c" />
-    <ClCompile Include="..\..\USER\App\Resource\ResourcePool.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\Account.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\DataCenter.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\DataCenter\PingPongBuffer\PingPongBuffer.c" />
-    <ClCompile Include="..\..\USER\App\Utils\GPX\GPX.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\GPX_Parser\GPX_Parser.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_anim_label.c" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_anim_timeline_wrapper.c" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_ext\lv_obj_ext_func.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_lib_png\lodepng.c" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_lib_png\lv_png.c" />
-    <ClCompile Include="..\..\USER\App\Utils\lv_poly_line\lv_poly_line.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\GPS_Transform\GPS_Transform.c" />
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\MapConv.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\MapConv\TileSystem\TileSystem.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\new\new.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Base.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Drag.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Router.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_State.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\PM_Anim.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PageManager\ResourceManager.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\PointContainer\PointContainer.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\StorageService\StorageService.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\Stream\Print.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\Stream\Stream.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\TileConv\TileConv.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\Time\DateStrings.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\Time\Time.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\TonePlayer\TonePlayer.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\TrackFilter\TrackLineFilter.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\TrackFilter\TrackPointFilter.cpp" />
-    <ClCompile Include="..\..\USER\App\Utils\WString\dtostrf.c" />
-    <ClCompile Include="..\..\USER\App\Utils\WString\WString.cpp" />
-    <ClCompile Include="HAL\HAL.cpp" />
-    <ClCompile Include="HAL\HAL_Audio.cpp" />
-    <ClCompile Include="HAL\HAL_Buzz.cpp" />
-    <ClCompile Include="HAL\HAL_Clock.cpp" />
-    <ClCompile Include="HAL\HAL_Encoder.cpp" />
-    <ClCompile Include="HAL\HAL_GPS.cpp" />
-    <ClCompile Include="HAL\HAL_IMU.cpp" />
-    <ClCompile Include="HAL\HAL_MAG.cpp" />
-    <ClCompile Include="HAL\HAL_Power.cpp" />
-    <ClCompile Include="HAL\HAL_SD_CARD.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\AppFactory.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\Launcher.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherModel.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\Launcher\LauncherView.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUp.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpModel.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\StartUp\StartUpView.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfos.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosModel.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\SystemInfos\SystemInfosView.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\Template.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateModel.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Pages\_Template\TemplateView.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_agencyb_36.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_13.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_17.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_32.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\front\font_bahnschrift_65.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_alarm.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_battery_info.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_bicycle.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_compass.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_dark.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_default.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_arrow_light.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gps_pin.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_gyroscope.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_locate.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_map_location.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_menu.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_origin_point.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_pause.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_run_ico_img.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_satellite.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_sd_card.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_start.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_stop.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_storage.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_system_info.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_time_info.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\img\img_src_trip.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\Resource\ResourcePool.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\Account.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\DataCenter.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\DataCenter\PingPongBuffer\PingPongBuffer.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\GeekOS.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_label.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_anim_timeline_wrapper.c" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\lv_ext\lv_obj_ext_func.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PageBase.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Anim.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Base.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Drag.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_Router.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\PM_State.cpp" />
+    <ClCompile Include="..\..\components\lvgl_gui\System\PageManager\ResourceManager.cpp" />
+    <ClCompile Include="..\..\components\user_hal\HAL\HAL.cpp" />
+    <ClCompile Include="HalWin32\Event\ButtonEvent.cpp" />
+    <ClCompile Include="HalWin32\HalWin32.cpp" />
+    <ClCompile Include="HalWin32\HalWin32_Button.cpp" />
     <ClCompile Include="lvgl\examples\assets\imgbtn_left.c" />
     <ClCompile Include="lvgl\examples\assets\imgbtn_mid.c" />
     <ClCompile Include="lvgl\examples\assets\imgbtn_right.c" />
@@ -622,8 +545,6 @@
     <ClCompile Include="lv_fs_if\lv_fs_posix.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\USER\App\Common\DataProc\DP_LIST.inc" />
-    <None Include="..\..\USER\App\Common\Music\MusicCode.h" />
     <None Include="lvgl\.github\ISSUE_TEMPLATE\bug-report.md" />
     <None Include="lvgl\.github\ISSUE_TEMPLATE\config.yml" />
     <None Include="lvgl\.github\ISSUE_TEMPLATE\dev-discussion.md" />

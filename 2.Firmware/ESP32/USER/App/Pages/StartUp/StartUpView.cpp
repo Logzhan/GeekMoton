@@ -1,4 +1,5 @@
-#include "StartupView.h"
+#include "StartUpView.h"
+#include "Version.h"
 
 using namespace Page;
 
@@ -6,9 +7,6 @@ using namespace Page;
 
 void StartupView::Create(lv_obj_t* root)
 {
-    lv_obj_remove_style_all(root);
-    lv_obj_set_size(root, LV_HOR_RES, LV_VER_RES);
-
     lv_obj_t* cont = lv_obj_create(root);
     lv_obj_remove_style_all(cont);
     lv_obj_clear_flag(cont, LV_OBJ_FLAG_SCROLLABLE);
@@ -23,7 +21,7 @@ void StartupView::Create(lv_obj_t* root)
     lv_obj_t* label = lv_label_create(cont);
     lv_obj_set_style_text_font(label, ResourcePool::GetFont("agencyb_36"), 0);
     lv_obj_set_style_text_color(label, lv_color_white(), 0);
-    lv_label_set_text(label, "X-TRACK");
+    lv_label_set_text(label, VERSION_FIRMWARE_NAME);
     lv_obj_center(label);
     ui.labelLogo = label;
 

@@ -7,6 +7,7 @@ extern "C" {
 
 void button_init();
 void Button_Update();
+void getKeyPadState(int* ok, int* up, int* down);
 
 #ifdef __cplusplus
 }

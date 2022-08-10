@@ -5,12 +5,18 @@
 
 using namespace Page;
 
+#if CONFIG_MAP_IMG_PNG_ENABLE
+#include "Utils/lv_img_png/lv_img_png.h"
+#  define TILE_IMG_CREATE  lv_img_png_create
+#  define TILE_IMG_SET_SRC lv_img_png_set_src
+#else
+#  define TILE_IMG_CREATE  lv_img_create
+#  define TILE_IMG_SET_SRC lv_img_set_src
+#endif
+
 void LiveMapView::Create(lv_obj_t* root, uint32_t tileNum)
 {
-    lv_obj_remove_style_all(root);
-    lv_obj_set_size(root, LV_HOR_RES, LV_VER_RES);
     lv_obj_set_style_bg_color(root, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(root, LV_OPA_COVER, 0);
 
     lv_obj_t* label = lv_label_create(root);
     lv_obj_center(label);
@@ -78,7 +84,7 @@ void LiveMapView::Map_Create(lv_obj_t* par, uint32_t tileNum)
 
     for (uint32_t i = 0; i < tileNum; i++)
     {
-        lv_obj_t* img = lv_img_create(cont);
+        lv_obj_t* img = TILE_IMG_CREATE(cont);
         lv_obj_remove_style_all(img);
         ui.map.imgTiles[i] = img;
     }
@@ -112,6 +118,16 @@ void LiveMapView::SetMapTile(uint32_t tileSize, uint32_t widthCnt)
         lv_coord_t y = (i / widthCnt) * tileSize;
         lv_obj_set_pos(img, x, y);
     }
+}
+
+void LiveMapView::SetMapTileSrc(uint32_t index, const char* src)
+{
+    if (index >= ui.map.tileNum)
+    {
+        return;
+    }
+
+    TILE_IMG_SET_SRC(ui.map.imgTiles[index], src);
 }
 
 void LiveMapView::SetArrowTheme(const char* theme)
@@ -163,10 +179,9 @@ void LiveMapView::ZoomCtrl_Create(lv_obj_t* par)
     lv_style_transition_dsc_init(&tran, prop, lv_anim_path_ease_out, 200, 0, nullptr);
     lv_obj_set_style_x(cont, lv_obj_get_style_width(par, 0), LV_STATE_USER_1);
     lv_obj_set_style_opa(cont, LV_OPA_TRANSP, LV_STATE_USER_1);
-    lv_obj_add_state(cont, LV_STATE_USER_1);
     lv_obj_set_style_transition(cont, &tran, LV_STATE_USER_1);
-    lv_obj_set_style_transition(cont, &tran, 0);
-
+    lv_obj_set_style_transition(cont, &tran, LV_STATE_DEFAULT);
+    lv_obj_add_state(cont, LV_STATE_USER_1);
 
     lv_obj_t* label = lv_label_create(cont);
     lv_obj_add_style(label, &ui.styleLabel, 0);

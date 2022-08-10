@@ -26,7 +26,7 @@
  **********************/
 
 static void encoder_init(void);
-static void encoder_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
+static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
 
 /**********************
  *  STATIC VARIABLES
@@ -54,7 +54,7 @@ void lv_port_indev_init(void)
     /*Register a encoder input device*/
     lv_indev_drv_init(&indev_drv);
     indev_drv.type = LV_INDEV_TYPE_ENCODER;
-    indev_drv.read_cb = encoder_read;
+    indev_drv.read_cb = keypad_read;
     lv_indev_t* indev = lv_indev_drv_register(&indev_drv);
     
     lv_group_t* group = lv_group_create();
@@ -82,7 +82,7 @@ static void encoder_init(void)
 }
 
 /* Will be called by the library to read the encoder */
-static void encoder_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 {
     static bool lastState;
     data->enc_diff = HAL::Encoder_GetDiff();

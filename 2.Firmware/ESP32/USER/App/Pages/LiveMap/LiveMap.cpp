@@ -17,6 +17,7 @@ LiveMap::~LiveMap()
 
 void LiveMap::onCustomAttrConfig()
 {
+    SetCustomCacheEnable(false);
 }
 
 void LiveMap::onViewLoad()
@@ -33,7 +34,7 @@ void LiveMap::onViewLoad()
     TileConv::Rect_t rect;
     uint32_t tileNum = Model.tileConv.GetTileContainer(&rect);
 
-    View.Create(root, tileNum);
+    View.Create(_root, tileNum);
     lv_slider_set_range(
         View.ui.zoom.slider,
         Model.mapConv.GetLevelMin(),
@@ -49,7 +50,7 @@ void LiveMap::onViewLoad()
     lv_obj_set_style_border_width(contView, 1, 0);
 #endif
 
-    AttachEvent(root);
+    AttachEvent(_root);
     AttachEvent(View.ui.zoom.slider);
     AttachEvent(View.ui.sportInfo.cont);
 
@@ -78,6 +79,7 @@ void LiveMap::onViewDidLoad()
 
 void LiveMap::onViewWillAppear()
 {
+    lv_obj_set_style_opa(_root, LV_OPA_COVER, LV_PART_MAIN);
     Model.Init();
 
     char theme[16];
@@ -86,7 +88,7 @@ void LiveMap::onViewWillAppear()
 
     priv.isTrackAvtive = Model.GetTrackFilterActive();
 
-    StatusBar::SetStyle(StatusBar::STYLE_BLACK);
+    Model.SetStatusBarStyle(DataProc::STATUS_BAR_STYLE_BLACK);
     SportInfoUpdate();
     lv_obj_clear_flag(View.ui.labelInfo, LV_OBJ_FLAG_HIDDEN);
 }
@@ -122,7 +124,7 @@ void LiveMap::onViewWillDisappear()
 {
     lv_timer_del(priv.timer);
     lv_obj_add_flag(View.ui.map.cont, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_fade_out(root, 250, 250);
+    lv_obj_fade_out(_root, 250, 250);
 }
 
 void LiveMap::onViewDidDisappear()
@@ -130,9 +132,14 @@ void LiveMap::onViewDidDisappear()
     Model.Deinit();
 }
 
-void LiveMap::onViewDidUnload()
+void LiveMap::onViewUnload()
 {
     View.Delete();
+}
+
+void LiveMap::onViewDidUnload()
+{
+
 }
 
 void LiveMap::AttachEvent(lv_obj_t* obj)
@@ -285,7 +292,7 @@ void LiveMap::MapTileContReload()
         char path[64];
         Model.mapConv.ConvertMapPath(pos.x, pos.y, path, sizeof(path));
 
-        lv_img_set_src(View.ui.map.imgTiles[i], path);
+        View.SetMapTileSrc(i, path);
     }
 }
 
@@ -364,12 +371,12 @@ void LiveMap::onEvent(lv_event_t* event)
     LiveMap* instance = (LiveMap*)lv_event_get_user_data(event);
     LV_ASSERT_NULL(instance);
 
-    lv_obj_t* obj = lv_event_get_target(event);
+    lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
 
     if (code == LV_EVENT_LEAVE)
     {
-        instance->Manager->Pop();
+        instance->_Manager->Pop();
         return;
     }
 
@@ -387,7 +394,7 @@ void LiveMap::onEvent(lv_event_t* event)
         }
         else if (code == LV_EVENT_PRESSED)
         {
-            instance->Manager->Pop();
+            instance->_Manager->Pop();
         }
     }
 
@@ -395,7 +402,7 @@ void LiveMap::onEvent(lv_event_t* event)
     {
         if (code == LV_EVENT_PRESSED)
         {
-            instance->Manager->Pop();
+            instance->_Manager->Pop();
         }
     }
 }
