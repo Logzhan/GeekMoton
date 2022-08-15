@@ -18,6 +18,9 @@
 #include "ff.h"
 #include "esp_vfs_fat.h"
 #include "esp_spi_flash.h"
+
+#include "HAL/HAL.h"
+
 // ESP网络相关
 #include "esp_wifi.h"
 #include "esp_event.h"
@@ -35,22 +38,10 @@
 #include "geek_shell_api.h"
 
 // ADC 配置相关
-#include "sdcard.h"
-#include "battery.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
 
-#include "driver/gpio.h"
-
-/* Littlevgl specific */
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
 #include "lvgl.h"
-#else
-#include "lvgl/lvgl.h"
-#endif
-
-
-#include "Button.h"
 #include "lvgl_helpers.h"
 #include "System/GeekOS.h"
 
@@ -87,11 +78,10 @@ static const char *TAG        = "GEEKIMU";
 static int        s_retry_num = 0;
 static int        dev_idx     = 1;
 
-#define LV_TICK_PERIOD_MS 1
-
 /**********************
- *  STATIC PROTOTYPES
+ *  LVGL Support.
  **********************/
+#define LV_TICK_PERIOD_MS 1
 static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
 
@@ -411,50 +401,7 @@ int write_esp_cfg(int idx, char* ssid, char* psw)
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(3), write_esp_cfg, write_esp_cfg, write esp cfg);
 
-void key_task(){
-    int KEY1 = 25;
-    int KEY2 = 32;
-    int KEY3 = 33;
-
-    gpio_pad_select_gpio(KEY1);
-	gpio_set_direction(KEY1, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(KEY1, GPIO_PULLUP_ONLY);
-
-    gpio_pad_select_gpio(KEY2);
-	gpio_set_direction(KEY2, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(KEY2, GPIO_PULLUP_ONLY);
-
-    gpio_pad_select_gpio(KEY3);
-	gpio_set_direction(KEY3, GPIO_MODE_INPUT);
-    gpio_set_pull_mode(KEY3, GPIO_PULLUP_ONLY);
-    int key_press_flg = 0;
-    int c = 50;
-    while(1){
-        if(key_press_flg > 0){
-            key_press_flg--;
-        }
-        int level = 1;
-        level = gpio_get_level(KEY2);
-        if(level == 0 && key_press_flg == 0){
-            printf("you press key2\n");
-            key_press_flg = c;
-        }
-        level = gpio_get_level(KEY3);
-        if(level == 0 && key_press_flg == 0){
-            printf("you press key3\n");
-            key_press_flg = c;
-        }
-        level = gpio_get_level(KEY1);
-        if(level == 0 && key_press_flg == 0){
-            printf("you press key1\n");
-            //enter_func_page();
-            key_press_flg = c;
-        }
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-/**------------------------2----------------------------------------------
+/**-----------------------------------------------------------------------
 * Function    : app_main
 * Description : GEEKIMU 程序主入口
 * Author      : zhanli&719901725@qq.com
@@ -466,69 +413,45 @@ void app_main(void)
 	//init_fatfs();
     // 初始化默认配置
     // init_default_cfg();
-    // init_sdcard();
-	// // 初始化LED显示
-    // ESP_LOGI(TAG, "Init led gpio.\n");
-    // //init_led_gpio();
+    
 	// // 启动wifi连接配置
     // ESP_LOGI(TAG, "Config wifi sta.\n");
     //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
-
-    button_init();
-    xTaskCreate(Button_Update, "button_task", 2048 * 4, NULL, 12, NULL);
-
-    //xTaskCreate(key_task, "key_task", 2048, NULL, 12, NULL);
-
-    xTaskCreate(battery_sample_task, "adc_task", 4096, NULL, 12, NULL);
+    HAL_Init();
+    //xTaskCreate(Button_Update_Task, "ButtonTask", 512, NULL, 12, NULL);
+    xTaskCreate(HAL_Update, "HalTask", 2048, NULL, 12, NULL);
+    
     // // 初始化MPU9250任务
     // ESP_LOGI(TAG, "Init mpu9250.\n");
     // init_mpu9250();
     
-    // // 配置串口0作为命令行输入输出
-    // vTaskDelay(100 / portTICK_PERIOD_MS);
-	// userShellInit(0);
-    // // 启动命令行
-    // xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
-    // 启动图形GUI
+    /* Run letter shell cmd. */
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    /* Config serial zero for shell. */
+	userShellInit(0);
+    xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
+
+    /* Create lvgl GUI Task. */
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
-	// MPU9250串口循环发送
+    /* Forever loop. */
     while(1){
-        //GetMPU9250Data_Euler(&yaw,&roll,&pitch);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
-void keypad_init(void)
-{
-    /*Your code comes here*/
-}
-
 /* Will be called by the library to read the encoder */
 void keypad_read(lv_indev_drv_t* indev_drv, lv_indev_data_t* data)
 {
-    int ok = 0;
-    int up = 0;
-    int dn = 0;
-
-    getKeyPadState(&ok, &up, &dn);
-
-    data->enc_diff = up - dn;
-
-    if(data->enc_diff != 0){
-        printf("%d\n",data->enc_diff);
-    }
-
-    int16_t isPush = ok;
-
+    Button_Info_t info;
+    Button_GetInfo(&info);
+    data->enc_diff = info.btnUp - info.btnDown;
+    int16_t isPush = info.btnOK;
     data->state = isPush ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
-
-
 }
 
 int reboot(){
     esp_restart();
     return 0;
 }
-
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), reboot, reboot, reset system);
 
@@ -547,20 +470,16 @@ static void guiTask(void *pvParameter) {
     lv_init();
     // 初始化LCD显示驱动
     lvgl_driver_init();
-    keypad_init();
 
+    /* malloc display buffer */
     lv_color_t* buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf1 != NULL);
-    // 对于非单色显示器需要使用双BUFF
-    // lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
-    // assert(buf2 != NULL);
-
-    lv_color_t* buf2 = NULL;
+    /* rgb color screen recomand use double buff */
+    lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
+    assert(buf2 != NULL);
 
     static lv_disp_draw_buf_t disp_buf;
-
     uint32_t size_in_px = DISP_BUF_SIZE;
-
     /* Initialize the working buffer depending on the selected display.
      * NOTE: buf2 == NULL when using monochrome displays. */
     lv_disp_draw_buf_init(&disp_buf, buf1, buf2, size_in_px);
@@ -582,16 +501,10 @@ static void guiTask(void *pvParameter) {
     lv_indev_t* indev = lv_indev_drv_register(&indev_drv);
 
     lv_group_t* group = lv_group_create();
-    if (!lv_group_get_default())
-    {
-        group = lv_group_create();
-        if (group){
-            lv_group_set_default(group);
-        }
+    if (group){
+        lv_group_set_default(group);
+        lv_indev_set_group(indev, group);
     }
-    lv_indev_set_group(indev, group);
-
-
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
@@ -615,9 +528,7 @@ static void guiTask(void *pvParameter) {
     }
     /* A task should NEVER return */
     free(buf1);
-#ifndef CONFIG_LV_TFT_DISPLAY_MONOCHROME
     free(buf2);
-#endif
     vTaskDelete(NULL);
 }
 

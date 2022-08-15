@@ -29,7 +29,13 @@
         "lv_conf_kconfig.h": "c",
         "sdkconfig.h": "c",
         "disp_driver.h": "c",
-        "lvgl_spi_conf.h": "c"
+        "lvgl_spi_conf.h": "c",
+        "sdmmc_cmd.h": "c",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "hal.h": "c"
     },
     "idf.portWin": "COM3",
     "idf.openOcdConfigs": [
