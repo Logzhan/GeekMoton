@@ -11,6 +11,16 @@
 #include "../../misc/lv_log.h"
 #include "../../misc/lv_mem.h"
 
+#if _MSC_VER >= 1200
+#pragma warning(disable:4018)
+ // Disable compilation warnings.
+#pragma warning(push)
+// nonstandard extension used : bit field types other than int
+#pragma warning(disable:4214)
+// 'conversion' conversion from 'type1' to 'type2', possible loss of data
+#pragma warning(disable:4244)
+#endif
+
 /*********************
  *      DEFINES
  *********************/

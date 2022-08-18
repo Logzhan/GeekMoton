@@ -3,17 +3,17 @@
 #include "driver/gpio.h"
 
 /* Construct Button Object. */
-ButtonEvent btOK;              // 选择键
-ButtonEvent btUP;              // 上键
-ButtonEvent btDOWN;            // 下键
-ButtonEvent btPOWER;           // 电源键，不共享对象
+ButtonEvent btOK;              // Button OK
+ButtonEvent btUP;              // Button Up
+ButtonEvent btDOWN;            // Button Down
+ButtonEvent btPOWER;           // Power Button, No share Object.
 Button_Info_t Button_Info;
 
 /**
-  * @brief  按键事件回调处理
-  * @param  btn:按键对象地址
-  * @param  event:事件类型
-  * @retval 无
+  * @brief  Button callback handle event.
+  * @param  btn: Button object adress.
+  * @param  event: Event type.
+  * @retval None
   */
 static void Button_EventHandler(ButtonEvent* btn, int event)
 {
@@ -34,14 +34,14 @@ static void Button_EventHandler(ButtonEvent* btn, int event)
 }
 
 /**
-  * @brief  电源按键事件回调处理
-  * @param  btn:按键对象地址
-  * @param  event:事件类型
-  * @retval 无
+  * @brief  Button power event handler.
+  * @param  btn:Button object adress.
+  * @param  event:Event type.
+  * @retval None
   */
 static void ButtonPower_EventHandler(ButtonEvent* btn, int event){
     if(btn == &btPOWER){
-        /*长按关机*/
+        /* Long press shut down. */
         if(event == ButtonEvent::EVENT_ButtonLongPressed)
         {
             //Power_Shutdown();
@@ -56,9 +56,9 @@ void Button_GPIO_Config(gpio_num_t gpio){
 }
 
 /**
-  * @brief  按键初始化
-  * @param  无
-  * @retval 无
+  * @brief  Button initialize
+  * @param  None
+  * @retval None
   */
 void Button_Init()
 {

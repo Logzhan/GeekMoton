@@ -31,11 +31,9 @@
 
 //#include "StatusBar/StatusBar.h"
 
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
+
 #include "lvgl.h"
-#endif
+
 
 
 #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))

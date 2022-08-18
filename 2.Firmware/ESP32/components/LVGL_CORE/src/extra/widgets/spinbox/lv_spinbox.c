@@ -7,6 +7,17 @@
  *      INCLUDES
  *********************/
 #include "lv_spinbox.h"
+
+#if _MSC_VER >= 1200
+ // Disable compilation warnings.
+#pragma warning(push)
+// nonstandard extension used : bit field types other than int
+#pragma warning(disable:4214)
+// 'conversion' conversion from 'type1' to 'type2', possible loss of data
+#pragma warning(disable:4244)
+#endif
+
+
 #if LV_USE_SPINBOX
 
 #include "../../../misc/lv_assert.h"

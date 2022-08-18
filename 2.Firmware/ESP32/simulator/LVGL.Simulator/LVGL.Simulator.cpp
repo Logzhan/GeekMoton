@@ -10,11 +10,11 @@
 
 #include <Windows.h>
 #include <stdio.h>
+#include <thread>
 #include "resource.h"
 #include "App.h"
-#include "HalWin32/HalWin32.h"
-#include "Common/HAL/HAL.h"
-//#include "Utils/lv_lib_png/lv_png.h"
+#include "System/HAL/HAL.h"
+#include "System/GeekOS.h"
 
 #if _MSC_VER >= 1200
  // Disable compilation warnings.
@@ -25,11 +25,10 @@
 #pragma warning(disable:4244)
 #endif
 
-#include "lvgl/lvgl.h"
-#include "lvgl/examples/lv_examples.h"
+#include "lvgl.h"
 #include "lv_drivers/win32drv/win32drv.h"
 #include "lv_fs_if/lv_fs_if.h"
-#include "System/GeekOS.h"
+
 
 #if _MSC_VER >= 1200
 // Restore compilation warnings.
@@ -54,13 +53,16 @@ int main()
 
     lv_win32_add_all_input_devices_to_group(NULL);
 
-    HalWin32::Hal_Init();
+    HAL_Init();
+
+    std::thread* t = new std::thread(HAL_Update);
+
     GeekOS_Init();
 
+    /* LVGL GUI Main Loop. */
     while (!lv_win32_quit_signal)
     {
         lv_timer_handler();
-        HalWin32::Hal_Update();
         Sleep(1);
     }
     GeekOS_Uninit();

@@ -27,11 +27,8 @@
 extern "C" {
 #endif
 
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
 #include "lvgl.h"
-#endif
+
 
 typedef struct lv_anim_label_s {
     lv_obj_t* obj;

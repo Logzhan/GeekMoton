@@ -31,11 +31,9 @@
 #pragma warning(disable:4244)
 #endif
 
-#ifdef LV_LVGL_H_INCLUDE_SIMPLE
+
 #include "lvgl.h"
-#else
-#include "lvgl/lvgl.h"
-#endif
+
 
 #if _MSC_VER >= 1200
 // Restore compilation warnings.

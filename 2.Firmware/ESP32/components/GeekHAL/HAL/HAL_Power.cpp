@@ -28,7 +28,6 @@ void Power_Init(){
                                                             DEFAULT_VREF, &adc_chars);
 }
 
-
 void Power_GetInfo(Power_Info_t* info)
 {
     /* Current version not support charging detect. */

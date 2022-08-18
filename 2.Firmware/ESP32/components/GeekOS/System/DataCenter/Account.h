@@ -26,12 +26,8 @@
 #include <stdint.h>
 #include <vector>
 #include "PingPongBuffer/PingPongBuffer.h"
-
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
 #include "lvgl.h"
-#endif
+
 
 class DataCenter;
 

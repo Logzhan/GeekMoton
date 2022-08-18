@@ -23,11 +23,9 @@
 #ifndef __LV_OBJ_EXT_FUNC_H
 #define __LV_OBJ_EXT_FUNC_H
 
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
+
 #include "lvgl.h"
-#endif
+
 
 #define LV_ANIM_TIME_DEFAULT    400
 #define LV_ANIM_EXEC(attr)      (lv_anim_exec_xcb_t)lv_obj_set_##attr

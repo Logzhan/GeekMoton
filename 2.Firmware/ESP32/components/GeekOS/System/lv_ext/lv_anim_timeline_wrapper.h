@@ -5,11 +5,8 @@
 extern "C" {
 #endif
 
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
 #include "lvgl.h"
-#endif
+
 
 /*Data of anim_timeline*/
 typedef struct {

@@ -35,11 +35,8 @@
 #define VERSION_NUM_TO_STR(n)   _VERSION_NUM_TO_STR_(n)
 
 /* LVGL Version */
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
 #include "lvgl.h"
-#endif
+
 
 #define VERSION_LVGL            "v"\
                                 VERSION_NUM_TO_STR(LVGL_VERSION_MAJOR)\

@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include "HAL.h"
 #include "System/Version.h"
+#ifdef _WIN32
+#include <windows.h>
+#include <time.h>
+#else
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#endif
 
 #if CONFIG_SENSOR_ENABLE
 
@@ -66,7 +71,11 @@ void HAL_Update()
             Power_Update();
         }
         Button_Update();
+#ifdef _WIN32
+        Sleep(10);
+#else
         vTaskDelay(10 / portTICK_PERIOD_MS);
+#endif
         tick++;
     }
 }

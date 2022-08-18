@@ -23,11 +23,8 @@
 #ifndef __PAGE_BASE_H
 #define __PAGE_BASE_H
 
-#if defined(_WIN32)
-#include "../lvgl/lvgl.h"
-#else
 #include "lvgl.h"
-#endif
+
 
 
 /* Generate stash area data */

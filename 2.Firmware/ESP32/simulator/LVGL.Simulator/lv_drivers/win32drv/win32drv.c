@@ -17,6 +17,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "System/HAL/HAL.h"
 
 /*********************
  *      DEFINES
@@ -835,12 +836,19 @@ static void lv_win32_encoder_driver_read_callback(
     lv_indev_drv_t* indev_drv,
     lv_indev_data_t* data)
 {
-    UNREFERENCED_PARAMETER(indev_drv);
+    //UNREFERENCED_PARAMETER(indev_drv);
 
-    data->state = (lv_indev_state_t)(
-        g_mousewheel_pressed ? LV_INDEV_STATE_PR : LV_INDEV_STATE_REL);
-    data->enc_diff = g_mousewheel_value;
-    g_mousewheel_value = 0;
+    //data->state = (lv_indev_state_t)(
+    //    g_mousewheel_pressed ? LV_INDEV_STATE_PR : LV_INDEV_STATE_REL);
+    //data->enc_diff = g_mousewheel_value;
+    //g_mousewheel_value = 0;
+
+    Button_Info_t info;
+    Button_GetInfo(&info);
+    data->enc_diff = info.btnUp - info.btnDown;
+    int16_t isPush = info.btnOK;
+    data->state = isPush ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+
 }
 
 static LRESULT CALLBACK lv_win32_window_message_callback(
