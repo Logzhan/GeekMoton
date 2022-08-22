@@ -19,7 +19,6 @@ static bool SD_IsReady = false;
 static uint64_t SD_CardSize = 16 * 1024;
 static SD_CallbackFunction_t SD_EventCallback = nullptr;
 
-
 /*
  * User provided date time callback function.
  * See SdFile::dateTimeCallback() for usage.

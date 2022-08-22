@@ -47,6 +47,8 @@ void GeekOS_Init() {
         lv_group_t* group = lv_group_create();
         lv_group_set_default(group);
     }
+    /* Initialize the data processing node */
+    DataProc_Init();
 
     /* Set screen style */
     lv_obj_t* scr = lv_scr_act();

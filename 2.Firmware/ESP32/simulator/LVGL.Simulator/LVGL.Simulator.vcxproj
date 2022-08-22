@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\components\GeekHAL\HAL\HAL.h" />
+    <ClInclude Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.h" />
     <ClInclude Include="..\..\components\GeekOS\Common\DataProc\DataProc.h" />
     <ClInclude Include="..\..\components\GeekOS\Common\DataProc\DataProc_Def.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\AppFactory.h" />
@@ -230,8 +231,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\components\GeekHAL\HAL\HAL.cpp" />
+    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_IMU.cpp" />
+    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_MAG.cpp" />
+    <ClCompile Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DataProc.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_Clock.cpp" />
+    <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_IMU.cpp" />
+    <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_MAG.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\AppFactory.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\Launcher\Launcher.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\Launcher\LauncherModel.cpp" />

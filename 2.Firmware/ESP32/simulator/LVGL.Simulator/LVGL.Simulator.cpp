@@ -55,14 +55,13 @@ int main()
 
     HAL_Init();
 
-    std::thread* t = new std::thread(HAL_Update);
-
     GeekOS_Init();
 
     /* LVGL GUI Main Loop. */
     while (!lv_win32_quit_signal)
     {
         lv_timer_handler();
+        HAL_Update();
         Sleep(1);
     }
     GeekOS_Uninit();

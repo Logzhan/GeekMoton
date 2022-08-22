@@ -417,11 +417,14 @@ void app_main(void)
 	// // 启动wifi连接配置
     // ESP_LOGI(TAG, "Config wifi sta.\n");
     //xTaskCreate(wifi_init_sta, "wifi task", 4096, NULL, 12, NULL);
+
+    /* HAL init config. */
     HAL_Init();
+    /* HAL Task Create. */
     //xTaskCreate(Button_Update_Task, "ButtonTask", 512, NULL, 12, NULL);
-    xTaskCreate(HAL_Update, "HalTask", 2048, NULL, 12, NULL);
+
     
-    // // 初始化MPU9250任务
+    // 初始化MPU9250任务
     // ESP_LOGI(TAG, "Init mpu9250.\n");
     // init_mpu9250();
     
@@ -436,6 +439,7 @@ void app_main(void)
     /* Forever loop. */
     while(1){
         vTaskDelay(10 / portTICK_PERIOD_MS);
+        HAL_Update();
     }
 }
 /* Will be called by the library to read the encoder */

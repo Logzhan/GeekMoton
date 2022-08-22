@@ -37,7 +37,7 @@
         "utility": "cpp",
         "hal.h": "c"
     },
-    "idf.portWin": "COM3",
+    "idf.portWin": "COM4",
     "idf.openOcdConfigs": [
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32.cfg"

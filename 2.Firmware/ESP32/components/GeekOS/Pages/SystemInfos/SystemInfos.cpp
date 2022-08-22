@@ -102,19 +102,15 @@ void SystemInfos::Update()
 //    Model.GetGPSInfo(&lat, &lng, &alt, buf, sizeof(buf), &course, &speed);
 //    View.SetGPS(lat, lng, alt, buf, course, speed);
 //
-//    /* MAG */
-//    float dir;
-//    int x;
-//    int y;
-//    int z;
-//    Model.GetMAGInfo(&dir, &x, &y, &z);
-//    View.SetMAG(dir, x, y, z);
-//
-//    /* IMU */
-//    int steps;
-//    Model.GetIMUInfo(&steps, buf, sizeof(buf));
-//    View.SetIMU(steps, buf);
-//
+    /* MAG */
+    Model.GetMAGInfo(buf, sizeof(buf));
+    View.SetMAG(buf);
+
+    /* IMU */
+    int steps;
+    Model.GetIMUInfo(&steps, buf, sizeof(buf));
+    View.SetIMU(steps, buf);
+
 //    /* RTC */
 //    Model.GetRTCInfo(buf, sizeof(buf));
 //    View.SetRTC(buf);

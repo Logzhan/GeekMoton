@@ -24,11 +24,11 @@ void Power_GetInfo(Power_Info_t* info)
 
 void Power_GetBatteryVoltage(){
     static uint16_t voltage = 3000;
-    ++voltage;
+    voltage += 100;
     if (voltage > 4300) {
         voltage = 3000;
     }
-    Power_Info.voltage = 4000;
+    Power_Info.voltage = voltage;
 }
 
 

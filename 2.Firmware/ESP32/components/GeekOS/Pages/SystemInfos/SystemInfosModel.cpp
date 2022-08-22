@@ -10,8 +10,8 @@ void SystemInfosModel::Init()
 
     //account->Subscribe("SportStatus");
     //account->Subscribe("GPS");
-    //account->Subscribe("MAG");
-    //account->Subscribe("IMU");
+    account->Subscribe("MAG");
+    account->Subscribe("IMU");
     //account->Subscribe("Clock");
     //account->Subscribe("Power");
     //account->Subscribe("Storage");
@@ -69,20 +69,22 @@ void SystemInfosModel::GetGPSInfo(
 }
 
 void SystemInfosModel::GetMAGInfo(
-    float* dir,
-    int* x,
-    int* y,
-    int* z
+    char* info, uint32_t len
 )
 {
     MAG_Info_t mag = { 0 };
 
     account->Pull("MAG", &mag, sizeof(mag));
+    snprintf(
+        info,
+        len,
+        "%0.1f deg\n%d\n%d\n%d",
+        0.0f,
+        mag.x,
+        mag.y,
+        mag.z
+    );
 
-    *dir = 0;
-    *x = mag.x;
-    *y = mag.y;
-    *z = mag.z;
 }
 
 void SystemInfosModel::GetIMUInfo(

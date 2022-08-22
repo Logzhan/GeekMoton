@@ -29,10 +29,7 @@
      );
 
      void GetMAGInfo(
-         float* dir,
-         int* x,
-         int* y,
-         int* z
+         char* info, uint32_t len
      );
 
      void GetIMUInfo(

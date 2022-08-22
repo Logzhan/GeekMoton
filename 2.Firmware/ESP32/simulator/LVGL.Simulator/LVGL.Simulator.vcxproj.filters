@@ -181,6 +181,9 @@
     <Filter Include="Win32HAL\Event">
       <UniqueIdentifier>{66232f7d-021d-4db7-baa0-c6407769d292}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Win32HAL\MillisTaskManager">
+      <UniqueIdentifier>{a117a0a8-e83f-4271-bdf3-e630af68138b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lv_fs_if\lv_fs_if.h">
@@ -629,6 +632,9 @@
     </ClInclude>
     <ClInclude Include="Win32HAL\Event\ButtonEvent.h">
       <Filter>Win32HAL\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.h">
+      <Filter>Win32HAL\MillisTaskManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1237,6 +1243,21 @@
     </ClCompile>
     <ClCompile Include="Win32HAL\Event\ButtonEvent.cpp">
       <Filter>Win32HAL\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.cpp">
+      <Filter>Win32HAL\MillisTaskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_IMU.cpp">
+      <Filter>Win32HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_MAG.cpp">
+      <Filter>Win32HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_IMU.cpp">
+      <Filter>GeekOS\Common\DataProc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_MAG.cpp">
+      <Filter>GeekOS\Common\DataProc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

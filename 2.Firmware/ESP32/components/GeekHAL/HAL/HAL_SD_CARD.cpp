@@ -63,6 +63,10 @@ const char* SD_GetCardName(){
 
 float SD_GetCardSizeMB()
 {
+    if(SD_IsReady == false){
+        SD_CardSize = 0;
+        return 0.0f;
+    }
     SD_CardSize = ((uint64_t) card->csd.capacity) * card->
             csd.sector_size / (1024 * 1024);
     float size = (float)SD_CardSize;

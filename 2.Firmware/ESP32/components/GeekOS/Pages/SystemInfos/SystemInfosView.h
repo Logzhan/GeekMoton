@@ -48,10 +48,7 @@ public:
         float speed
     );
     void SetMAG(
-        float dir,
-        int x,
-        int y,
-        int z
+        const char* info
     );
     void SetIMU(
         int step,
