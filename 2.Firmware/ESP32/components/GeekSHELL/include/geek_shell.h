@@ -28,6 +28,11 @@
                 action; \
             }
 
+#define     SHELL_RETURN_ASSERT(expr, action, v) \
+            if (!(expr)) { \
+                action v; \
+            }
+
 #if SHELL_USING_LOCK == 1
 #define     SHELL_LOCK(shell)           shell->lock(shell)
 #define     SHELL_UNLOCK(shell)         shell->unlock(shell)

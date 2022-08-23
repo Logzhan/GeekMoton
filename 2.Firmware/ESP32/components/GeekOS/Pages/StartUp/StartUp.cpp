@@ -63,8 +63,6 @@ void Startup::onTimer(lv_timer_t* timer)
 {
     Startup* instance = (Startup*)timer->user_data;
     instance->_Manager->Push("Pages/Launcher");
-    //instance->_Manager->Push("Pages/_Template");
-    //instance->_Manager->Push("Pages/SystemInfos");
 }
 
 void Startup::onEvent(lv_event_t* event)

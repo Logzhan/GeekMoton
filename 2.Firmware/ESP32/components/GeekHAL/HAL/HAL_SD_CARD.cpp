@@ -28,31 +28,31 @@ sdmmc_card_t* card;
  * User provided date time callback function.
  * See SdFile::dateTimeCallback() for usage.
  */
-static void SD_GetDateTime(uint16_t* date, uint16_t* time)
-{
-    // User gets date and time from GPS or real-time
-    // clock in real callback function
-    // HAL::Clock_Info_t clock;
-    // HAL::Clock_GetInfo(&clock);
+// static void SD_GetDateTime(uint16_t* date, uint16_t* time)
+// {
+//     // User gets date and time from GPS or real-time
+//     // clock in real callback function
+//     // HAL::Clock_Info_t clock;
+//     // HAL::Clock_GetInfo(&clock);
 
-    // // return date using FAT_DATE macro to format fields
-    // *date = FAT_DATE(clock.year, clock.month, clock.day);
+//     // // return date using FAT_DATE macro to format fields
+//     // *date = FAT_DATE(clock.year, clock.month, clock.day);
 
-    // // return time using FAT_TIME macro to format fields
-    // *time = FAT_TIME(clock.hour, clock.minute, clock.second);
-}
+//     // // return time using FAT_TIME macro to format fields
+//     // *time = FAT_TIME(clock.hour, clock.minute, clock.second);
+// }
 
-static bool SD_CheckDir(const char* path)
-{
-    bool retval = true;
-    // if(!SD.exists(path))
-    // {
-    //     Serial.printf("SD: Auto create path \"%s\"...", path);
-    //     retval = SD.mkdir(path);
-    //     Serial.println(retval ? "success" : "failed");
-    // }
-    return retval;
-}
+// static bool SD_CheckDir(const char* path)
+// {
+//     bool retval = true;
+//     // if(!SD.exists(path))
+//     // {
+//     //     Serial.printf("SD: Auto create path \"%s\"...", path);
+//     //     retval = SD.mkdir(path);
+//     //     Serial.println(retval ? "success" : "failed");
+//     // }
+//     return retval;
+// }
 
 const char* SD_GetCardName(){
     if(SD_IsReady){
@@ -88,6 +88,8 @@ bool SD_Init()
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
         .max_transfer_sz = 4000,
+        .flags = 0,
+        .intr_flags = 0
     };
     sdmmc_host_t host = SDSPI_HOST_DEFAULT();
     sdspi_device_config_t slot_config = SDSPI_DEVICE_CONFIG_DEFAULT();
@@ -159,32 +161,32 @@ failed:
     return type;
 }
 
-static void SD_Check(bool isInsert)
-{
-    // if(isInsert)
-    // {
-    //     bool ret = HAL::SD_Init();
+// static void SD_Check(bool isInsert)
+// {
+//     // if(isInsert)
+//     // {
+//     //     bool ret = HAL::SD_Init();
 
-    //     if(ret && SD_EventCallback)
-    //     {
-    //         SD_EventCallback(true);
-    //     }
+//     //     if(ret && SD_EventCallback)
+//     //     {
+//     //         SD_EventCallback(true);
+//     //     }
 
-    //     HAL::Audio_PlayMusic(ret ? "DeviceInsert" : "Error");
-    // }
-    // else
-    // {
-    //     SD_IsReady = false;
+//     //     HAL::Audio_PlayMusic(ret ? "DeviceInsert" : "Error");
+//     // }
+//     // else
+//     // {
+//     //     SD_IsReady = false;
 
-    //     if(SD_EventCallback)
-    //     {
-    //         SD_EventCallback(false);
-    //         SD_CardSize = 0;
-    //     }
+//     //     if(SD_EventCallback)
+//     //     {
+//     //         SD_EventCallback(false);
+//     //         SD_CardSize = 0;
+//     //     }
 
-    //     HAL::Audio_PlayMusic("DevicePullout");
-    // }
-}
+//     //     HAL::Audio_PlayMusic("DevicePullout");
+//     // }
+// }
 
 void SD_SetEventCallback(SD_CallbackFunction_t callback)
 {

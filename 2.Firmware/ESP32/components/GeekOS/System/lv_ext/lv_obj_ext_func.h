@@ -30,6 +30,8 @@
 #define LV_ANIM_TIME_DEFAULT    400
 #define LV_ANIM_EXEC(attr)      (lv_anim_exec_xcb_t)lv_obj_set_##attr
 
+void lv_ext_obj_set_width(void* obj, int32_t w);
+void lv_ext_obj_set_y(void* obj, int32_t y);
 void lv_obj_set_opa_scale(lv_obj_t* obj, int16_t opa);
 int16_t lv_obj_get_opa_scale(lv_obj_t* obj);
 void lv_label_set_text_add(lv_obj_t * label, const char * text);

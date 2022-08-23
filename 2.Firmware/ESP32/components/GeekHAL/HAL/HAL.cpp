@@ -29,10 +29,10 @@ static void HAL_Sensor_Init()
 
 #endif
 
-static void HAL_TimerInterrputUpdate()
-{
+// static void HAL_TimerInterrputUpdate()
+// {
 
-}
+// }
 
 void HAL_Init()
 {

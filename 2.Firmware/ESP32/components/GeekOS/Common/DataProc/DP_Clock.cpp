@@ -29,51 +29,51 @@ const char* DataProc::MakeTimeString(uint64_t ms, char* buf, uint16_t len)
     return buf;
 }
 
-static bool Clock_Calibrate(Account* account, GPS_Info_t* gpsInfo)
-{
-    bool retval = false;
-    if(gpsInfo->isVaild)
-    {
-        Clock_Info_t clock;
-        if (account->Pull("TzConv", &clock, sizeof(clock)) == Account::RES_OK)
-        {
-            Clock_SetInfo(&clock);
-            retval = true;
-        }
-    }
-    return retval;
-}
+// static bool Clock_Calibrate(Account* account, GPS_Info_t* gpsInfo)
+// {
+//     bool retval = false;
+//     if(gpsInfo->isVaild)
+//     {
+//         Clock_Info_t clock;
+//         if (account->Pull("TzConv", &clock, sizeof(clock)) == Account::RES_OK)
+//         {
+//             Clock_SetInfo(&clock);
+//             retval = true;
+//         }
+//     }
+//     return retval;
+// }
 
-static int onEvent(Account* account, Account::EventParam_t* param)
-{
-    if (param->event == Account::EVENT_PUB_PUBLISH)
-    {
-        if (param->size == sizeof(GPS_Info_t))
-        {
-            if (Clock_Calibrate(account, (GPS_Info_t*)param->data_p))
-            {
-                account->Unsubscribe("GPS");
-            }
-        }
+// static int onEvent(Account* account, Account::EventParam_t* param)
+// {
+//     if (param->event == Account::EVENT_PUB_PUBLISH)
+//     {
+//         if (param->size == sizeof(GPS_Info_t))
+//         {
+//             if (Clock_Calibrate(account, (GPS_Info_t*)param->data_p))
+//             {
+//                 account->Unsubscribe("GPS");
+//             }
+//         }
         
-        return Account::RES_OK;
-    }
+//         return Account::RES_OK;
+//     }
 
-    if (param->event != Account::EVENT_SUB_PULL)
-    {
-        return Account::RES_UNSUPPORTED_REQUEST;
-    }
+//     if (param->event != Account::EVENT_SUB_PULL)
+//     {
+//         return Account::RES_UNSUPPORTED_REQUEST;
+//     }
 
-    if (param->size != sizeof(Clock_Info_t))
-    {
-        return Account::RES_SIZE_MISMATCH;
-    }
+//     if (param->size != sizeof(Clock_Info_t))
+//     {
+//         return Account::RES_SIZE_MISMATCH;
+//     }
 
-    Clock_Info_t* info = (Clock_Info_t*)param->data_p;
-    Clock_GetInfo(info);
+//     // Clock_Info_t* info = (Clock_Info_t*)param->data_p;
+//     // Clock_GetInfo(info);
 
-    return Account::RES_OK;
-}
+//     return Account::RES_OK;
+// }
 
 DATA_PROC_INIT_DEF(Clock)
 {

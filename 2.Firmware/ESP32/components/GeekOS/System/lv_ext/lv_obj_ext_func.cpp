@@ -32,6 +32,13 @@ int16_t lv_obj_get_opa_scale(lv_obj_t* obj)
     return lv_obj_get_style_bg_opa(obj, LV_PART_MAIN);
 }
 
+void lv_ext_obj_set_width(void* obj, int32_t w){
+    lv_obj_set_width((lv_obj_t*)obj, (lv_coord_t)w);
+}
+
+void lv_ext_obj_set_y(void* obj, int32_t y){
+    lv_obj_set_y((lv_obj_t*)obj, (lv_coord_t)y);
+}
 /**
   * @brief  在label后追加字符串
   * @param  label:被追加的对象

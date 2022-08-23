@@ -35,11 +35,13 @@
         "string_view": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "hal.h": "c"
+        "hal.h": "c",
+        "geek_shell_cfg.h": "c"
     },
     "idf.portWin": "COM4",
     "idf.openOcdConfigs": [
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32.cfg"
-    ]
+    ],
+    "idf.flashType": "UART"
 }

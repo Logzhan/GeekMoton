@@ -1672,10 +1672,10 @@ static void shellWriteCommandHelp(Shell *shell, char *cmd)
  * @param argc 参数个数
  * @param argv 参数
  */
-void shellHelp(int argc, char *argv[])
+int shellHelp(int argc, char *argv[])
 {
     Shell *shell = shellGetCurrent();
-    SHELL_ASSERT(shell, return);
+    SHELL_RETURN_ASSERT(shell, return, 0);
     if (argc == 1)
     {
         shellListAll(shell);
@@ -1684,6 +1684,7 @@ void shellHelp(int argc, char *argv[])
     {
         shellWriteCommandHelp(shell, argv[1]);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_MAIN)|SHELL_CMD_DISABLE_RETURN,
@@ -1832,13 +1833,14 @@ void shellTask(void *param)
 /**
  * @brief shell 输出用户列表(shell调用)
  */
-void shellUsers(void)
+int shellUsers(void)
 {
     Shell *shell = shellGetCurrent();
     if (shell)
     {
         shellListUser(shell);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
@@ -1848,13 +1850,14 @@ users, shellUsers, list all user);
 /**
  * @brief shell 输出命令列表(shell调用)
  */
-void shellCmds(void)
+int shellCmds(void)
 {
     Shell *shell = shellGetCurrent();
     if (shell)
     {
         shellListCommand(shell);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
@@ -1864,13 +1867,14 @@ cmds, shellCmds, list all cmd);
 /**
  * @brief shell 输出变量列表(shell调用)
  */
-void shellVars(void)
+int shellVars(void)
 {
     Shell *shell = shellGetCurrent();
     if (shell)
     {
         shellListVar(shell);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
@@ -1880,13 +1884,14 @@ vars, shellVars, list all var);
 /**
  * @brief shell 输出按键列表(shell调用)
  */
-void shellKeys(void)
+int shellKeys(void)
 {
     Shell *shell = shellGetCurrent();
     if (shell)
     {
         shellListKey(shell);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,
@@ -1896,13 +1901,14 @@ keys, shellKeys, list all key);
 /**
  * @brief shell 清空控制台(shell调用)
  */
-void shellClear(void)
+int shellClear(void)
 {
     Shell *shell = shellGetCurrent();
     if (shell)
     {
         shellWriteString(shell, shellText[SHELL_TEXT_CLEAR_CONSOLE]);
     }
+    return 0;
 }
 SHELL_EXPORT_CMD(
 SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|SHELL_CMD_DISABLE_RETURN,

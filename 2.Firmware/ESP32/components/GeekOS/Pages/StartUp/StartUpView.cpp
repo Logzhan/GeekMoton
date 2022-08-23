@@ -30,12 +30,12 @@ void StartupView::Create(lv_obj_t* root)
     ui.anim_timeline = lv_anim_timeline_create();
 
 #define ANIM_DEF(start_time, obj, attr, start, end) \
-     {start_time, obj, LV_ANIM_EXEC(attr), start, end, 500, lv_anim_path_ease_out, true}
+     {start_time, obj, attr, start, end, 500, lv_anim_path_ease_out, true}
 
     lv_anim_timeline_wrapper_t wrapper[] =
     {
-        ANIM_DEF(0, ui.cont, width, 0, lv_obj_get_style_width(ui.cont, 0)),
-        ANIM_DEF(500, ui.labelLogo, y, lv_obj_get_style_height(ui.cont, 0), lv_obj_get_y(ui.labelLogo)),
+        ANIM_DEF(0, ui.cont, lv_ext_obj_set_width, 0, lv_obj_get_style_width(ui.cont, 0)),
+        ANIM_DEF(500, ui.labelLogo, lv_ext_obj_set_y, lv_obj_get_style_height(ui.cont, 0), lv_obj_get_y(ui.labelLogo)),
         LV_ANIM_TIMELINE_WRAPPER_END
     };
 

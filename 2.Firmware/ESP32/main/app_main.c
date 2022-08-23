@@ -423,19 +423,19 @@ void app_main(void)
     /* HAL Task Create. */
     //xTaskCreate(Button_Update_Task, "ButtonTask", 512, NULL, 12, NULL);
 
-    
     // 初始化MPU9250任务
     // ESP_LOGI(TAG, "Init mpu9250.\n");
     // init_mpu9250();
     
+    /* Create lvgl GUI Task. */
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
+
     /* Run letter shell cmd. */
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    vTaskDelay(1500 / portTICK_PERIOD_MS);
     /* Config serial zero for shell. */
 	userShellInit(0);
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
 
-    /* Create lvgl GUI Task. */
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
     /* Forever loop. */
     while(1){
         vTaskDelay(10 / portTICK_PERIOD_MS);

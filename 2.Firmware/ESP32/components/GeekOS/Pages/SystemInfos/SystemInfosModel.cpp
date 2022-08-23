@@ -1,6 +1,8 @@
+#include <stdio.h>
+#include <memory.h>
 #include "SystemInfosModel.h"
 #include "System/HAL/HAL.h"
-#include <stdio.h>
+
 
 using namespace Page;
 
@@ -33,7 +35,8 @@ void SystemInfosModel::GetSportInfo(
     float* maxSpd
 )
 {
-    SportStatus_Info_t sport = { 0 };
+    SportStatus_Info_t sport;
+    memset(&sport,0,sizeof(SportStatus_Info_t));
     account->Pull("SportStatus", &sport, sizeof(sport));
     *trip = sport.totalDistance / 1000;
     DataProc::MakeTimeString(sport.totalTime, time, len);
@@ -49,7 +52,8 @@ void SystemInfosModel::GetGPSInfo(
     float* speed
 )
 {
-    GPS_Info_t gps = { 0 };
+    GPS_Info_t gps;
+    memset(&gps,0,sizeof(GPS_Info_t));
     account->Pull("GPS", &gps, sizeof(gps));
     *lat = (float)gps.latitude;
     *lng = (float)gps.longitude;
@@ -72,8 +76,8 @@ void SystemInfosModel::GetMAGInfo(
     char* info, uint32_t len
 )
 {
-    MAG_Info_t mag = { 0 };
-
+    MAG_Info_t mag;
+    memset(&mag,0,sizeof(MAG_Info_t));
     account->Pull("MAG", &mag, sizeof(mag));
     snprintf(
         info,
@@ -92,8 +96,8 @@ void SystemInfosModel::GetIMUInfo(
     char* info, uint32_t len
 )
 {
-    IMU_Info_t imu = { 0 };
-
+    IMU_Info_t imu;
+    memset(&imu,0,sizeof(IMU_Info_t));
     account->Pull("IMU", &imu, sizeof(imu));
     *step = imu.steps;
     snprintf(
@@ -113,7 +117,8 @@ void SystemInfosModel::GetRTCInfo(
     char* dateTime, uint32_t len
 )
 {
-    Clock_Info_t clock = { 0 };
+    Clock_Info_t clock;
+    memset(&clock,0,sizeof(Clock_Info_t));
     account->Pull("Clock", &clock, sizeof(clock));
     snprintf(
         dateTime,
@@ -133,7 +138,8 @@ void SystemInfosModel::GetBatteryInfo(
     uint32_t len
 )
 {
-    Power_Info_t power = { 0 };
+    Power_Info_t power;
+    memset(&power,0,sizeof(Power_Info_t));
     Power_GetInfo(&power);
     snprintf(
 		info, len,

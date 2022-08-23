@@ -24,8 +24,7 @@ void Power_Init(){
     // 配置ADC基本参数
     adc1_config_width(width);
     adc1_config_channel_atten(channel, atten);
-    esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, width, 
-                                                            DEFAULT_VREF, &adc_chars);
+    esp_adc_cal_characterize(unit, atten, width, DEFAULT_VREF, &adc_chars);
 }
 
 void Power_GetInfo(Power_Info_t* info)
