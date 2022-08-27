@@ -103,13 +103,13 @@ void SystemInfosModel::GetIMUInfo(
     snprintf(
         info,
         len,
-        "%d\n%d\n%d\n%d\n%d\n%d",
-        imu.ax,
-        imu.ay,
-        imu.az,
-        imu.gx,
-        imu.gy,
-        imu.gz
+        "%.2f\n%.2f\n%.2f\n%.2f\n%.2f\n%.2f",
+        imu.acc[0],
+        imu.acc[1],
+        imu.acc[2],
+        imu.gyr[0],
+        imu.gyr[1],
+        imu.gyr[2]
     );
 }
 

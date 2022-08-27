@@ -3,7 +3,7 @@
 
 
 #include "lvgl.h"
-
+#include "Common/DataProc/DataProc.h"
 
 namespace Page
 {
@@ -11,10 +11,11 @@ namespace Page
 class LauncherModel
 {
 public:
-    uint32_t TickSave;
-    uint32_t GetData();
+    void Init();
+    void Deinit();
+    int16_t GetUserStep();
 private:
-
+    Account* account;
 };
 
 }

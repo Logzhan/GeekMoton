@@ -61,7 +61,7 @@ int main()
     while (!lv_win32_quit_signal)
     {
         lv_timer_handler();
-        HAL_Update();
+        HAL_Update(lv_tick_get());
         Sleep(1);
     }
     GeekOS_Uninit();

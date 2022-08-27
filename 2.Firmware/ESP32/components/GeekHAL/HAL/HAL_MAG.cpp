@@ -11,9 +11,9 @@ void MAG_SetCommitCallback(CommitFunc_t func, void* userData)
     UserData = userData;
 }
 
-bool MAG_Init()
+uint8_t MAG_Init()
 {
-    return true;
+    return 0;
 }
 
 void MAG_Update()

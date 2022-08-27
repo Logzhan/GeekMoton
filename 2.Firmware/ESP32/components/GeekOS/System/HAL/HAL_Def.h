@@ -50,6 +50,8 @@ typedef struct
     int16_t gx;
     int16_t gy;
     int16_t gz;
+    float acc[3];
+    float gyr[3];
     int16_t steps;
 } IMU_Info_t;
 

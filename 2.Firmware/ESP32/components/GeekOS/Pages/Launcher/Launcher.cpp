@@ -24,10 +24,9 @@ void Launcher::onCustomAttrConfig()
 
 void Launcher::onViewLoad()
 {
+    Model.Init();
     View.Create(_root);
     AttachEvent(_root);
-
-    Model.TickSave = Model.GetData();
 }
 
 void Launcher::onViewDidLoad()
@@ -66,6 +65,7 @@ void Launcher::onViewDidDisappear()
 void Launcher::onViewDidUnload()
 {
     View.Delete();
+    Model.Deinit();
 }
 
 void Launcher::AttachEvent(lv_obj_t* obj)
@@ -99,6 +99,8 @@ void Launcher::onStatusBarUpdate(lv_timer_t* timer) {
 #endif
     Launcher* instance = (Launcher*)timer->user_data;
     instance->View.UpdateBatteryInfo(instance->_root, bat);
+    int16_t steps = instance->Model.GetUserStep();
+    instance->View.UpdateStepInfo(instance->_root, steps);
 }
 
 
@@ -116,10 +118,8 @@ void Launcher::onEvent(lv_event_t* event)
         {
             instance->_Manager->Pop();
         }
-
     }
     if(code == LV_EVENT_PRESSED){
-        printf("Launcher::PRESS\n");
         instance->_Manager->Push("Pages/SystemInfos");
     }
 }

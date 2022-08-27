@@ -32,8 +32,11 @@ extern "C" {
     
 typedef bool (*CommitFunc_t)(void* info, void* userData);
     
+void HAL_Update(uint32_t tick);
 void HAL_Init();
-void HAL_Update();
+
+/* Shell */
+void ShellSupport_Init(void);
 
 /* Backlight */
 void Backlight_Init();
@@ -58,19 +61,19 @@ void FaultHandle_Init();
 int I2C_Scan();
 
 /* IMU */
-bool IMU_Init();
+uint8_t IMU_Init();
 void IMU_SetCommitCallback(CommitFunc_t func, void* userData);
 void IMU_Update();
     
 /* MAG */
-bool MAG_Init();
+uint8_t MAG_Init();
 void MAG_SetCommitCallback(CommitFunc_t func, void* userData);
 void MAG_Update();
 
 /* SD */
-bool SD_Init();
+uint8_t  SD_Init();
 void SD_Update();
-bool SD_GetReady();
+uint8_t  SD_GetReady();
 float SD_GetCardSizeMB();
 const char* SD_GetCardName();
 const char* SD_GetTypeName();
@@ -99,8 +102,8 @@ const char* Clock_GetWeekString(uint8_t week);
 /* GPS */
 void GPS_Init();
 void GPS_Update();
-bool GPS_GetInfo(GPS_Info_t* info);
-bool GPS_LocationIsValid();
+// bool GPS_GetInfo(GPS_Info_t* info);
+// bool GPS_LocationIsValid();
 double GPS_GetDistanceOffset(GPS_Info_t* info, double preLong, double preLat);
 
 /* Buzzer */
@@ -111,7 +114,7 @@ void Buzz_SetEnable(bool en);
 void Encoder_Init();
 void Encoder_Update();
 int32_t Encoder_GetDiff();
-bool Encoder_GetIsPush();
+uint8_t  Encoder_GetIsPush();
 void Encoder_SetEnable(bool en);
 
 /* Button */
@@ -123,7 +126,7 @@ void Button_Update_Task();
 /* Audio */
 void Audio_Init();
 void Audio_Update();
-bool Audio_PlayMusic(const char* name);
+uint8_t  Audio_PlayMusic(const char* name);
 
 /* Memory */
 void Memory_DumpInfo();

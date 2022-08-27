@@ -26,15 +26,18 @@ public:
     virtual void onViewDidUnload();
 
 private:
+    void IMUUpdate();
     void Update();
     void AttachEvent(lv_obj_t* obj);
     static void onTimerUpdate(lv_timer_t* timer);
+    static void onTimerIMUUpdate(lv_timer_t* timer);
     static void onEvent(lv_event_t* event);
 
 private:
     SystemInfosView View;
     SystemInfosModel Model;
     lv_timer_t* timer;
+    lv_timer_t* timerIMU;
 };
 
 }

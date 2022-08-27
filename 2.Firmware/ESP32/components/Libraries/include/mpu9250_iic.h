@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 /* System Configurations */
-int init_mpu9250_iic_gpio(void);
+int MPU9250_I2CConfig(void);
 
 /**----------------------------------------------------------------------
 * Function    : i2c_start
@@ -47,7 +47,7 @@ unsigned char i2c_read_byte(unsigned char ack);
 unsigned char i2c_wait_ack();
 
 // 往I2C设备写一个字节
-void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned char reg_data);
+void MPU9250_WriteReg(unsigned char slave_addr,unsigned char reg_addr,unsigned char reg_data);
 
 /**----------------------------------------------------------------------
 * Function    : i2c_read_one_byte
@@ -55,7 +55,7 @@ void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned
 * Author      : zhanli&719901725@qq.com
 * Date        : 2021/10/26 zhanli
 *---------------------------------------------------------------------**/ 
-unsigned char i2c_read_one_byte(unsigned char slave_addr,unsigned char reg_addr);
+unsigned char MPU9250_ReadReg(unsigned char slave_addr,unsigned char reg_addr);
 
 /**----------------------------------------------------------------------
 * Function    : i2c_read_one_byte
@@ -63,7 +63,7 @@ unsigned char i2c_read_one_byte(unsigned char slave_addr,unsigned char reg_addr)
 * Author      : zhanli&719901725@qq.com
 * Date        : 2021/10/26 zhanli
 *---------------------------------------------------------------------**/ 
-void i2c_read_bytes(uint8_t slave_addr,uint8_t reg_addr,
+void MPU9250_ReadRegs(uint8_t slave_addr,uint8_t reg_addr,
 					uint8_t *data, uint8_t len);
 
 #endif /* MPU9250 */

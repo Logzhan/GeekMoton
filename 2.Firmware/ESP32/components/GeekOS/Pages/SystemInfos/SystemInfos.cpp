@@ -45,6 +45,9 @@ void SystemInfos::onViewWillAppear()
     timer = lv_timer_create(onTimerUpdate, 1000, this);
     lv_timer_ready(timer);
 
+    timerIMU = lv_timer_create(onTimerIMUUpdate, 100, this);
+    lv_timer_ready(timerIMU);
+
     View.SetScrollToY(_root, -LV_VER_RES, LV_ANIM_OFF);
     lv_obj_set_style_opa(_root, LV_OPA_TRANSP, 0);
     lv_obj_fade_in(_root, 300, 0);
@@ -65,6 +68,7 @@ void SystemInfos::onViewWillDisappear()
 void SystemInfos::onViewDidDisappear()
 {
     lv_timer_del(timer);
+    lv_timer_del(timerIMU);
 }
 
 void SystemInfos::onViewUnload()
@@ -81,6 +85,14 @@ void SystemInfos::onViewDidUnload()
 void SystemInfos::AttachEvent(lv_obj_t* obj)
 {
     lv_obj_add_event_cb(obj, onEvent, LV_EVENT_ALL, this);
+}
+
+
+void SystemInfos::IMUUpdate(){
+    char buf[64];
+    int steps;
+    Model.GetIMUInfo(&steps, buf, sizeof(buf));
+    View.SetIMU(steps, buf);
 }
 
 void SystemInfos::Update()
@@ -101,20 +113,14 @@ void SystemInfos::Update()
 //    float speed;
 //    Model.GetGPSInfo(&lat, &lng, &alt, buf, sizeof(buf), &course, &speed);
 //    View.SetGPS(lat, lng, alt, buf, course, speed);
-//
+
     /* MAG */
     Model.GetMAGInfo(buf, sizeof(buf));
     View.SetMAG(buf);
 
-    /* IMU */
-    int steps;
-    Model.GetIMUInfo(&steps, buf, sizeof(buf));
-    View.SetIMU(steps, buf);
-
 //    /* RTC */
 //    Model.GetRTCInfo(buf, sizeof(buf));
 //    View.SetRTC(buf);
-//
 
     /* Power */
     Model.GetBatteryInfo(buf, sizeof(buf));
@@ -151,6 +157,13 @@ void SystemInfos::onTimerUpdate(lv_timer_t* timer)
     instance->Update();
 }
 
+void SystemInfos::onTimerIMUUpdate(lv_timer_t* timer)
+{
+    SystemInfos* instance = (SystemInfos*)timer->user_data;
+
+    instance->IMUUpdate();
+}
+
 void SystemInfos::onEvent(lv_event_t* event)
 {
     SystemInfos* instance = (SystemInfos*)lv_event_get_user_data(event);
@@ -158,6 +171,11 @@ void SystemInfos::onEvent(lv_event_t* event)
 
     lv_obj_t* obj = lv_event_get_current_target(event);
     lv_event_code_t code = lv_event_get_code(event);
+
+    if(code == LV_EVENT_LONG_PRESSED){
+        instance->_Manager->Push("Pages/_Template");
+        return;
+    }
 
     if (code == LV_EVENT_PRESSED)
     {

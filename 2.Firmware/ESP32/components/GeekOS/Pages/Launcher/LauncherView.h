@@ -14,7 +14,7 @@ public:
     void CreateBackgroundImage(lv_obj_t* root);
     void CreateStausBar(lv_obj_t* root);
     void UpdateBatteryInfo(lv_obj_t* root, int capacity);
-    void UpdateStepInfo(lv_obj_t* root, int step);
+    void UpdateStepInfo(lv_obj_t* root, int16_t step);
     void CreateStepObj(lv_obj_t* root);
 
     void Delete(void);

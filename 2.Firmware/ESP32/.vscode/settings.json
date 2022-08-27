@@ -36,9 +36,11 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "hal.h": "c",
-        "geek_shell_cfg.h": "c"
+        "geek_shell_cfg.h": "c",
+        "type_traits": "c",
+        "*.tcc": "cpp"
     },
-    "idf.portWin": "COM4",
+    "idf.portWin": "COM5",
     "idf.openOcdConfigs": [
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32.cfg"

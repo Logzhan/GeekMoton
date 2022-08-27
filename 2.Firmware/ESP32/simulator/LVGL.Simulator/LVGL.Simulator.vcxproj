@@ -86,6 +86,8 @@
     <ClInclude Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfos.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfosModel.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfosView.h" />
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\Engine3DType.h" />
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\MeshCube.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\_Template\Template.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.h" />
     <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateView.h" />
@@ -223,7 +225,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\components\GeekHAL\HAL\HAL.cpp" />
-    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_IMU.cpp" />
     <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_MAG.cpp" />
     <ClCompile Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DataProc.cpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfos.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfosModel.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\SystemInfos\SystemInfosView.cpp" />
+    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\MeshCube.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\_Template\Template.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.cpp" />
     <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateView.cpp" />
@@ -427,6 +429,7 @@
     <ClCompile Include="lv_fs_if\lv_fs_posix.c" />
     <ClCompile Include="Win32HAL\Event\ButtonEvent.cpp" />
     <ClCompile Include="Win32HAL\HAL_Button.cpp" />
+    <ClCompile Include="Win32HAL\HAL_IMU.cpp" />
     <ClCompile Include="Win32HAL\HAL_Power.cpp" />
     <ClCompile Include="Win32HAL\HAL_SD_CARD.cpp" />
   </ItemGroup>

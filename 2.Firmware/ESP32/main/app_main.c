@@ -420,14 +420,7 @@ void app_main(void)
 
     /* HAL init config. */
     HAL_Init();
-    /* HAL Task Create. */
-    //xTaskCreate(Button_Update_Task, "ButtonTask", 512, NULL, 12, NULL);
-
-    // 初始化MPU9250任务
-    // ESP_LOGI(TAG, "Init mpu9250.\n");
-    // init_mpu9250();
-    
-    /* Create lvgl GUI Task. */
+    /* Create LVGL GUI task. */
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
 
     /* Run letter shell cmd. */
@@ -438,8 +431,10 @@ void app_main(void)
 
     /* Forever loop. */
     while(1){
+        /* Delay 10ms in order to relase cpu. */
         vTaskDelay(10 / portTICK_PERIOD_MS);
-        HAL_Update();
+        /* Update HAL task. */
+        HAL_Update(lv_tick_get());
     }
 }
 /* Will be called by the library to read the encoder */
@@ -451,13 +446,6 @@ void keypad_read(lv_indev_drv_t* indev_drv, lv_indev_data_t* data)
     int16_t isPush = info.btnOK;
     data->state = isPush ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
 }
-
-int reboot(){
-    esp_restart();
-    return 0;
-}
-SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
-                 SHELL_CMD_PARAM_NUM(0), reboot, reboot, reset system);
 
 /* Creates a semaphore to handle concurrent call to lvgl stuff
  * If you wish to call *any* lvgl function from other threads/tasks

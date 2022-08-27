@@ -7,10 +7,15 @@
 /* System Configurations */
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //#define M_PI 3.14159265358979323846F	/*定义pi*/
 
-#define GYRO_KEN 0.06103515625
-#define ACC_KEN 0.00006103515625
+#define GYRO_SCALE  0.06103515625
+#define ACC_SCALE   0.00006103515625
+
 /* ---- MPU9250 Reg In MPU9250 ---------------------------------------------- */
 
 #define MPU9250_I2C_ADDR            ((unsigned char)0xD0)
@@ -149,13 +154,13 @@
 #define AK8963_ASAZ                 ((unsigned char)0x12)
 typedef struct MPU
 {
-	int16_t acc_x;
-	int16_t acc_y;
-	int16_t acc_z;
+	int16_t ax;
+	int16_t ay;
+	int16_t az;
 	int16_t temp;
-	int16_t gyro_x;
-	int16_t gyro_y;
-	int16_t gyro_z;
+	int16_t gx;
+	int16_t gy;
+	int16_t gz;
 	int16_t mag_x;
 	int16_t mag_y;
 	int16_t mag_z;
@@ -167,29 +172,22 @@ typedef struct MPU
 	float   q[4];
 }MPU;
 
-void AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az);
+void MPU9250_Init(void);
 
-void GetMPU9250Data(void);
+void Init_Quaternion(void);
 
-void GetMPU9250Data_Euler(float* yaw,float* roll, float* pitch);
+void MPU9250_GetData(float* ax, float* ay, float* az,
+					 float* gx, float* gy, float* gz, 
+					 float* temp);
 
-void init_mpu9250(void);
+void AHRSUpdate(float gx, float gy, float gz, 
+				float ax, float ay, float az);
 
-/**----------------------------------------------------------------------
-* Function    : data_record_task
-* Description : 启动IMU数据采集任务
-* Author      : zhanli&719901725@qq.com
-* Date        : 2021/10/26 zhanli
-*---------------------------------------------------------------------**/
-int data_record_task(void);
+void MPU9250_GetEulerAngles(float* yaw,float* roll, float* pitch);
 
-/**----------------------------------------------------------------------
-* Function    : data_record_task
-* Description : 停止IMU数据采集任务
-* Author      : zhanli&719901725@qq.com
-* Date        : 2021/10/26 zhanli
-*---------------------------------------------------------------------**/
-int stop_record_task(void);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MPU9250 */

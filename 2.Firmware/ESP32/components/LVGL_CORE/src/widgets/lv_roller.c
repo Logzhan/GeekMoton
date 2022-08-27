@@ -15,16 +15,6 @@
 #include "../core/lv_indev.h"
 #include "../core/lv_indev_scroll.h"
 
-#if _MSC_VER >= 1200
- // Disable compilation warnings.
-#pragma warning(push)
-#pragma warning(disable:4267)
-// nonstandard extension used : bit field types other than int
-#pragma warning(disable:4214)
-// 'conversion' conversion from 'type1' to 'type2', possible loss of data
-#pragma warning(disable:4244)
-#endif
-
 /*********************
  *      DEFINES
  *********************/

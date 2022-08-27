@@ -2,6 +2,7 @@
 #include "HAL.h"
 #include "System/Version.h"
 #include "MillisTaskManager/MillisTaskManager.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #include <time.h>
@@ -36,21 +37,25 @@ static void HAL_Sensor_Init()
 
 void HAL_Init()
 {
-#if CONFIG_SENSOR_ENABLE
-    HAL_Sensor_Init();
-#endif
-
     SD_Init();
     Power_Init();
     Button_Init();
 
+#if CONFIG_SENSOR_ENABLE
+    HAL_Sensor_Init();
+#endif
+
+#ifndef _WIN32
+    ShellSupport_Init();
+#endif
+
     taskManager.Register(Power_Update, 1000);
     taskManager.Register(Button_Update, 10);
-    taskManager.Register(IMU_Update, 100);
-    taskManager.Register(MAG_Update, 100);
+    taskManager.Register(IMU_Update, 10);
+    taskManager.Register(MAG_Update, 10);
 }
 
-void HAL_Update()
+void HAL_Update(uint32_t tick)
 {
-    taskManager.Running(millis());
+    taskManager.Running(tick);
 }

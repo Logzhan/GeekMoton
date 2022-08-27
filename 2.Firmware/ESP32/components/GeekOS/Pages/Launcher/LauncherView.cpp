@@ -99,8 +99,8 @@ void LauncherView::CreateStepObj(lv_obj_t* root) {
     lv_obj_set_pos(ui.stepCount, 180, 115);
 }
 
-void LauncherView::UpdateStepInfo(lv_obj_t* root, int step) {
-    
+void LauncherView::UpdateStepInfo(lv_obj_t* root, int16_t step) {
+    lv_label_set_text_fmt(ui.stepCount, "#f1f1f1 / %d", step);
 }
 
 void LauncherView::Delete() {

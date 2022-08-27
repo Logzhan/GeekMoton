@@ -74,7 +74,7 @@ float SD_GetCardSizeMB()
 }
 
 
-bool SD_Init()
+uint8_t SD_Init()
 {
     bool retval = true;
     const char mount_point[] = MOUNT_POINT;
@@ -136,9 +136,9 @@ bool SD_Init()
 
 
 
-bool SD_GetReady()
+uint8_t SD_GetReady()
 {
-    return SD_IsReady;
+    return (uint8_t)SD_IsReady;
 }
 
 

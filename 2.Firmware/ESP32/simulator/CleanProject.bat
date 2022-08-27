@@ -1,4 +1,2 @@
-del /A:H .\.vs /q /s
-del .\.vs /q /s
-rd /s /Q .\.vs
-rd /s /Q .\Output
+del /s /Q .\.vs
+del /s /Q .\Output

@@ -1,5 +1,5 @@
-#include "Template.h"
-#include "stdio.h"
+﻿#include "Template.h"
+
 using namespace Page;
 
 Template::Template()
@@ -14,14 +14,14 @@ Template::~Template()
 
 void Template::onCustomAttrConfig()
 {
-    SetCustomCacheEnable(true);
+    SetCustomCacheEnable(false);
     SetCustomLoadAnimType(PageManager::LOAD_ANIM_OVER_BOTTOM, 1000, lv_anim_path_bounce);
 }
 
 void Template::onViewLoad()
 {
     View.Create(_root);
-    lv_label_set_text_fmt(View.ui.labelTitle, "#f1f1f1 Pages/_Template");
+    //lv_label_set_text_fmt(View.ui.labelTitle, "#f1f1f1 Pages/_Template");
     AttachEvent(_root);
 
     Model.TickSave = Model.GetData();
@@ -37,7 +37,7 @@ void Template::onViewWillAppear()
     Param_t param;
     
     param.color = lv_color_black();
-    param.time = 1000;
+    param.time  = 15;
 
     PAGE_STASH_POP(param);
    
@@ -62,7 +62,7 @@ void Template::onViewDidDisappear()
 
 void Template::onViewDidUnload()
 {
-
+    View.Delete();
 }
 
 void Template::AttachEvent(lv_obj_t* obj)
@@ -73,7 +73,8 @@ void Template::AttachEvent(lv_obj_t* obj)
 
 void Template::Update()
 {
-    lv_label_set_text_fmt(View.ui.labelTick, "#f1f1f1 tick = %d save = %d", Model.GetData(), Model.TickSave);
+   // lv_label_set_text_fmt(View.ui.labelTick, "#f1f1f1 tick = %d save = %d", Model.GetData(), Model.TickSave);
+    View.Update();
 }
 
 void Template::onTimerUpdate(lv_timer_t* timer)
@@ -95,12 +96,7 @@ void Template::onEvent(lv_event_t* event)
     {
         if (code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LEAVE)
         {
-            instance->_Manager->Pop();
+            instance->_Manager->Push("Pages/Startup");
         }
-
-    }
-    if(code == LV_EVENT_PRESSED){
-        printf("Template::PRESS\n");
-        instance->_Manager->Push("Pages/SystemInfos");
     }
 }

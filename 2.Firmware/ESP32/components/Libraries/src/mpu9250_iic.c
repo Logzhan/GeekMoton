@@ -15,11 +15,10 @@
 #include "mpu9250.h"
 #include "esp_log.h"
 
-static const char *tag = "MPU9250";
+static const char *TAG = "MPU9250_IIC";
 
 #define MPU9250_SDA_PIN  22
 #define MPU9250_SCL_PIN  21
-#define IIC_DELAY_TIME   2000
 
 #define I2C_MASTER_SCL_IO MPU9250_SCL_PIN       /*!< gpio number for I2C master clock */
 #define I2C_MASTER_SDA_IO MPU9250_SDA_PIN       /*!< gpio number for I2C master data  */
@@ -37,7 +36,7 @@ static const char *tag = "MPU9250";
 
 
 // MPU9250的IIC端口初始化
-int init_mpu9250_iic_gpio(){
+int MPU9250_I2CConfig(){
 
     int i2c_master_port = I2C_MASTER_NUM;
 	i2c_config_t conf = {
@@ -51,18 +50,20 @@ int init_mpu9250_iic_gpio(){
 	};
 	/* Check IIC Param. */
  	esp_err_t ret = i2c_param_config(i2c_master_port, &conf);
+
 	if (ret != ESP_OK) {
-		ESP_LOGE(tag, "MPU9250 i2c param config failed. code: 0x%.2X", ret);
+		ESP_LOGE(TAG, "MPU9250 i2c param config failed. code: 0x%.2X", ret);
 	}
 	/* Install i2c drver. */
 	ret = i2c_driver_install(i2c_master_port, I2C_MODE_MASTER, 0, 0, 0);
+
 	if (ret != ESP_OK) {
-		ESP_LOGE(tag, "MPU9250 i2c driver install failed. code: 0x%.2X", ret);
+		ESP_LOGE(TAG, "MPU9250 i2c driver install failed. code: 0x%.2X", ret);
 	}
 	return 0;
 }
 
-void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned char reg_data)
+void MPU9250_WriteReg(unsigned char slave_addr,unsigned char reg_addr,unsigned char reg_data)
 {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
 	i2c_master_start(cmd);
@@ -73,14 +74,14 @@ void i2c_write_one_byte(unsigned char slave_addr,unsigned char reg_addr,unsigned
 	esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_1, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	if (ret == ESP_OK) {
-		ESP_LOGI("MPU9250", "write dev:0x%.2X reg:0x%.2X data:0x%.2X\r\n", 
+		ESP_LOGI(TAG, "write dev:0x%.2X reg:0x%.2X data:0x%.2X\r\n", 
 			slave_addr,reg_addr, reg_data);
 	} else {
-		ESP_LOGE("MPU9250", "IIC Write OneByte failed. code: 0x%.2X", ret);
+		ESP_LOGE(TAG, "IIC Write OneByte failed. code: 0x%.2X", ret);
 	}
 }
 
-unsigned char i2c_read_one_byte(unsigned char slave_addr,unsigned char reg_addr)
+unsigned char MPU9250_ReadReg(unsigned char slave_addr,unsigned char reg_addr)
 {
 	unsigned char reg_data = 0;
  	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -94,12 +95,12 @@ unsigned char i2c_read_one_byte(unsigned char slave_addr,unsigned char reg_addr)
 	esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_1, cmd, 10 / portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	if (ret != ESP_OK) {
-		ESP_LOGE("MPU9250", "IIC Read Byte failed. code: 0x%.2X", ret);
+		ESP_LOGE(TAG, "IIC Read Byte failed. code: 0x%.2X", ret);
 	}
 	return reg_data;
 }
 
-void i2c_read_bytes(uint8_t slave_addr,uint8_t reg_addr,
+void MPU9250_ReadRegs(uint8_t slave_addr,uint8_t reg_addr,
 					uint8_t *data, uint8_t len)
 {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -113,7 +114,7 @@ void i2c_read_bytes(uint8_t slave_addr,uint8_t reg_addr,
 	esp_err_t ret = i2c_master_cmd_begin(I2C_NUM_1, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	if (ret != ESP_OK) {
-		ESP_LOGE("MPU9250", "IIC Read Bytes failed. code: 0x%.2X\r\n", ret);
+		ESP_LOGE(TAG, "IIC Read Bytes failed. code: 0x%.2X\r\n", ret);
 	}
 }
 

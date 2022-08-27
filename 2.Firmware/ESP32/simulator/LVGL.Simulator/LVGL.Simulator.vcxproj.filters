@@ -246,15 +246,6 @@
     <ClInclude Include="..\..\components\GeekOS\Pages\Page.h">
       <Filter>GeekOS\Pages</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\Template.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateView.h">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\components\GeekOS\Pages\Launcher\Launcher.h">
       <Filter>GeekOS\Pages\Launcher</Filter>
     </ClInclude>
@@ -636,6 +627,21 @@
     <ClInclude Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.h">
       <Filter>Win32HAL\MillisTaskManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\Engine3DType.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\MeshCube.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\Template.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\components\GeekOS\Pages\_Template\TemplateView.h">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lv_fs_if\lv_fs_if.c">
@@ -781,15 +787,6 @@
     </ClCompile>
     <ClCompile Include="..\..\components\GeekOS\Pages\AppFactory.cpp">
       <Filter>GeekOS\Pages</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\Template.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateView.cpp">
-      <Filter>GeekOS\Pages\_Template</Filter>
     </ClCompile>
     <ClCompile Include="..\..\components\GeekOS\Pages\Launcher\Launcher.cpp">
       <Filter>GeekOS\Pages\Launcher</Filter>
@@ -1247,9 +1244,6 @@
     <ClCompile Include="..\..\components\GeekHAL\HAL\MillisTaskManager\MillisTaskManager.cpp">
       <Filter>Win32HAL\MillisTaskManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_IMU.cpp">
-      <Filter>Win32HAL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\components\GeekHAL\HAL\HAL_MAG.cpp">
       <Filter>Win32HAL</Filter>
     </ClCompile>
@@ -1258,6 +1252,21 @@
     </ClCompile>
     <ClCompile Include="..\..\components\GeekOS\Common\DataProc\DP_MAG.cpp">
       <Filter>GeekOS\Common\DataProc</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32HAL\HAL_IMU.cpp">
+      <Filter>Win32HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\MeshCube.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\Template.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateModel.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\components\GeekOS\Pages\_Template\TemplateView.cpp">
+      <Filter>GeekOS\Pages\_Template</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

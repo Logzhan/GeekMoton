@@ -63,7 +63,7 @@ float SD_GetCardSizeMB()
 }
 
 
-bool SD_Init()
+uint8_t SD_Init()
 {
     SD_IsReady = true;
     return SD_IsReady;
@@ -71,7 +71,7 @@ bool SD_Init()
 
 
 
-bool SD_GetReady()
+uint8_t SD_GetReady()
 {
     return SD_IsReady;
 }

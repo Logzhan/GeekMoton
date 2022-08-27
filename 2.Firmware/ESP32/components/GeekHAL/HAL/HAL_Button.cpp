@@ -95,4 +95,8 @@ void Button_GetInfo(Button_Info_t* info){
     Button_Info.btnUp    = 0;
     Button_Info.btnDown  = 0;
     Button_Info.btnPower = 0;
+
+    // Button_Info.btnOK    = (gpio_get_level((gpio_num_t)btOK.PinNum) == 0);
+    // Button_Info.btnUp    = (gpio_get_level((gpio_num_t)btUP.PinNum) == 0);
+    // Button_Info.btnDown  = (gpio_get_level((gpio_num_t)btDOWN.PinNum) == 0)
 }
