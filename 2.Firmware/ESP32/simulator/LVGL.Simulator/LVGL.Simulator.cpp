@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include <thread>
 #include "resource.h"
-#include "App.h"
 #include "System/HAL/HAL.h"
 #include "System/GeekOS.h"
 

@@ -1,2 +1,2 @@
-del /s /Q .\.vs
-del /s /Q .\Output
+rd /s /Q .\.vs
+rd /s /Q .\Output
