@@ -1,4 +1,4 @@
-# GEEKIMU
+# GeekMotion
 
 **功能描述：类似稚晖君Peak的小组件，手持嵌入式移动终端。**
 
@@ -29,7 +29,9 @@
 
 **2022-08-24 ：** 1）去掉visual studio的ARM和ARM64工程 2）隐藏LVGL在MSVC时产生的类型转换警告 3）加入CleanProject.bat脚本可以快速清理Visual Studio生成的pch和obj等临时文件。
 
-2022-08-27 ： 1) 更新计步器功能 
+**2022-08-27 ：**  1) 更新计步器功能 
+
+**2022-08-28 :**    1）清除无用X-Track框架代码 2）移除Visual Studio x64工程只保留win32工程，最大程度复原Cotex-m 32位环境 
 
 **lettleShell移植支持说明：** 需要适配esp32的ld文件。
 
