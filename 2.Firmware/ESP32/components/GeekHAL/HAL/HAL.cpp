@@ -37,6 +37,7 @@ static void HAL_Sensor_Init()
 
 void HAL_Init()
 {
+    Config_Init();
     SD_Init();
     Power_Init();
     Button_Init();

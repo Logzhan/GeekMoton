@@ -27,3 +27,28 @@ int GetBateryInfo(){
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
                  SHELL_CMD_PARAM_NUM(0), battery_info, GetBateryInfo, show battery info);
+
+
+int PrintWifiConfig(){
+    char StringBuff[64] = {0};
+    size_t length = 64;
+    uint8_t ret = Config_GetString("WIFI_NAME", StringBuff, &length);
+    if(ret){
+        printf("Config WIFI Name = %s\n", StringBuff);
+    }
+    return 0;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(0), print_wifi_cfg, PrintWifiConfig, print wifi ssid and password);
+
+int SetWifiConfigName(char* SSID, char* PWD){
+    if(SSID == NULL || PWD == NULL){
+        return 0;
+    }
+    Config_SetString("WIFI_NAME", SSID);
+    Config_SetString("WIFI_PWD", PWD);
+    return 0;
+}
+SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_FUNC)|
+                 SHELL_CMD_PARAM_NUM(2), set_wifi_cfg, SetWifiConfigName, set wifi ssid and password);
+

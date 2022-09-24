@@ -23,6 +23,7 @@
 #ifndef __HAL_H
 #define __HAL_H
 
+#include <stddef.h>
 #include <stdint.h>
 #include "HAL_Def.h"
 
@@ -130,6 +131,13 @@ uint8_t  Audio_PlayMusic(const char* name);
 
 /* Memory */
 void Memory_DumpInfo();
+
+/* Config */
+void Config_Init();
+uint8_t Config_GetString(const char* key, char* str, size_t* length);
+void Config_SetInt();
+void Config_GetInt();
+uint8_t Config_SetString(const char* key, const char* str);
 
 #ifdef __cplusplus
 }
