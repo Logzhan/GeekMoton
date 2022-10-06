@@ -45,38 +45,6 @@ static void guiTask(void *pvParameter);
 #define UDP_PORT            9000
 #define TAG                 "main"
 
-static void UdpSendData(void *pvParameters)
-{
-    struct sockaddr_in saddr = { 0 };
-
-    int sock = -1; 
-    int err = 0;
-    /* Init the sock. */
-    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
-    if (sock < 0) {
-        ESP_LOGE(TAG, "Failed to create socket. Error %d", errno);
-    }
-
-    saddr.sin_family = PF_INET;
-    saddr.sin_port = htons(UDP_PORT);
-    saddr.sin_addr.s_addr = htonl(IPADDR_BROADCAST);
-    
-	char line[64] = " ";
-    /* Task Send Sensor Data. */
-    while (1) {
-        float yaw, roll, pitch;
-        MPU9250_GetEulerAngles(&yaw, &roll, &pitch);
-		sprintf(line, "%f %f %f\n", yaw, roll, pitch);
-        err = sendto(sock, line, 64, 0, (struct sockaddr *)&saddr, 
-                sizeof(struct sockaddr_in));
-        if (err < 0) {
-            ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
-        }   
-        vTaskDelay(30 / portTICK_PERIOD_MS);
-    }
-    close(sock);
-}
-
 /**-----------------------------------------------------------------------
 * Function    : app_main
 * Description : GEEKIMU 程序主入口
@@ -87,9 +55,6 @@ void app_main(void)
 {
     /* HAL init config. */
     HAL_Init();
-
-    //LIB_WIFIConnect();
-    //xTaskCreate(UdpSendData, "UdpSend", 4096, NULL, 12, NULL);
     /* Create LVGL GUI task. */
     xTaskCreatePinnedToCore(guiTask, "gui", 4096*8, NULL, 0, NULL, 1);
 
@@ -98,6 +63,9 @@ void app_main(void)
     /* Config serial zero for shell. */
 	userShellInit(0);
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
+    
+    Network_Init();
+    xTaskCreate(Network_UdpSendData, "NetworkSendData", 4096, NULL, 5, NULL);
 
     /* Forever loop. */
     while(1){
@@ -107,6 +75,7 @@ void app_main(void)
         HAL_Update(lv_tick_get());
     }
 }
+
 /* Will be called by the library to read the encoder */
 void keypad_read(lv_indev_drv_t* indev_drv, lv_indev_data_t* data)
 {

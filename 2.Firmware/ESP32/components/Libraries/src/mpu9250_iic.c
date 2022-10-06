@@ -60,6 +60,9 @@ int MPU9250_I2CConfig(){
 	if (ret != ESP_OK) {
 		ESP_LOGE(TAG, "MPU9250 i2c driver install failed. code: 0x%.2X", ret);
 	}
+
+	ESP_LOGI(TAG, "MPU9250 i2c driver install sucess.");
+
 	return 0;
 }
 

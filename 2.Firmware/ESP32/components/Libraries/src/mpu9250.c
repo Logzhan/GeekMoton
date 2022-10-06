@@ -37,6 +37,7 @@ void MPU9250_Init(){
 	{
 		id = MPU9250_ReadReg(MPU9250_I2C_ADDR, (MPU9250_WHO_AM_I));
 		vTaskDelay(200 / portTICK_PERIOD_MS);
+		ESP_LOGI(TAG, "read device id = 0x%x\r\n", id);
 	}
 
     if(id == MPU9250_Device_ID)
@@ -47,6 +48,9 @@ void MPU9250_Init(){
 	    MPU9250_WriteReg(MPU9250_I2C_ADDR,MPU9250_ACCEL_CONFIG, 0x00);			// (0x00 +-2g;)  ( 0x08 +-4g;)  (0x10 +-8g;)  (0x18 +-16g)
 	    MPU9250_WriteReg(MPU9250_I2C_ADDR,MPU9250_INT_PIN_CFG,  0x02);
 	    MPU9250_WriteReg(MPU9250_I2C_ADDR,MPU9250_USER_CTRL,    0x00);			//使能I2C 
+
+		ESP_LOGI(TAG, "read device id sucess.\r\n");
+
     }else{
 		ESP_LOGI(TAG, "read device id fail.0x%.2x\r\n", id);
 	}
@@ -63,7 +67,7 @@ void MPU9250_GetRawData(int16_t *ax,int16_t *ay,int16_t *az,
 	*ay = (buf[2] << 8) + buf[3];
 	*az = (buf[4] << 8) + buf[5];
 	// 温度
-	*temp =(buf[6] <<8) + buf[7];
+	*temp =(buf[6] << 8) + buf[7];
 	// 陀螺仪
 	*gx = (buf[8]  << 8) + buf[9];
 	*gy = (buf[10] << 8) + buf[11];
@@ -103,14 +107,22 @@ void MPU9250_GetEulerAngles(float* yaw,float* roll, float* pitch)
     mpu9250.yaw   = atan2(q2*q1 + q0*q3,0.5f - q2*q2 - q3*q3); // * (180.0f /3.141592f);
     mpu9250.roll  = atan2(q2*q3 + q0*q1,0.5f - q2*q2 - q1*q1); //* (180.0f /3.141592f);
 
-	mpu9250.yaw   = (180.0f / 3.141592f);
-	mpu9250.roll  = (180.0f / 3.141592f);
-	mpu9250.pitch = (180.0f / 3.141592f);
+	mpu9250.yaw   *= (180.0f / 3.141592f);
+	mpu9250.roll  *= (180.0f / 3.141592f);
+	mpu9250.pitch *= (180.0f / 3.141592f);
 
 	*yaw   = mpu9250.yaw;   
 	*roll  = mpu9250.roll;  
 	*pitch = mpu9250.pitch; 
 }
+
+void MPU9250_GetQuaternion(float quat[4]){
+	quat[0] = q0;
+	quat[1] = q1;
+	quat[2] = q2;
+	quat[3] = q3;
+}
+
 
 void AHRSUpdate(float gx, float gy, float gz, float ax, float ay, float az) 
 {	
