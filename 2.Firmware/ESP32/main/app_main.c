@@ -64,8 +64,8 @@ void app_main(void)
 	userShellInit(0);
     xTaskCreate(shellTask, "shell", 4096, getEsp32Shell(), 12, NULL);
     
-    Network_Init();
-    xTaskCreate(Network_UdpSendData, "NetworkSendData", 4096, NULL, 5, NULL);
+    // Network_Init();
+    // xTaskCreate(Network_UdpSendData, "NetworkSendData", 4096, NULL, 5, NULL);
 
     /* Forever loop. */
     while(1){
