@@ -1,0 +1,9 @@
+Removed Pin From Net: NetName=GND Pin=CON1-1
+Removed Pin From Net: NetName=GPIO33 Pin=CON1-2
+Removed Pin From Net: NetName=GPIO32 Pin=CON1-3
+Removed Pin From Net: NetName=GPIO19 Pin=CON1-4
+Removed Pin From Net: NetName=GPIO5 Pin=CON1-5
+Removed Pin From Net: NetName=GPIO10 Pin=CON1-6
+Removed Pin From Net: NetName=VCC_3V3 Pin=CON1-7
+Removed Pin From Net: NetName=GND Pin=CON1-8
+Removed Member From Class: ClassName=Main Member=CON1

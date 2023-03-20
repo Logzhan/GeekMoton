@@ -1,0 +1,2 @@
+Added Pin To Net: NetName=VCC_SYS_IN Pin=U6-1
+Change Net Name : Old Net Name=VBAT_IN New Net Name=VBAT

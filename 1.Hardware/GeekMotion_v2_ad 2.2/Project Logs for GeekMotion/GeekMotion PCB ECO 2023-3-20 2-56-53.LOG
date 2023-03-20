@@ -1,0 +1,23 @@
+Removed Pin From Net: NetName=GND Pin=C9-1
+Removed Pin From Net: NetName=VUSB Pin=C9-2
+Removed Pin From Net: NetName=GND Pin=CON1-0
+Removed Pin From Net: NetName=GND Pin=CON1-0
+Removed Pin From Net: NetName=VBAT_IN Pin=Q1-2
+Removed Pin From Net: NetName=VBAT Pin=R2-2
+Removed Pin From Net: NetName=VBAT_IN Pin=R3-1
+Removed Pin From Net: NetName=CHG_DET Pin=U4-7
+Removed Pin From Net: NetName=VBAT Pin=U6-1
+Change Component Comment : Designator=R11 Old Comment=10K New Comment=1K
+Added Pin To Net: NetName=VUSB Pin=C9-1
+Added Pin To Net: NetName=GND Pin=C9-2
+Added Pin To Net: NetName=VBAT_IN Pin=R2-2
+Change Net Name : Old Net Name=CHG_DET New Net Name=NetR10_2
+Change Net Name : Old Net Name=VBAT New Net Name=VCC_SYS
+Added Pin To Net: NetName=CHG_DET Pin=U4-7
+Added Net: Name=CHG_DET
+Added Pin To Net: NetName=VBAT Pin=U6-1
+Added Net: Name=VBAT
+Added Pin To Net: NetName=VCC_SYS_IN Pin=Q1-2
+Added Pin To Net: NetName=VCC_SYS_IN Pin=R3-1
+Added Net: Name=VCC_SYS_IN
+Added Room: Name=Main

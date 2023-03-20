@@ -1,0 +1,73 @@
+Net Status Report
+Filename     : E:\Hardware Project\GeekMotion\1.Hardware\GeekMotion_v2_ad 2.1\GeekMotion.PcbDoc
+Date         : 2023/3/20
+Time         : 4:50:46
+Time Elapsed : 00:00:00
+
+Nets, Layer, Length
+    3V3A, Signal Layers Only, 1722.292mils
+    BAT_DET, Signal Layers Only, 2388.11mils
+    BOOT, Signal Layers Only, 775.689mils
+    BUZZ, Signal Layers Only, 1140.441mils
+    CHG_DET, Signal Layers Only, 1880.613mils
+    CP_Rx, Signal Layers Only, 1344.729mils
+    CP_Tx, Signal Layers Only, 447.609mils
+    DTR, Signal Layers Only, 778.915mils
+    EC_A, Signal Layers Only, 956.258mils
+    EC_B, Signal Layers Only, 796.064mils
+    EC_KEY, Signal Layers Only, 628.989mils
+    EC_KEY_DET, Signal Layers Only, 1810.437mils
+    ESP_EN, Signal Layers Only, 233.519mils
+    FLASH_CLK, Signal Layers Only, 0mils
+    FLASH_CS, Signal Layers Only, 0mils
+    FLASH_SD0, Signal Layers Only, 0mils
+    FLASH_SD1, Signal Layers Only, 0mils
+    FLASH_SD2, Signal Layers Only, 0mils
+    FLASH_SD3, Signal Layers Only, 0mils
+    GND, Signal Layers Only, 1186.448mils
+    GPIO10, Signal Layers Only, 0mils
+    GPIO12, Signal Layers Only, 1292.302mils
+    GPIO13, Signal Layers Only, 746.275mils
+    GPIO14, Signal Layers Only, 844.795mils
+    GPIO15, Signal Layers Only, 528.15mils
+    GPIO18, Signal Layers Only, 1405.995mils
+    GPIO19, Signal Layers Only, 0mils
+    GPIO2, Signal Layers Only, 989.183mils
+    GPIO21, Signal Layers Only, 1147.734mils
+    GPIO22, Signal Layers Only, 880.544mils
+    GPIO23, Signal Layers Only, 1451.907mils
+    GPIO26, Signal Layers Only, 1349.258mils
+    GPIO32, Signal Layers Only, 897.61mils
+    GPIO33, Signal Layers Only, 880.424mils
+    GPIO4, Signal Layers Only, 938.163mils
+    GPIO5, Signal Layers Only, 0mils
+    GPIO9, Signal Layers Only, 0mils
+    LCD_LEDK, Signal Layers Only, 381.86mils
+    NetA1_1, Signal Layers Only, 164.808mils
+    NetC13_1, Signal Layers Only, 90.27mils
+    NetC14_2, Signal Layers Only, 103.318mils
+    NetC3_2, Signal Layers Only, 41.971mils
+    NetD1_1, Signal Layers Only, 377.671mils
+    NetD3_2, Signal Layers Only, 169.335mils
+    NetD4_2, Signal Layers Only, 30mils
+    NetQ3_2, Signal Layers Only, 94.72mils
+    NetQ3_5, Signal Layers Only, 91.406mils
+    NetQ4_3, Signal Layers Only, 150.268mils
+    NetQ5_3, Signal Layers Only, 57.205mils
+    NetR10_2, Signal Layers Only, 1310.914mils
+    NetR15_2, Signal Layers Only, 68.615mils
+    NetR16_1, Signal Layers Only, 93.812mils
+    NetR1_2, Signal Layers Only, 49.452mils
+    NetR6_2, Signal Layers Only, 602.265mils
+    NetR8_1, Signal Layers Only, 43.203mils
+    RTS, Signal Layers Only, 734.365mils
+    SENSOR_VN, Signal Layers Only, 0mils
+    SENSOR_VP, Signal Layers Only, 0mils
+    USB-PWR-DM, Signal Layers Only, 320.227mils
+    USB-PWR-DP, Signal Layers Only, 337.384mils
+    VBAT, Signal Layers Only, 1068.653mils
+    VCC_3V3, Signal Layers Only, 3380.403mils
+    VCC_SYS, Signal Layers Only, 487.459mils
+    VCC_SYS_IN, Signal Layers Only, 2246.025mils
+    VUSB, Signal Layers Only, 2049.007mils
+count : 65
